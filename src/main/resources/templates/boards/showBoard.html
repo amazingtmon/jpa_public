@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <title>Hello</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<!--<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('home')"></nav>-->
+<main class="container">
+  <div class="page-header">
+    <h1>게시글 등록</h1>
+  </div>
+  <div class="starter-template" th:object="${boardForm}">
+    <form class="form-horizontal" role="form" method="post">
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label" style="float: left">작성자</label>
+        <div class="col-sm-5" style="margin-top: 10px;">
+          <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="작성자"/>
+          <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="title" class="col-sm-2 control-label" style="float: left">제목</label>
+        <div class="col-auto" style="margin-top: 10px;">
+          <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="제목"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="content" class="col-sm-2 control-label" style="float: left">내용</label>
+        <div class="col-auto">
+          <textarea id="content" th:field="*{content}" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+        </div>
+      </div>
+
+      <div class="btn_wrap text-center mb-3">
+        <a th:href="@{/boards}" class="btn btn-secondary">뒤로 가기</a>
+        <button type="submit" class="btn btn-primary waves-effect waves-light">수정 하기</button>
+      </div>
+    </form>
+    <br>
+    <!-- Reply Section -->
+    <div class="starter-template">
+      <!-- 작성한 댓글 보여주기 -->
+      <div>
+        <span th:text = "|board_id ${boardForm.board_id}|"></span>
+      </div>
+      <div class="form-group mb-3">
+        <!-- 댓글 등록 form -->
+        <form id="comment" action="/comment/post" method="post">
+          <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
+          <div class="form-group">
+            <label for="comment_content" class="col-sm-2 control-label" style="float: left">댓글</label>
+            <div class="col-auto">
+              <textarea id="comment_content" th:field="*{comment_content}" class="form-control mb-1" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2"></textarea>
+            </div>
+          </div>
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary waves-effect waves-light">등록</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</main>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>-->
+</body>
+</html>
