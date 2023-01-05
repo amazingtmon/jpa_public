@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <title>Error</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <div class="container">
+    <p>데이터를 처리 하는 과정에서 문제가 발생하였습니다.</p>
+    <p>관리자에게 문의하여 주십시오.</p>
+    <br>
+    <h3 th:text="${exception}"></h3>
+    <ul>
+      <th:block th:each="stack : ${exception.getStackTrace()}">
+        <li th:text="${stack}"></li>
+      </th:block>
+    </ul>
+  </div>
+</body>
+</html>
