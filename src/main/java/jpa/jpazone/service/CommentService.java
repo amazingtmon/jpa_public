@@ -1,5 +1,6 @@
 package jpa.jpazone.service;
 
+import jpa.jpazone.controller.form.CommentForm;
 import jpa.jpazone.domain.Board;
 import jpa.jpazone.domain.Comment;
 import jpa.jpazone.domain.Member;
@@ -24,7 +25,7 @@ public class CommentService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long saveComment(Comment comment, Long board_id, Member member) {
+    public Long saveComment(CommentForm comment, Long board_id, Member member) {
         log.info("[[ Service - saveComment ]]");
         //Board 엔티티
         Board findBoard = boardRepository.findBoard(board_id);

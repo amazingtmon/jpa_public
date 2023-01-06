@@ -3,6 +3,12 @@
 <head th:replace="fragments/header :: header">
   <title>Hello</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
 <!--<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('home')"></nav>-->
@@ -43,8 +49,11 @@
     <!-- Reply Section -->
     <div class="starter-template">
       <!-- 작성한 댓글 보여주기 -->
-      <div>
+      <div class="container">
         <span th:text = "|board_id ${boardForm.board_id}|"></span>
+<!--        <div th:block th:each="">-->
+
+<!--        </div>-->
       </div>
       <div class="form-group mb-3">
         <!-- 댓글 등록 form -->
@@ -55,6 +64,7 @@
             <div class="col-auto">
               <textarea id="comment_content" th:field="*{comment_content}" class="form-control mb-1" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2"></textarea>
             </div>
+            <div class="field-error" th:errors="*{comment_content}"></div>
           </div>
           <div class="input-group-append">
             <button type="submit" class="btn btn-primary waves-effect waves-light">등록</button>
