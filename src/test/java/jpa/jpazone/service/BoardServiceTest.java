@@ -1,6 +1,8 @@
 package jpa.jpazone.service;
 
 import jpa.jpazone.controller.form.BoardForm;
+import jpa.jpazone.controller.form.ShowBoardForm;
+import jpa.jpazone.controller.form.ShowCommentForm;
 import jpa.jpazone.domain.Board;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.repository.BoardRepository;
@@ -12,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,4 +50,28 @@ public class BoardServiceTest {
         assertEquals(1, board.getId());
     }
 
+    @Test
+    public void 특정게시판내용및댓글가져오기() throws Exception {
+        // given
+        Long boardId = 2L;
+
+        Board board = boardRepository.findBoard(boardId);
+
+        // when
+        ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
+                board.getId(), board.getTitle(), board.getWriter(), board.getContent(), board.getComments());
+
+        System.out.println("== get comments == "+showBoardForm.getCommentForms().size());
+        List<ShowCommentForm> commentForms = showBoardForm.getCommentForms();
+        System.out.println("== getComment_content == "
+                +showBoardForm.getCommentForms().get(0).getComment_id()+", "
+                +showBoardForm.getCommentForms().get(0).getComment_content()+", "
+                +showBoardForm.getCommentForms().get(0).getName()+", "
+                +showBoardForm.getCommentForms().get(0).getWrite_date()+", "
+                +showBoardForm.getCommentForms().get(0).getUpdate_date()
+        );
+        // then
+
+
+    }
 }

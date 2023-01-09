@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -40,5 +41,17 @@ public class CommentService {
         commentRepository.save(newComment);
 
         return newComment.getId();
+    }
+
+    /**
+     * 게시판 id로 해당 게시판의 댓글들을 모두 가져오려고 만든 메소드이나
+     * 현재로썬 확인 불가능한 exception 발생으로 다른방법을 사용하여 댓글 가져오는 것으로 처리.
+     * @param boardId
+     * @return
+     */
+    public List<Comment> findAllCommentByBoardId(Long boardId) {
+        log.info("[[ Service - findAllComment ]]");
+        return commentRepository.findAllCommentByBoardId(boardId);
+
     }
 }

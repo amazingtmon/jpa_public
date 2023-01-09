@@ -3,7 +3,9 @@ package jpa.jpazone.controller;
 import jpa.jpazone.controller.form.BoardForm;
 import jpa.jpazone.controller.form.ShowBoardForm;
 import jpa.jpazone.domain.Board;
+import jpa.jpazone.domain.Comment;
 import jpa.jpazone.service.BoardService;
+import jpa.jpazone.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
     /**
      * 게시글 생성 양식으로 이동
@@ -85,6 +88,9 @@ public class BoardController {
         //id로 Board 엔티티 가져오기
         Board board = boardService.findBoard(id);
 
+        //board_id로 comment들 가져오기
+        //List<Comment> comments = commentService.findAllCommentByBoardId(id);
+
         //showBoardForm에 값 set
         /*BoardForm boardForm = new BoardForm();
         boardForm.setBoard_id(board.getId());
@@ -92,9 +98,10 @@ public class BoardController {
         boardForm.setTitle(board.getTitle());
         boardForm.setContent(board.getContent());*/
 
-        ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(board.getId(), board.getTitle(), board.getWriter(), board.getContent());
+        ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
+                board.getId(), board.getTitle(), board.getWriter(), board.getContent(), board.getComments());
 
-        model.addAttribute("boardForm", showBoardForm);
+        model.addAttribute("showBoardForm", showBoardForm);
 
         return "boards/showBoard";
     }

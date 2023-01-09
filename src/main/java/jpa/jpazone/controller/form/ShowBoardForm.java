@@ -1,10 +1,12 @@
 package jpa.jpazone.controller.form;
 
+import jpa.jpazone.domain.Comment;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 게시글 수정 및 댓글 입력시 사용되는 DTO form
@@ -23,15 +25,19 @@ public class ShowBoardForm {
     @NotEmpty(message = "내용을 입력해주세요.")
     private String content; //내용
 
-    @NotBlank
     private String comment_content;
+    private List<ShowCommentForm> commentForms;
 
-    public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content){
+    public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content, List<Comment> comments){
         ShowBoardForm showBoardForm = new ShowBoardForm();
         showBoardForm.setBoard_id(boardId);
         showBoardForm.setTitle(title);
         showBoardForm.setName(name);
         showBoardForm.setContent(content);
+        //new ShowCommentForm(m.getId(), m.getWriter(), m.getComment_content(), m.getWrite_date(), m.getUpdate_date())
+        showBoardForm.commentForms =
+                comments.stream().map(m -> new ShowCommentForm(m.getId(), m.getWriter(), m.getComment_content(), m.getWrite_date(), m.getUpdate_date()))
+                .collect(Collectors.toList());
 
         return showBoardForm;
     }
