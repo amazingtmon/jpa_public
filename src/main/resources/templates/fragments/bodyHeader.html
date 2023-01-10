@@ -11,6 +11,15 @@
         <li>
             <h3 class="ml-3" th:text="|로그인 사용자 이름: ${member.name}">로그인 사용자 이름</h3>
         </li>
+        <li>
+            <div class="col">
+                <form th:action="@{/logout}" method="post">
+                    <button class="w-100 btn btn-info btn-sm" onclick="location.href='items.html'" type="submit">
+                        로그아웃
+                    </button>
+                </form>
+            </div>
+        </li>
     </ul>
 <!--    <a href="/home"><h3 class="text-muted">HELLO SHOP</h3></a>-->
 </div>

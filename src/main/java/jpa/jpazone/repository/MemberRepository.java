@@ -20,6 +20,11 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
+    public void join(Member member){
+        log.info("[[ member join ]]");
+        em.persist(member);
+    }
+
     /**
      * 로그인시 member chck
      * @param username
@@ -65,8 +70,9 @@ public class MemberRepository {
 
     public List<Member> findMemberByName(String username) {
         log.info("[[ Repo - findMemberByName ]]");
-        return em.createQuery("select m from Member m where m.name = :username")
+        return em.createQuery("select m from Member m where m.name = :username", Member.class)
                 .setParameter("username", username)
                 .getResultList();
     }
+
 }

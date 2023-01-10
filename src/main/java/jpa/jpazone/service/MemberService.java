@@ -52,5 +52,22 @@ public class MemberService {
         return true;
     }
 
+    @Transactional
+    public Long join(Member member) {
+        log.info("[[ service - findMember ]]");
+        //name 중복 체크
+        validateDupeMember(member);
+        memberRepository.join(member);
 
+        return member.getId();
+    }
+
+    private void validateDupeMember(Member member) {
+        List<Member> findMember = memberRepository.findMemberByName(member.getName());
+        //동일 name 의 member가 존재하면 false
+        if (!findMember.isEmpty()) {
+            log.info("member = {}", findMember);
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
+    }
 }
