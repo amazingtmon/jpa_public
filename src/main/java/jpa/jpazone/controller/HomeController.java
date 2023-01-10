@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 @Controller
 public class HomeController {
 
-    @GetMapping("/session")
+    @GetMapping("/mainHome")
     public String home(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember
             , Model model){
         log.info("Home loginMember = {}", loginMember);
