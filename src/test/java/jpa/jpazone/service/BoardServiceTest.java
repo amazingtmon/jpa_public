@@ -1,5 +1,6 @@
 package jpa.jpazone.service;
 
+import jpa.jpazone.controller.SessionConstants;
 import jpa.jpazone.controller.form.BoardForm;
 import jpa.jpazone.controller.form.ShowBoardForm;
 import jpa.jpazone.controller.form.ShowCommentForm;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,7 +53,7 @@ public class BoardServiceTest {
     }
 
     @Test
-    public void 특정게시판내용및댓글가져오기() throws Exception {
+    public void 특정게시판내용및댓글가져오기(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember) throws Exception {
         // given
         Long boardId = 2L;
 
@@ -59,7 +61,8 @@ public class BoardServiceTest {
 
         // when
         ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
-                board.getId(), board.getTitle(), board.getWriter(), board.getContent(), board.getComments());
+                board.getId(), board.getTitle(), board.getWriter(),
+                board.getContent(), board.getComments(), loginMember.getName());
 
         System.out.println("== get comments == "+showBoardForm.getCommentForms().size());
         List<ShowCommentForm> commentForms = showBoardForm.getCommentForms();

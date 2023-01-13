@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
-        <li><a href="/loginPage">LoginPage</a></li>
+        <li><a href="/login">LoginPage</a></li>
     </ul>
     <ul class="nav nav-pills pull-right">
         <li>
-            <a href="/home"><h3 class="text-muted">HELLO SHOP</h3></a>
+            <a href="/mainHome"><h3 class="text-muted">HELLO SHOP</h3></a>
         </li>
         <li>
             <h3 class="ml-3" th:text="|로그인 사용자 이름: ${member.name}">로그인 사용자 이름</h3>

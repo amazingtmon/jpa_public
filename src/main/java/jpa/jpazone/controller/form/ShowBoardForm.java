@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class ShowBoardForm {
 
     private Long board_id;
-
+    private String session_loginMemberName; //현재 로그인중인 멤버이름
     @NotEmpty(message = "제목은 필수 입니다.")
     private String title; //제목
 
@@ -28,7 +28,7 @@ public class ShowBoardForm {
     private String comment_content;
     private List<ShowCommentForm> commentForms;
 
-    public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content, List<Comment> comments){
+    public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content, List<Comment> comments, String session_loginMember){
         ShowBoardForm showBoardForm = new ShowBoardForm();
         showBoardForm.setBoard_id(boardId);
         showBoardForm.setTitle(title);
@@ -38,6 +38,7 @@ public class ShowBoardForm {
         showBoardForm.commentForms =
                 comments.stream().map(m -> new ShowCommentForm(m.getId(), m.getWriter(), m.getComment_content(), m.getWrite_date(), m.getUpdate_date()))
                 .collect(Collectors.toList());
+        showBoardForm.setSession_loginMemberName(session_loginMember);
 
         return showBoardForm;
     }

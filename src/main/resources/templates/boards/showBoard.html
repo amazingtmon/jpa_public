@@ -21,7 +21,7 @@
       <div class="form-group">
         <label for="name" class="col-sm-2 control-label" style="float: left">작성자</label>
         <div class="col-sm-5" style="margin-top: 10px;">
-          <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="작성자"/>
+          <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="작성자" readonly/>
           <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
         </div>
       </div>
@@ -49,11 +49,29 @@
     <!-- Reply Section -->
     <div class="starter-template">
       <!-- 작성한 댓글 보여주기 -->
+      <h5>comment</h5>
       <div class="container">
-        <span th:text = "|board_id ${showBoardForm.board_id}|"></span>
-        <div th:block th:each="item : ${showBoardForm.commentForms}">
-          <sp th:text="${item.comment_content}"></sp>
-        </div>
+        <th:block th:each="item : ${showBoardForm.commentForms}">
+          <div class="card mb-2">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="form-inline mb-2">
+                    <span th:text="${item.comment_id}"></span>
+                    <span th:text="${item.name}" class="ml-4"></span>
+                    <span th:text="${item.write_date} ? |작성시간 : ${#temporals.format(item.write_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
+                  </div>
+                  <p th:text="${item.comment_content}" class="form-control"></p>
+                  <div class="form-inline mb-2">
+                    <button type="button" class="btn btn-dark" onClick="javascript:addComment();">댓글</button>
+                    <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMember}"
+                            type="button" class="btn btn-primary ml-2" onClick="javascript:deleteComment();">삭제</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </th:block>
       </div>
       <div class="form-group mb-3">
         <!-- 댓글 등록 form -->

@@ -4,6 +4,7 @@ import jpa.jpazone.controller.form.BoardForm;
 import jpa.jpazone.controller.form.ShowBoardForm;
 import jpa.jpazone.domain.Board;
 import jpa.jpazone.domain.Comment;
+import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.BoardService;
 import jpa.jpazone.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,9 +31,11 @@ public class BoardController {
      * @return
      */
     @GetMapping("/board/new")
-    public String createBoard(Model model){
+    public String createBoard(Model model, @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
         log.info("[[ createBoard ]]");
-        model.addAttribute("boardForm", new BoardForm());
+        BoardForm boardForm = new BoardForm();
+        boardForm.setName(loginMember.getName());
+        model.addAttribute("boardForm", boardForm);
         return "boards/createBoard";
     }
 
@@ -79,8 +79,9 @@ public class BoardController {
      * @return
      */
     @GetMapping("/board/post/{boardId}")
-    public String board (@PathVariable("boardId")String boardId, Model model){
-        log.info("[[ get board, id ="+ boardId +" ]]");
+    public String board (@PathVariable("boardId")String boardId,
+                         Model model,
+                         @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
         log.info("boardId = {}", boardId);
         //String 으로 넘어온 boardId를 Long으로 변환
         Long id = Long.parseLong(boardId);
@@ -91,15 +92,9 @@ public class BoardController {
         //board_id로 comment들 가져오기
         //List<Comment> comments = commentService.findAllCommentByBoardId(id);
 
-        //showBoardForm에 값 set
-        /*BoardForm boardForm = new BoardForm();
-        boardForm.setBoard_id(board.getId());
-        boardForm.setName(board.getWriter());
-        boardForm.setTitle(board.getTitle());
-        boardForm.setContent(board.getContent());*/
-
         ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
-                board.getId(), board.getTitle(), board.getWriter(), board.getContent(), board.getComments());
+                board.getId(), board.getTitle(), board.getWriter(),
+                board.getContent(), board.getComments(), loginMember.getName());
 
         model.addAttribute("showBoardForm", showBoardForm);
 
