@@ -4,6 +4,13 @@
     <title>BoardList</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:inline="javascript">
+    $(function(){
+
+    });
+</script>
 <body>
 <main role="main" class="container">
     <ul class="nav nav-pills pull-right">
@@ -53,10 +60,10 @@
         </div>
 
         <!-- 검색 form -->
-        <form class="mb-3" action="/board/search" method="GET">
+        <form class="mb-3" action="/board/search" method="get">
             <div>
-                <input name="keyword" type="text" placeholder="검색어를 입력해주세요.">
-                <button class="btn btn-primary">검색하기</button>
+                <input id="keyword" name="keyword" type="text" placeholder="검색어를 입력해주세요.">
+                <button type="submit" class="btn btn-primary">검색하기</button>
             </div>
         </form>
     </div>

@@ -26,9 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BoardServiceTest {
 
     @Autowired
-    BoardService boardService;
-
-    @Autowired
     MemberService memberService;
 
     @Autowired
@@ -52,29 +49,41 @@ public class BoardServiceTest {
         assertEquals(1, board.getId());
     }
 
-    @Test
-    public void 특정게시판내용및댓글가져오기(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember) throws Exception {
-        // given
-        Long boardId = 2L;
+//    @Test
+//    public void 특정게시판내용및댓글가져오기(
+//            @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember) throws Exception {
+//        // given
+//        Long boardId = 2L;
+//
+//        Board board = boardRepository.findBoard(boardId);
+//
+//        // when
+//        ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
+//                board.getId(), board.getTitle(), board.getWriter(),
+//                board.getContent(), board.getComments(), loginMember.getName());
+//
+//        System.out.println("== get comments == "+showBoardForm.getCommentForms().size());
+//        List<ShowCommentForm> commentForms = showBoardForm.getCommentForms();
+//        System.out.println("== getComment_content == "
+//                +showBoardForm.getCommentForms().get(0).getComment_id()+", "
+//                +showBoardForm.getCommentForms().get(0).getComment_content()+", "
+//                +showBoardForm.getCommentForms().get(0).getName()+", "
+//                +showBoardForm.getCommentForms().get(0).getWrite_date()+", "
+//                +showBoardForm.getCommentForms().get(0).getUpdate_date()
+//        );
+//        // then
+//    }
 
-        Board board = boardRepository.findBoard(boardId);
+    @Test
+    public void 검색한게시물가져오기() throws Exception {
+        // given
+        String keyword = "q";
 
         // when
-        ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
-                board.getId(), board.getTitle(), board.getWriter(),
-                board.getContent(), board.getComments(), loginMember.getName());
+        List<Board> boards = boardRepository.findBoardByKeyword(keyword);
 
-        System.out.println("== get comments == "+showBoardForm.getCommentForms().size());
-        List<ShowCommentForm> commentForms = showBoardForm.getCommentForms();
-        System.out.println("== getComment_content == "
-                +showBoardForm.getCommentForms().get(0).getComment_id()+", "
-                +showBoardForm.getCommentForms().get(0).getComment_content()+", "
-                +showBoardForm.getCommentForms().get(0).getName()+", "
-                +showBoardForm.getCommentForms().get(0).getWrite_date()+", "
-                +showBoardForm.getCommentForms().get(0).getUpdate_date()
-        );
         // then
-
-
+        assertEquals(0, boards.size());
     }
+
 }

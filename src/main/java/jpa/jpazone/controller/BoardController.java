@@ -92,6 +92,7 @@ public class BoardController {
         //board_id로 comment들 가져오기
         //List<Comment> comments = commentService.findAllCommentByBoardId(id);
 
+
         ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
                 board.getId(), board.getTitle(), board.getWriter(),
                 board.getContent(), board.getComments(), loginMember.getName());
@@ -101,11 +102,33 @@ public class BoardController {
         return "boards/showBoard";
     }
 
+    /**
+     * 게시글 수정
+     * @param boardId
+     * @param boardForm
+     * @return
+     */
     @PostMapping("/board/post/{boardId}")
     public String updateBoard(@PathVariable("boardId")Long boardId, @ModelAttribute("boardForm")BoardForm boardForm){
         log.info("[[ updateBoard ]]");
         boardService.updateBoard(boardId, boardForm.getName(), boardForm.getTitle(), boardForm.getContent());
         return "redirect:/boards";
     }
+
+    /**
+     * 검색으로 원하는 게시글 찾기
+     * @param keyword
+     */
+    @GetMapping("/board/search")
+    public String searchBoard(Model model, String keyword){
+        log.info("[[ searchBoard ]]");
+        log.info("keyword => {}", keyword);
+
+        List<Board> boards = boardService.findBoardByKeyword(keyword);
+        model.addAttribute("boardList", boards);
+
+        return  "boards/boards";
+    }
+
 
 }

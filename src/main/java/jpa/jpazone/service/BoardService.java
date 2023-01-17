@@ -53,4 +53,9 @@ public class BoardService {
         Board board = boardRepository.findBoard(boardId);
         board.change(name, title, content, LocalDateTime.now());
     }
+
+    public List<Board> findBoardByKeyword(String keyword) {
+        log.info("[[ Service - findBoardByKeyword ]]");
+        return boardRepository.findBoardByKeyword(keyword);
+    }
 }

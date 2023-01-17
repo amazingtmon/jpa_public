@@ -33,4 +33,10 @@ public class BoardRepository {
 
         return em.find(Board.class, boardId);
     }
+
+    public List<Board> findBoardByKeyword(String keyword) {
+        return em.createQuery("select b from Board b where b.title like :keyword", Board.class)
+                .setParameter("keyword", "%"+keyword+"%")
+                .getResultList();
+    }
 }
