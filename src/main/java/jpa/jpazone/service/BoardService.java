@@ -36,9 +36,9 @@ public class BoardService {
         return board.getId();
     }
 
-    public List<Board> findAllBoards() {
+    public List<Board> findAllBoards(int offset, int limit) {
         log.info("[[ Service - findAllBoards ]]");
-        return boardRepository.findAllBoards();
+        return boardRepository.findAllBoards(offset, limit);
     }
 
     public Board findBoard(Long boardId) {
@@ -58,4 +58,24 @@ public class BoardService {
         log.info("[[ Service - findBoardByKeyword ]]");
         return boardRepository.findBoardByKeyword(keyword);
     }
+
+    public int findAllBoardsCount() {
+        log.info("[[ Service - findAllBoardsCount ]]");
+
+        int totalCount = boardRepository.findAllBoardsCount();
+
+        return totalCount;
+    }
+
+    public int getLastPage(int limit) {
+        log.info("[[ Service - getLastPage ]]");
+
+        int totalCount = boardRepository.findAllBoardsCount();
+        double size = totalCount;
+        int lastPage = (int) Math.ceil(size / limit);
+        log.info("lastPage => {}", lastPage);
+
+        return lastPage;
+    }
+
 }

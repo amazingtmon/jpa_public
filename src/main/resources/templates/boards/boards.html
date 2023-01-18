@@ -26,7 +26,7 @@
         <h1>게시글 목록</h1>
     </div>
     <div class="starter-template">
-        <table class="table table-bordered">
+        <table class="table table-bordered mb-4">
             <!-- CONTENTS !-->
             <thead>
             <tr>
@@ -41,8 +41,8 @@
             <tbody>
             <!-- CONTENTS !-->
             <tr th:each="board : ${boardList}">
-                <td th:text="${board.id}"></td>
-                <td><a th:href="'/board/post/'+${board.id}" th:text="${board.title}"></a></td>
+                <td th:text="${board.board_id}"></td>
+                <td><a th:href="'/board/post/'+${board.board_id}" th:text="${board.title}"></a></td>
                 <td th:text="${board.writer}"></td>
                 <td th:text="${board.write_date} ? ${#temporals.format(board.write_date,'yyyy-MM-dd HH:mm')} : ${board.write_date}"></td>
                 <td th:text="${board.update_date} ? ${#temporals.format(board.update_date,'yyyy-MM-dd HH:mm')} : no_update"></td>
@@ -51,9 +51,9 @@
         </table>
 
         <!-- Pagination -->
-        <div style="margin: 10px">
-            <span th:each="pageNum : ${pageList}" th:inline="text">
-                <a th:href="@{'/board/list/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+        <div th:if="${lastPage} != 0" class="mb-2">
+            <span th:each="pageNum : ${#numbers.sequence(1, lastPage)}" th:inline="text">
+                <a th:id="${pageNum}" th:name="${pageNum}" th:href="@{'/boards/list?page=' + ${pageNum}}" th:text="${pageNum}"></a>
             </span>
             <!-- 글쓰기 버튼 -->
             <a style="float: right" class="btn btn-primary" th:href="@{/board/new}">글쓰기</a>

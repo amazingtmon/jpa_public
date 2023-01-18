@@ -21,10 +21,13 @@ public class BoardRepository {
     }
 
 
-    public List<Board> findAllBoards() {
+    public List<Board> findAllBoards(int offset, int limit) {
         log.info("[[ Repo - findAllBoards ]]");
-
-        return  em.createQuery("select b from Board b", Board.class)
+        String sql1 = "select rownum as rn, * from Board";
+        String sql2 = "select rownum as rn, b from Board b order by b.id asc";
+        return  em.createNativeQuery(sql1, Board.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
@@ -35,8 +38,24 @@ public class BoardRepository {
     }
 
     public List<Board> findBoardByKeyword(String keyword) {
+        log.info("[[ Repo - findBoardByKeyword ]]");
+
         return em.createQuery("select b from Board b where b.title like :keyword", Board.class)
                 .setParameter("keyword", "%"+keyword+"%")
                 .getResultList();
+    }
+
+
+    public int findAllBoardsCount() {
+        log.info("[[ Repo - findAllBoardsCount ]]");
+
+        /**
+         * count(*) 함수의 경우 return 값이 Long 이므로
+         * Board.class가 아닌 Long.class로 해주어야 한다.
+         */
+        Long result = em.createQuery("select count(*) from Board b", Long.class)
+                .getSingleResult();
+
+        return Math.toIntExact(result);
     }
 }

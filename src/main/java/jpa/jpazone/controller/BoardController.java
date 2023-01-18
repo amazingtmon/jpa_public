@@ -1,12 +1,13 @@
 package jpa.jpazone.controller;
 
 import jpa.jpazone.controller.form.BoardForm;
+import jpa.jpazone.controller.form.BoardListDto;
 import jpa.jpazone.controller.form.ShowBoardForm;
 import jpa.jpazone.domain.Board;
-import jpa.jpazone.domain.Comment;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.BoardService;
 import jpa.jpazone.service.CommentService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -63,10 +66,55 @@ public class BoardController {
      * @return
      */
     @GetMapping("/boards")
-    public String boards(Model model){
+    public String boards(Model model,
+                        @RequestParam(value = "offset", defaultValue = "0") int offset,
+                        @RequestParam(value = "limit", defaultValue = "10") int limit
+    ){
         log.info("[[ boards ]]");
 
-        List<Board> boardList = boardService.findAllBoards();
+        //페이지구현을 위한 offset과 limit을 param으로 게시글 가져오기
+        List<Board> boards = boardService.findAllBoards(offset, limit);
+        //Board 엔티티를 BoardListDto로 변환
+        List<BoardListDto> boardList = boards.stream().map(BoardListDto::new).collect(Collectors.toList());
+        //게시글 갯수를 통해 마지막 페이지 가져오기
+        int lastPage = boardService.getLastPage(limit);
+
+        model.addAttribute("lastPage", lastPage);
+        model.addAttribute("boardList", boardList);
+
+        return "boards/boards";
+    }
+
+    /**
+     * 게시판 페이징
+     * @param model
+     * @param pageNum
+     * @param limit
+     * @return
+     */
+    @GetMapping("/boards/list")
+    public String boardPaging(Model model,
+                              @RequestParam("page")String pageNum,
+                              @RequestParam(value = "limit", defaultValue = "10") int limit){
+        log.info("[[ boardPaging ]]");
+        log.info("pageNum => {}", pageNum);
+
+        int page = Integer.parseInt(pageNum);
+        int offset = 0;
+
+        if(page != 0){
+            offset = (page - 1) * limit;
+        }
+
+        //페이지구현을 위한 offset과 limit을 param으로 게시글 가져오기
+        List<Board> boards = boardService.findAllBoards(offset, limit);
+        //Board 엔티티를 BoardListDto로 변환
+        List<BoardListDto> boardList = boards.stream().map(BoardListDto::new).collect(Collectors.toList());
+
+        //게시글 갯수를 통해 마지막 페이지 가져오기
+        int lastPage = boardService.getLastPage(limit);
+
+        model.addAttribute("lastPage", lastPage);
         model.addAttribute("boardList", boardList);
 
         return "boards/boards";
@@ -120,7 +168,7 @@ public class BoardController {
      * @param keyword
      */
     @GetMapping("/board/search")
-    public String searchBoard(Model model, String keyword){
+    public String searchBoard(Model model, @RequestParam("keyword")String keyword){
         log.info("[[ searchBoard ]]");
         log.info("keyword => {}", keyword);
 
