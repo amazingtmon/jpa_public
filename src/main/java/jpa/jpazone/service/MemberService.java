@@ -56,18 +56,29 @@ public class MemberService {
     public Long join(Member member) {
         log.info("[[ service - findMember ]]");
         //name 중복 체크
-        validateDupeMember(member);
+        if(!validateDupeMember(member)){
+            Long existDupeMember = 0L;
+            return existDupeMember;
+        }
         memberRepository.join(member);
 
         return member.getId();
     }
 
-    private void validateDupeMember(Member member) {
+    /**
+     * 회원가입시 동일 ID 유효성 검사
+     * @param member
+     * @return 동일 ID 존재시 false return
+     */
+    private boolean validateDupeMember(Member member) {
         List<Member> findMember = memberRepository.findMemberByName(member.getName());
         //동일 name 의 member가 존재하면 false
         if (!findMember.isEmpty()) {
             log.info("member = {}", findMember);
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+            //throw new IllegalStateException("이미 존재하는 회원입니다.");
+
+            return false;
         }
+        return true;
     }
 }

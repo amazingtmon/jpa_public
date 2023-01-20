@@ -36,4 +36,32 @@ public class MemberServiceTest {
 
     }
 
+    @Test
+    public void 동일아이디체크() throws Exception {
+        // given
+        /*중복 ID 일시*/
+        Member member1 = new Member();
+        member1.setName("chul");
+        member1.setPassword("1234");
+
+        /*중복아닌 ID 일시*/
+        Member member2 = new Member();
+        member2.setName("ysc");
+        member2.setPassword("1234");
+
+        // when
+        /*중복 ID 일시*/
+        Long result1 = memberService.join(member1);
+        /*중복아닌 ID 일시*/
+        Long result2 = memberService.join(member2);
+        Member findMember = memberService.findMemberByName(member2.getName());
+        Long findeMemberId = findMember.getId();
+
+        // then
+        /*중복 ID 일시*/
+        //assertEquals(0L, result1);
+        /*중복아닌 ID 일시*/
+        assertEquals(findeMemberId, result2);
+    }
+
 }

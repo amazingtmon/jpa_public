@@ -29,7 +29,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(@Valid MemberNewForm memberNewForm, BindingResult result){
+    public String create(Model model, @Valid MemberNewForm memberNewForm, BindingResult result){
         log.info("[[ Post MemberNewForm ]]");
         log.info("MemberNewForm name = {}", memberNewForm.getName());
         if(result.hasErrors()){
@@ -42,7 +42,14 @@ public class MemberController {
         member.setName(memberNewForm.getName());
         member.setPassword(memberNewForm.getPassword());
 
-        memberService.join(member);
+        Long dupeCheck = memberService.join(member);
+        if(dupeCheck == 0L){
+            log.info("dupeMemberChecked => {}", dupeCheck);
+            String dupeMemberExist = "동일한 ID의 사용자가 존재합니다.";
+            model.addAttribute("dupeMemberExist", dupeMemberExist);
+            return "members/createMemberForm";
+        }
+
         return "redirect:/login";
     }
 

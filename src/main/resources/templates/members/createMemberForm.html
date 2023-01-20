@@ -8,6 +8,11 @@
  .fieldError {
  border-color: #bd2130;
  }
+
+ .errorText {
+ color: #bd2130;
+ border: none;
+ }
 </style>
 <body>
 <div class="container">
@@ -20,9 +25,12 @@
       <div th:if="${#fields.hasGlobalErrors()}">
         <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
       </div>
+      <div th:if="${dupeMemberExist}">
+        <p class="form-control errorText" th:text="${dupeMemberExist}"></p>
+      </div>
 
-      <label th:for="name">이름</label>
-      <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요"
+      <label th:for="name">아이디</label>
+      <input type="text" th:field="*{name}" class="form-control" placeholder="아이디를 입력하세요"
              th:class="${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
       <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect date</p>
     </div>
