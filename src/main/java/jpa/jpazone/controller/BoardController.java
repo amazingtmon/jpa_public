@@ -168,12 +168,22 @@ public class BoardController {
      * @param keyword
      */
     @GetMapping("/board/search")
-    public String searchBoard(Model model, @RequestParam("keyword")String keyword){
+    public String searchBoard(Model model,
+                              @RequestParam("keyword")String keyword,
+                              @RequestParam(value = "offset", defaultValue = "0") int offset,
+                              @RequestParam(value = "limit", defaultValue = "10") int limit
+    ){
         log.info("[[ searchBoard ]]");
         log.info("keyword => {}", keyword);
 
-        List<Board> boards = boardService.findBoardByKeyword(keyword);
-        model.addAttribute("boardList", boards);
+        List<Board> boards = boardService.findBoardByKeyword(keyword, offset, limit);
+        //Board 엔티티를 BoardListDto로 변환
+        List<BoardListDto> boardList = boards.stream().map(BoardListDto::new).collect(Collectors.toList());
+        //검색한 게시글의 갯수로 마지막 페이지 가져오기
+        int lastPage = boardService.getLastPageSearchKeyword(limit, keyword);
+
+        model.addAttribute("lastPage", lastPage);
+        model.addAttribute("boardList", boardList);
 
         return  "boards/boards";
     }

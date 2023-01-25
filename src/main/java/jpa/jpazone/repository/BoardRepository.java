@@ -37,11 +37,13 @@ public class BoardRepository {
         return em.find(Board.class, boardId);
     }
 
-    public List<Board> findBoardByKeyword(String keyword) {
+    public List<Board> findBoardByKeyword(String keyword, int offset, int limit) {
         log.info("[[ Repo - findBoardByKeyword ]]");
 
         return em.createQuery("select b from Board b where b.title like :keyword", Board.class)
                 .setParameter("keyword", "%"+keyword+"%")
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
@@ -54,6 +56,16 @@ public class BoardRepository {
          * Board.class가 아닌 Long.class로 해주어야 한다.
          */
         Long result = em.createQuery("select count(*) from Board b", Long.class)
+                .getSingleResult();
+
+        return Math.toIntExact(result);
+    }
+
+    public int findBoardByKeywordCount(String keyword) {
+        log.info("[[ Repo - findBoardByKeywordCount ]]");
+
+        Long result = em.createQuery("select count(*) from Board b where b.title like :keyword", Long.class)
+                .setParameter("keyword", keyword)
                 .getSingleResult();
 
         return Math.toIntExact(result);

@@ -54,9 +54,9 @@ public class BoardService {
         board.change(name, title, content, LocalDateTime.now());
     }
 
-    public List<Board> findBoardByKeyword(String keyword) {
+    public List<Board> findBoardByKeyword(String keyword, int offset, int limit) {
         log.info("[[ Service - findBoardByKeyword ]]");
-        return boardRepository.findBoardByKeyword(keyword);
+        return boardRepository.findBoardByKeyword(keyword, offset, limit);
     }
 
     public int findAllBoardsCount() {
@@ -78,4 +78,14 @@ public class BoardService {
         return lastPage;
     }
 
+    public int getLastPageSearchKeyword(int limit, String keyword) {
+        log.info("[[ Service - getLastPageSearchKeyword ]]");
+
+        int totalCount = boardRepository.findBoardByKeywordCount(keyword);
+        double size = totalCount;
+        int lastPage = (int) Math.ceil(size / limit);
+        log.info("keyword booard lastPage => {}", lastPage);
+
+        return lastPage;
+    }
 }

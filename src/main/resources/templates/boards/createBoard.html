@@ -4,6 +4,16 @@
     <title>Hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<style>
+ .fieldError {
+ border-color: #bd2130;
+ }
+
+ .errorText {
+ color: #bd2130;
+ border: none;
+ }
+</style>
 <body>
 <!--<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('home')"></nav>-->
 <main class="container">
@@ -21,6 +31,8 @@
 
             <div class="form-group">
                 <label for="title" class="col-sm-2 control-label" style="float: left">제목</label>
+                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
+                   th:class="${#fields.hasErrors('title')}? 'form-control errorText' : 'form-control'">error text</span>
                 <div class="col-auto" style="margin-top: 10px;">
                     <input type="text" id="title" th:field="*{title}" class="form-control" placeholder="제목"/>
                 </div>
@@ -28,6 +40,8 @@
 
             <div class="form-group">
                 <label for="content" class="col-sm-2 control-label" style="float: left">내용</label>
+                <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+                      th:class="${#fields.hasErrors('content')}? 'form-control errorText' : 'form-control'">error text</span>
                 <div class="col-auto">
                     <textarea id="content" th:field="*{content}" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
