@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <title>BoardList</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:inline="javascript">
+    $(function(){
+
+    });
+</script>
+<body>
+<main role="main" class="container">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/login">LoginPage</a></li>
+  </ul>
+  <ul class="nav nav-pills pull-right">
+    <li>
+      <a href="/mainHome"><h3 class="text-muted">HELLO SHOP</h3></a>
+    </li>
+  </ul>
+  </br>
+  <div class="page-header">
+    <h1>게시글 목록</h1>
+  </div>
+  <div class="starter-template">
+    <table class="table table-bordered mb-4">
+      <!-- CONTENTS !-->
+      <thead>
+      <tr>
+        <th class="col-auto">번호</th>
+        <th class="col-md-4">글제목</th>
+        <th class="col-md-2">작성자</th>
+        <th class="col-md-3">작성일</th>
+        <th class="col-md-3">수정일</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <!-- CONTENTS !-->
+      <tr th:each="board : ${boardList}">
+        <td th:text="${board.board_id}"></td>
+        <td><a th:href="'/board/post/'+${board.board_id}" th:text="${board.title}"></a></td>
+        <td th:text="${board.writer}"></td>
+        <td th:text="${board.write_date} ? ${#temporals.format(board.write_date,'yyyy-MM-dd HH:mm')} : ${board.write_date}"></td>
+        <td th:text="${board.update_date} ? ${#temporals.format(board.update_date,'yyyy-MM-dd HH:mm')} : no_update"></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div th:if="${lastPage} != 0" class="mb-2">
+      <span th:each="pageNum : ${#numbers.sequence(1, lastPage)}" th:inline="text">
+        <a th:id="${pageNum}" th:name="${pageNum}" th:href="@{/board/searchPaging(keyword=${keyword},page=${pageNum})}" th:text="${pageNum}"></a>
+      </span>
+      <span th:text="${keyword}"></span>
+      <!-- 글쓰기 버튼 -->
+      <a style="float: right" class="btn btn-primary" th:href="@{/board/new}">글쓰기</a>
+    </div>
+
+    <!-- 검색 form -->
+    <form class="mb-3" action="/board/search" method="get">
+      <div>
+        <input id="keyword" name="keyword" type="text" placeholder="검색어를 입력해주세요.">
+        <button type="submit" class="btn btn-primary">검색하기</button>
+      </div>
+    </form>
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</main>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>-->
+</body>
+</html>

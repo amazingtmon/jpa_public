@@ -7,7 +7,6 @@ import jpa.jpazone.domain.Board;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.BoardService;
 import jpa.jpazone.service.CommentService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,7 +95,6 @@ public class BoardController {
                               @RequestParam("page")String pageNum,
                               @RequestParam(value = "limit", defaultValue = "10") int limit){
         log.info("[[ boardPaging ]]");
-        log.info("pageNum => {}", pageNum);
 
         int page = Integer.parseInt(pageNum);
         int offset = 0;
@@ -182,11 +179,47 @@ public class BoardController {
         //검색한 게시글의 갯수로 마지막 페이지 가져오기
         int lastPage = boardService.getLastPageSearchKeyword(limit, keyword);
 
+        model.addAttribute("keyword", keyword);
         model.addAttribute("lastPage", lastPage);
         model.addAttribute("boardList", boardList);
 
-        return  "boards/boards";
+        return  "boards/keywordBoards";
     }
 
+    /**
+     * 검색으로 찾은 게시글 페이징
+     * @param model
+     * @param keyword
+     * @param pageNum
+     * @param limit
+     * @return
+     */
+    @GetMapping("/board/searchPaging")
+    public String searchBoardPaging(Model model,
+                              @RequestParam("keyword")String keyword,
+                              @RequestParam("page")String pageNum,
+                              @RequestParam(value = "limit", defaultValue = "10") int limit
+    ){
+        log.info("[[ searchBoardPaging ]]");
+
+        int page = Integer.parseInt(pageNum);
+        int offset = 0;
+
+        if(page != 0){
+            offset = (page - 1) * limit;
+        }
+
+        List<Board> boards = boardService.findBoardByKeyword(keyword, offset, limit);
+        //Board 엔티티를 BoardListDto로 변환
+        List<BoardListDto> boardList = boards.stream().map(BoardListDto::new).collect(Collectors.toList());
+        //검색한 게시글의 갯수로 마지막 페이지 가져오기
+        int lastPage = boardService.getLastPageSearchKeyword(limit, keyword);
+
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("lastPage", lastPage);
+        model.addAttribute("boardList", boardList);
+
+        return  "boards/keywordBoards";
+    }
 
 }

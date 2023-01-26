@@ -65,7 +65,7 @@ public class BoardRepository {
         log.info("[[ Repo - findBoardByKeywordCount ]]");
 
         Long result = em.createQuery("select count(*) from Board b where b.title like :keyword", Long.class)
-                .setParameter("keyword", keyword)
+                .setParameter("keyword", "%"+keyword+"%")
                 .getSingleResult();
 
         return Math.toIntExact(result);

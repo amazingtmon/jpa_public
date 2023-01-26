@@ -70,16 +70,22 @@ public class BoardServiceTest {
 //        // then
 //    }
 
-/*    @Test
+    @Test
     public void 검색한게시물가져오기() throws Exception {
         // given
-        String keyword = "q";
+        String keyword = "aaa";
+        int offset = 0;
+        int limit = 10;
 
         // when
         List<Board> boards = boardRepository.findBoardByKeyword(keyword, offset, limit);
+        int count = boardRepository.findBoardByKeywordCount(keyword);
+        System.out.println("board size => "+boards.size());
+        System.out.println("count value => "+count);
 
         // then
-        assertEquals(0, boards.size());
-    }*/
+        assertEquals(boards.size(), count);
+
+    }
 
 }

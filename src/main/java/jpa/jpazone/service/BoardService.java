@@ -84,7 +84,7 @@ public class BoardService {
         int totalCount = boardRepository.findBoardByKeywordCount(keyword);
         double size = totalCount;
         int lastPage = (int) Math.ceil(size / limit);
-        log.info("keyword booard lastPage => {}", lastPage);
+        log.info("keyword board lastPage => {}", lastPage);
 
         return lastPage;
     }
