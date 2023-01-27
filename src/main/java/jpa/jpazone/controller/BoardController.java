@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -150,13 +151,23 @@ public class BoardController {
     /**
      * 게시글 수정
      * @param boardId
-     * @param boardForm
+     * @param showBoardForm
      * @return
      */
     @PostMapping("/board/post/{boardId}")
-    public String updateBoard(@PathVariable("boardId")Long boardId, @ModelAttribute("boardForm")BoardForm boardForm){
+    public String updateBoard(@PathVariable("boardId")Long boardId,
+                              @Valid @ModelAttribute("showBoardForm")ShowBoardForm showBoardForm,
+                              BindingResult result,
+                              RedirectAttributes redirectAttributes){
         log.info("[[ updateBoard ]]");
-        boardService.updateBoard(boardId, boardForm.getName(), boardForm.getTitle(), boardForm.getContent());
+
+        if(result.hasErrors()){
+            log.info("error => {}",String.valueOf(result.getFieldError()));
+            redirectAttributes.addFlashAttribute("errors", result.getFieldError().getDefaultMessage());
+            return "redirect:/board/post/"+boardId;
+        }
+
+        boardService.updateBoard(boardId, showBoardForm.getName(), showBoardForm.getTitle(), showBoardForm.getContent());
         return "redirect:/boards";
     }
 

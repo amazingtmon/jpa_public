@@ -55,7 +55,6 @@
       <span th:each="pageNum : ${#numbers.sequence(1, lastPage)}" th:inline="text">
         <a th:id="${pageNum}" th:name="${pageNum}" th:href="@{/board/searchPaging(keyword=${keyword},page=${pageNum})}" th:text="${pageNum}"></a>
       </span>
-      <span th:text="${keyword}"></span>
       <!-- 글쓰기 버튼 -->
       <a style="float: right" class="btn btn-primary" th:href="@{/board/new}">글쓰기</a>
     </div>

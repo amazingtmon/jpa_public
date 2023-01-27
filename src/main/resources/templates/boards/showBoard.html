@@ -3,13 +3,13 @@
 <head th:replace="fragments/header :: header">
   <title>Hello</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <style>
-        .field-error {
-            border-color: #dc3545;
-            color: #dc3545;
-        }
-    </style>
 </head>
+<style>
+         .errorText {
+            color: #dc3545;
+            border: none;
+        }
+</style>
 <body>
 <!--<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('home')"></nav>-->
 <main class="container">
@@ -21,11 +21,10 @@
       <div class="form-group">
         <label for="name" class="col-sm-2 control-label" style="float: left">작성자</label>
         <div class="col-sm-5" style="margin-top: 10px;">
-          <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="작성자" readonly/>
-          <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
+           <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="작성자" readonly/>
+           <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
         </div>
       </div>
-
       <div class="form-group">
         <label for="title" class="col-sm-2 control-label" style="float: left">제목</label>
         <div class="col-auto" style="margin-top: 10px;">
@@ -35,6 +34,8 @@
 
       <div class="form-group">
         <label for="content" class="col-sm-2 control-label" style="float: left">내용</label>
+        <span class="errorText" th:if="${errors}" th:text="${errors}"
+              th:classappend="${errors} ? 'h6' : 'form-control'">error text</span>
         <div class="col-auto">
           <textarea id="content" th:field="*{content}" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
         </div>
@@ -42,7 +43,8 @@
 
       <div class="btn_wrap text-center mb-3">
         <a th:href="@{/boards}" class="btn btn-secondary">뒤로 가기</a>
-        <button type="submit" class="btn btn-primary waves-effect waves-light">수정 하기</button>
+        <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMemberName}"
+                type="submit" class="btn btn-primary waves-effect waves-light">수정 하기</button>
       </div>
     </form>
     <br>
@@ -64,7 +66,7 @@
                   <p th:text="${item.comment_content}" class="form-control"></p>
                   <div class="form-inline mb-2">
                     <button type="button" class="btn btn-dark" onClick="javascript:addComment();">댓글</button>
-                    <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMember}"
+                    <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMemberName}"
                             type="button" class="btn btn-primary ml-2" onClick="javascript:deleteComment();">삭제</button>
                   </div>
                 </li>
@@ -79,10 +81,11 @@
           <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
           <div class="form-group">
             <label for="comment_content" class="col-sm-2 control-label" style="float: left">댓글</label>
+            <span class="errorText" th:if="${cm_errors}" th:text="${cm_errors}"
+                  th:classappend="${cm_errors} ? 'h6' : 'form-control'">comment error text</span>
             <div class="col-auto">
               <textarea id="comment_content" th:field="*{comment_content}" class="form-control mb-1" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2"></textarea>
             </div>
-            <div class="field-error" th:errors="*{comment_content}"></div>
           </div>
           <div class="input-group-append">
             <button type="submit" class="btn btn-primary waves-effect waves-light">등록</button>

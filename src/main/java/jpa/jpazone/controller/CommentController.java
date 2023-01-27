@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -24,7 +25,8 @@ public class CommentController {
     public String comment(@Valid @ModelAttribute("comment") CommentForm comment,
                           BindingResult result,
                           Long board_id,
-                          @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member member){
+                          @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member member,
+                          RedirectAttributes redirectAttributes){
         log.info("[[ comment ]]");
         log.info("get model = {}", comment.getComment_content());
         log.info("get member name, id = {} {}", member.getName(), member.getId());
@@ -36,6 +38,7 @@ public class CommentController {
          */
         if(result.hasErrors()){
             log.info("comment error = {}", result.getFieldError());
+            redirectAttributes.addFlashAttribute("cm_errors", result.getFieldError().getDefaultMessage());
             return "redirect:/board/post/"+board_id;
         }
 
