@@ -1,7 +1,9 @@
 package jpa.jpazone.service;
 
 import jpa.jpazone.controller.form.BoardForm;
+import jpa.jpazone.controller.form.BoardListDto;
 import jpa.jpazone.domain.Board;
+import jpa.jpazone.domain.BoardStatus;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.repository.BoardRepository;
 import org.junit.Test;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,6 +29,8 @@ public class BoardServiceTest {
 
     @Autowired
     BoardRepository boardRepository;
+    @Autowired
+    BoardService boardService;
 
     @Test
     public void 게시판생성 () throws Exception {
@@ -86,6 +91,46 @@ public class BoardServiceTest {
         // then
         assertEquals(boards.size(), count);
 
+    }
+
+    @Test
+    public void 게시물삭제() throws Exception {
+        // given
+        Long id = 4L;
+
+        // when
+
+        //게시물 삭제 = 게시물 status == DELTED로 변경
+        boardService.deleteBoard(id);
+        Board board2 = boardRepository.findBoard(id);
+        BoardStatus status2 = board2.getStatus();
+        String modified_status = status2.name();
+
+        // then
+        assertEquals("DELETED", modified_status);
+
+    }
+
+    @Test
+    public void 게시물상태가EXIST인것만가져오기() throws Exception {
+        // given
+        int offset = 0;
+        int limit = 10;
+        Long boardId = 4L;
+        List<Board> boards = boardRepository.findAllBoards(offset, limit);
+        Board expected_board = boardRepository.findBoard(boardId);
+
+        // when
+        List<Board> boardList = boards.stream().filter(b -> b.getStatus() != BoardStatus.DELETED).collect(Collectors.toList());
+        System.out.println("boardList => "+ boardList.getClass());
+        System.out.println("boardList.size() => "+ boardList.size());
+
+        List<BoardListDto> transBoardDto = boardList.stream().map(BoardListDto::new).collect(Collectors.toList());
+        System.out.println("transBoardDto => "+ transBoardDto.getClass());
+        System.out.println("transBoardDto.size() => "+ transBoardDto.size());
+
+        // then
+        assertEquals(expected_board.getTitle(), transBoardDto.get(0).getTitle());
     }
 
 }

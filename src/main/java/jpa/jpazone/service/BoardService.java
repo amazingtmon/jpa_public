@@ -2,6 +2,7 @@ package jpa.jpazone.service;
 
 import jpa.jpazone.controller.form.BoardForm;
 import jpa.jpazone.domain.Board;
+import jpa.jpazone.domain.BoardStatus;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -38,7 +40,10 @@ public class BoardService {
 
     public List<Board> findAllBoards(int offset, int limit) {
         log.info("[[ Service - findAllBoards ]]");
-        return boardRepository.findAllBoards(offset, limit);
+        List<Board> boards = boardRepository.findAllBoards(offset, limit);
+        List<Board> boardStatus_ExistList = boards.stream().filter(b -> b.getStatus() != BoardStatus.DELETED).collect(Collectors.toList());
+
+        return boardStatus_ExistList;
     }
 
     public Board findBoard(Long boardId) {
@@ -52,6 +57,13 @@ public class BoardService {
         log.info("[[ Service - updateBoard ]]");
         Board board = boardRepository.findBoard(boardId);
         board.change(name, title, content, LocalDateTime.now());
+    }
+
+    @Transactional
+    public void deleteBoard(Long boardId){
+        log.info("[[ Service - deleteBoard ]]");
+        Board board = boardRepository.findBoard(boardId);
+        board.delete();
     }
 
     public List<Board> findBoardByKeyword(String keyword, int offset, int limit) {

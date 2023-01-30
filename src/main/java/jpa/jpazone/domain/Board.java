@@ -32,6 +32,9 @@ public class Board {
     private LocalDateTime update_date; //수정시간
     private String content; //내용
 
+    @Enumerated(EnumType.STRING)
+    private BoardStatus status;
+
 
     public Board(Member member, String title, String writer, LocalDateTime write_date, String content) {
         this.member = member;
@@ -39,6 +42,7 @@ public class Board {
         this.writer = writer;
         this.write_date = write_date;
         this.content = content;
+        this.status = BoardStatus.EXIST;
     }
 
     /**
@@ -54,5 +58,15 @@ public class Board {
         this.title = title;
         this.content = content;
         this.update_date = update_date;
+    }
+
+    /**
+     * 게시글 삭제
+     * BoardStatus 를 DELETED로 수정하여
+     * 실제 Board 테이블에서 해당 게시글 data를 삭제하는 것이 아닌
+     * 단순히 게시글 목록에서 안보이도록함.
+     */
+    public void delete(){
+        this.status = BoardStatus.DELETED;
     }
 }

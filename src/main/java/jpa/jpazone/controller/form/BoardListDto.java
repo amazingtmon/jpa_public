@@ -1,6 +1,7 @@
 package jpa.jpazone.controller.form;
 
 import jpa.jpazone.domain.Board;
+import jpa.jpazone.domain.BoardStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class BoardListDto {
     private LocalDateTime write_date; //작성시간
     private LocalDateTime update_date; //수정시간
     private String content; //내용
+    private BoardStatus status; //게시글 삭제여부
 
     public BoardListDto(Long board_id, String title, String writer,
                         LocalDateTime write_date, LocalDateTime update_date, String content) {
@@ -33,5 +35,6 @@ public class BoardListDto {
         write_date = board.getWrite_date();
         update_date = board.getUpdate_date();
         content = board.getContent();
+        status = board.getStatus();
     }
 }

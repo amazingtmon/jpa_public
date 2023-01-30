@@ -25,7 +25,15 @@
   <div class="page-header">
     <h1>게시글 목록</h1>
   </div>
-  <div class="starter-template">
+  <!--  게시글이 한개도 존재하지 않을경우  -->
+  <div th:if="${boardList.size() < 1}">
+    <div class="card text-center border-primary mt-5 mb-5">
+      <div class="card-body">
+        <h3 class="card-title text-primary">게시물이 존재하지 않습니다.</h3>
+      </div>
+    </div>
+  </div>
+  <div th:if="${boardList.size() >= 1}" class="starter-template">
     <table class="table table-bordered mb-4">
       <!-- CONTENTS !-->
       <thead>
@@ -40,7 +48,7 @@
 
       <tbody>
       <!-- CONTENTS !-->
-      <tr th:each="board : ${boardList}">
+      <tr th:each="board : ${boardList}" th:if="${board.status.name() != 'DELETED'}">
         <td th:text="${board.board_id}"></td>
         <td><a th:href="'/board/post/'+${board.board_id}" th:text="${board.title}"></a></td>
         <td th:text="${board.writer}"></td>

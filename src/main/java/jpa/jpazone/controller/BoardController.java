@@ -172,6 +172,24 @@ public class BoardController {
     }
 
     /**
+     * 게시글 삭제
+     * Board 테이블에서 실제 게시글 data를 삭제하는것이 아니라
+     * 게시글의 status 값을 EXIST => DELETED로 변경
+     * @param boardId
+     * @return
+     */
+    @GetMapping("/board/delete")
+    public String deleteBoard(@RequestParam("post")String boardId){
+        log.info("[[ deleteBoard ]]");
+
+        //String board_id를 Long 타입으로 변환
+        Long id = Long.valueOf(boardId);
+        boardService.deleteBoard(id);
+
+        return "redirect:/boards";
+    }
+
+    /**
      * 검색으로 원하는 게시글 찾기
      * @param keyword
      */
