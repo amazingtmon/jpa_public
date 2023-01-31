@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -80,5 +81,19 @@ public class MemberService {
             return false;
         }
         return true;
+    }
+
+    @Transactional
+    public void updateMemberInfo(String name, String password) {
+        log.info("[[ service - updateMemberInfo ]]");
+        //이름으로 member 찾기
+        List<Member> memberByName = memberRepository.findMemberByName(name);
+        Optional<Member> optionalMember = memberByName.stream().findFirst();
+        //member id 확인
+        Long id = optionalMember.get().getId();
+        //memberInfo 변경할 member
+        Member member = memberRepository.findOne(id);
+        //member info 변경
+        member.change(password);
     }
 }

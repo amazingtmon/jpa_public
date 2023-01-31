@@ -24,4 +24,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<>();
 
+    public void change(String password) {
+        this.password = password;
+    }
 }

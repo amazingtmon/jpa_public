@@ -1,5 +1,6 @@
 package jpa.jpazone.controller;
 
+import jpa.jpazone.controller.form.MemberInfoForm;
 import jpa.jpazone.controller.form.MemberNewForm;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.MemberService;
@@ -8,9 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -51,6 +50,32 @@ public class MemberController {
         }
 
         return "redirect:/login";
+    }
+
+    @GetMapping("/member/info")
+    public String myPage(Model model,
+                         @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
+        log.info("[[ myPage ]]");
+
+        MemberInfoForm memberInfoForm = new MemberInfoForm();
+        memberInfoForm.setName(loginMember.getName());
+
+        model.addAttribute("memberInfoForm", memberInfoForm);
+        return "members/myPage";
+    }
+
+    @PostMapping("/member/info")
+    public String myPage(@Valid @ModelAttribute("memberInfoForm")MemberInfoForm memberInfoForm, BindingResult result){
+        log.info("[[ update member info ]]");
+
+        if(result.hasErrors()){
+            log.info("myPage error => {}", result.getFieldError());
+            return "members/myPage";
+        }
+
+        memberService.updateMemberInfo(memberInfoForm.getName(), memberInfoForm.getPassword());
+
+        return "redirect:/mainHome";
     }
 
 }
