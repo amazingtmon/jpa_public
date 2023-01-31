@@ -18,7 +18,7 @@
   </ul>
   <ul class="nav nav-pills pull-right">
     <li>
-      <a href="/mainHome"><h3 class="text-muted">HELLO SHOP</h3></a>
+      <a href="/mainHome"><h3 class="text-muted">JPA-public Main</h3></a>
     </li>
   </ul>
   </br>
@@ -30,6 +30,10 @@
     <div class="card text-center border-primary mt-5 mb-5">
       <div class="card-body">
         <h3 class="card-title text-primary">게시물이 존재하지 않습니다.</h3>
+      </div>
+      <div class="card-footer text-muted">
+        <button type="button" class="btn btn-primary waves-effect waves-light"
+                th:onclick="|location.href='@{/boards}'|">뒤로가기</button>
       </div>
     </div>
   </div>
@@ -61,14 +65,14 @@
     <!-- Pagination -->
     <div th:if="${lastPage} != 0" class="mb-2">
       <span th:each="pageNum : ${#numbers.sequence(1, lastPage)}" th:inline="text">
-        <a th:id="${pageNum}" th:name="${pageNum}" th:href="@{/board/searchPaging(keyword=${keyword},page=${pageNum})}" th:text="${pageNum}"></a>
+        <a th:id="${pageNum}" th:name="${pageNum}" th:href="@{/board/page(keyword=${keyword},page=${pageNum})}" th:text="${pageNum}"></a>
       </span>
       <!-- 글쓰기 버튼 -->
       <a style="float: right" class="btn btn-primary" th:href="@{/board/new}">글쓰기</a>
     </div>
 
     <!-- 검색 form -->
-    <form class="mb-3" action="/board/search" method="get">
+    <form class="mb-3" action="/board/word" method="get">
       <div>
         <input id="keyword" name="keyword" type="text" placeholder="검색어를 입력해주세요.">
         <button type="submit" class="btn btn-primary">검색하기</button>

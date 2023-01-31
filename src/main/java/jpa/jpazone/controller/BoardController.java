@@ -178,7 +178,7 @@ public class BoardController {
      * @param boardId
      * @return
      */
-    @GetMapping("/board/delete")
+    @GetMapping("/board/status")
     public String deleteBoard(@RequestParam("post")String boardId){
         log.info("[[ deleteBoard ]]");
 
@@ -193,7 +193,7 @@ public class BoardController {
      * 검색으로 원하는 게시글 찾기
      * @param keyword
      */
-    @GetMapping("/board/search")
+    @GetMapping("/board/word")
     public String searchBoard(Model model,
                               @RequestParam("keyword")String keyword,
                               @RequestParam(value = "offset", defaultValue = "0") int offset,
@@ -223,7 +223,7 @@ public class BoardController {
      * @param limit
      * @return
      */
-    @GetMapping("/board/searchPaging")
+    @GetMapping("/board/page")
     public String searchBoardPaging(Model model,
                               @RequestParam("keyword")String keyword,
                               @RequestParam("page")String pageNum,
