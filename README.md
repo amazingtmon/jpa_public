@@ -5,7 +5,7 @@
   - jdk version 11.0.16
   - gradle
   - h2-database
-  - jpa ORM
+  - jpa
 - front-end
   - thymeleaf
 
