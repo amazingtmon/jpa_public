@@ -87,13 +87,23 @@ public class MemberService {
     public void updateMemberInfo(String name, String password) {
         log.info("[[ service - updateMemberInfo ]]");
         //이름으로 member 찾기
-        List<Member> memberByName = memberRepository.findMemberByName(name);
-        Optional<Member> optionalMember = memberByName.stream().findFirst();
-        //member id 확인
-        Long id = optionalMember.get().getId();
+        Long id = getMemberIdByName(name);
         //memberInfo 변경할 member
         Member member = memberRepository.findOne(id);
         //member info 변경
         member.change(password);
+    }
+
+    private Long getMemberIdByName(String name) {
+        List<Member> memberByName = memberRepository.findMemberByName(name);
+        Optional<Member> optionalMember = memberByName.stream().findFirst();
+
+        //member id 확인
+        if(optionalMember.isPresent()){
+            Long id = optionalMember.get().getId();
+            return id;
+        }
+
+        return null;
     }
 }
