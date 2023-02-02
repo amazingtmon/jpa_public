@@ -2,7 +2,9 @@ package jpa.jpazone.api;
 
 import jpa.jpazone.controller.form.BoardForm;
 import jpa.jpazone.controller.form.BoardListDto;
+import jpa.jpazone.controller.form.ShowBoardForm;
 import jpa.jpazone.domain.Board;
+import jpa.jpazone.domain.BoardStatus;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.repository.BoardRepository;
 import jpa.jpazone.repository.MemberRepository;
@@ -44,16 +46,10 @@ public class BoardApiController {
     @Transactional
     public ResponseEntity<Object> createBoard(@RequestBody BoardForm boardForm){
         log.info("[[ RestController - createBoard ]]");
-        Long id = 0L;
         //작성자 이름으로 Member 엔티티 가져오기
         List<Member> memberByName = memberRepository.findMemberByName(boardForm.getName());
         Optional<Member> optionalMember = memberByName.stream().findFirst();
-/*        if(optionalMember.isPresent()){
-            id = optionalMember.get().getId();
-        }
-        //Member 엔티티 확인
-        Member member = memberRepository.findOne(id);
-        */
+
         //Member 엔티티 확인
         Member member = optionalMember.orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
         //Board 엔티티에 Member, BoardForm 값 세팅
@@ -61,7 +57,33 @@ public class BoardApiController {
         //Board 저장
         boardRepository.save(board);
 
-        return new ResponseEntity<>(new CreateBoardDto(board), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new CreateBoardDto(board), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/api/board/post/{boardId}")
+    @Transactional
+    public ResponseEntity<Object> updateBoard(@PathVariable("boardId")Long boardId,
+                                      @RequestBody ShowBoardForm showBoardForm){
+        log.info("[[ RestController - updateBoard ]]");
+
+        //id에 해당하는 Board 엔티티 찾기
+        Board board = boardRepository.findBoard(boardId);
+        //수정된 내용 적용
+        board.change(showBoardForm.getName(), showBoardForm.getTitle(),
+                    showBoardForm.getContent(), LocalDateTime.now());
+
+        return new ResponseEntity<>(new UpdateBoardDto(board), HttpStatus.OK);
+    }
+
+    @Transactional
+    @DeleteMapping("/api/board/post/{boardId}")
+    public ResponseEntity<Object> deleteBoard(@PathVariable("boardId")Long boardId){
+        log.info("[[ RestController - deleteBoard ]]");
+
+        Board board = boardRepository.findBoard(boardId);
+        board.delete();
+
+        return new ResponseEntity<>(new BoardDto(board), HttpStatus.NO_CONTENT);
     }
 
     @Data
@@ -69,6 +91,22 @@ public class BoardApiController {
     static class Result<T> {
         private int count;
         private T data;
+    }
+    @Data
+    private class BoardDto {
+        private Long board_id;
+        private String name;
+        private String title;
+        private String content;
+        private BoardStatus status;
+
+        public BoardDto(Board board){
+            this.board_id = board.getId();
+            this.name = board.getWriter();
+            this.title = board.getTitle();
+            this.content = board.getContent();
+            this.status = board.getStatus();
+        }
     }
 
     @Data
@@ -81,6 +119,26 @@ public class BoardApiController {
             this.name = board.getWriter();
             this.title = board.getTitle();
             this.content = board.getContent();
+        }
+    }
+
+    @Data
+    private class UpdateBoardDto {
+
+        private Long board_id;
+        private String name;
+        private String title;
+        private String content;
+        private LocalDateTime write_date;
+        private LocalDateTime update_date;
+
+        public UpdateBoardDto(Board board) {
+            this.board_id = board.getId();
+            this.name = board.getWriter();
+            this.title = board.getTitle();
+            this.content = board.getContent();
+            this.write_date = board.getWrite_date();
+            this.update_date = board.getUpdate_date();
         }
     }
 }
