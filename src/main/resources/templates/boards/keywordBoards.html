@@ -23,7 +23,7 @@
   </ul>
   </br>
   <div class="page-header">
-    <h1>게시글 목록</h1>
+    <h1 th:text="|'${keyword}'로 검색한 게시글|"></h1>
   </div>
   <!--  게시글이 한개도 존재하지 않을경우  -->
   <div th:if="${boardList.size() < 1}">

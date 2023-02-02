@@ -31,13 +31,6 @@ Spring framework를 좀 더 가볍고 쉽게 즐겨보고자 SpringBoot를 학�
 - 세션 적용하여 로그인 구현
 - 아이디와 비밀번호를 입력해서 로그인
 - 아이디가 없을경우 `회원가입` 페이지로 이동해서 회원가입 진행
-    <details>
-    <summary>회원가입 이미지</summary>
-    <div markdown="1">
-    <img src="Readme_img/join_error.png" width="50%" height="50%">
-    <img src="Readme_img/join_dupe.png" width="50%" height="50%">
-    </div>
-    </details>    
 - `아이디` or `비밀번호` 가 다를경우 `“아이디 또는 비밀번호가 맞지 않습니다.”` 문구 표출
 - 아이디와 비밀번호 칸에 공백입력시 `“공백일 수 없습니다”` 문구 표출
     <details>
@@ -53,6 +46,30 @@ Spring framework를 좀 더 가볍고 쉽게 즐겨보고자 SpringBoot를 학�
 - 아이디와 비밀번호를 입력후 `Submit` 버튼을 눌러 가입 진행
 - 가입이 완료되면 로그인 화면으로 이동
 - 중복된 아이디의 유저가 있으면 `"동일한 ID의 사용자가 존재합니다."` 문구 표출
+    <details>
+    <summary>회원가입 이미지</summary>
+    <div markdown="1">
+    <img src="Readme_img/join_error.png" width="50%" height="50%">
+    <img src="Readme_img/join_dupe.png" width="50%" height="50%">
+    </div>
+    </details>
+</div>
+</details>
+
+<details>
+<summary><b>메인홈</b></summary>
+<div markdown="1">
+
+1. 메인홈
+
+- 로그인 완료시, 메인홈으로 이동
+- `로그아웃` 버튼과 `마이페이지`, `게시판 작성`, `게시판 목록`과 관련된 버튼이 있음
+    <details>
+    <summary>메인홈 이미지</summary>
+    <div markdown="1">
+    <img src="Readme_img/mainHome.png" width="50%" height="50%">
+    </div>
+    </details>
 </div>
 </details>
 
@@ -67,36 +84,70 @@ Spring framework를 좀 더 가볍고 쉽게 즐겨보고자 SpringBoot를 학�
 - 제목과 내용을 아무것도 입력 하지 않고 `저장하기` 클릭시
   `”제목은 필수 입니다.”`  or `“내용을 입력해주세요.”` 문구 표출
 - 작성한 게시글이 정상적으로 DB에 저장되면 게시글목록 페이지로 이동
-
+    <details>
+    <summary>게시글작성 이미지</summary>
+    <div markdown="1">
+    <img src="Readme_img/createBoard.png" width="50%" height="50%">
+    <img src="Readme_img/createBoard_noTitle.png" width="50%" height="50%">
+    </div>
+    </details>
 2. 게시글목록
 
-- 메인 홈 화면에서 `게시글 목록` 버튼 클릭시 게시글 DB의 status 컬럼이 EXIST인
-  게시글들을 확인 가능
+- 메인 홈 화면에서 `게시글 목록` 버튼 클릭시 게시글 DB의 status 컬럼이 ***EXIST***인
+  게시글 확인 가능
 - 게시판 id를 오름차순으로 게시글 목록 정렬
 - 한번에 나타내는 게시글의 갯수는 10개로 지정, 10개가 넘어가는 경우 페이지를 나눔
 - 우측 하단 `글쓰기` 버튼으로 새로운 게시글 작성 가능
 - 게시글이 없을 경우 `“게시물이 존재하지 않습니다.”` 문구 표출 및
-  하단, `뒤로가기` 버튼 클릭하여 게시물 목록페이지로 돌아가기 가능
-
+  하단, `메인홈으로` 버튼 클릭하여 메인홈으로 이동
+    <details>
+    <summary>게시글목록 이미지</summary>
+    <div markdown="1">
+    <img src="Readme_img/boardList.png" width="50%" height="50%">
+    <img src="Readme_img/boardList_none.png" width="50%" height="50%">
+    </div>
+    </details>
 
 3. 게시글검색
 
 - `검색하기` 를 통해 게시글 제목을 검색하여 특정 게시물만 검색 가능
 - 검색한 게시물이 10개가 넘어갈 경우 페이징 처리
+- 게시글이 없을 경우 `“게시물이 존재하지 않습니다.”` 문구 표출 및
+  하단, `뒤로가기` 버튼 클릭하여 게시물 목록페이지로 돌아가기 가능
+    <details>
+    <summary>게시글검색 이미지</summary>
+    <div markdown="1">
+    <img src="Readme_img/keywordList.png" width="50%" height="50%">
+    <img src="Readme_img/keywordList_none.png" width="50%" height="50%">
+    </div>
+    </details>
 
 4. 게시글수정
 
 - 수정하고 싶은 게시글 열람하여 제목 및 내용을 수정한 후 `수정하기` 버튼을 눌러 수정
-- 수정이 완료되면 게시글목록 페이지로 이동
+- 수정이 완료되면 게시글목록 페이지로 이동 및 게시글을 수정한시간 확인 가능
 - 게시글은 모든 사용자가 열람 가능
 - 작성자와 현재로그인한 사용자가 같을 경우만 게시글 수정가능
+    <details>
+    <summary>게시글수정 이미지</summary>
+    <div markdown="1">
+    <img src="Readme_img/selectBoard.png" width="50%" height="50%">
+    <img src="Readme_img/updateBoard.png" width="50%" height="50%">
+    </div>
+    </details>
 
 5. 게시글삭제
 
 - 클릭한 게시글 하단에 `삭제하기` 버튼 클릭시 해당 게시글 data의 status 컬럼이
   ***EXIST*** 에서 ***DELETED*** 로 변경
 - 삭제가 완료되면 게시글목록 페이지로 이동
-
+    <details>
+    <summary>게시글삭제 이미지</summary>
+    <div markdown="1">
+    <img src="Readme_img/deleteBoard.png" width="50%" height="50%">
+    <img src="Readme_img/deleteBoard2.png" width="50%" height="50%">
+    </div>
+    </details>
 </div>
 </details>
 

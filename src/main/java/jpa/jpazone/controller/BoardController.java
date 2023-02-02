@@ -125,15 +125,13 @@ public class BoardController {
      * @return
      */
     @GetMapping("/board/post/{boardId}")
-    public String board (@PathVariable("boardId")String boardId,
+    public String board (@PathVariable("boardId")Long boardId,
                          Model model,
                          @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
         log.info("boardId = {}", boardId);
-        //String 으로 넘어온 boardId를 Long으로 변환
-        Long id = Long.parseLong(boardId);
 
         //id로 Board 엔티티 가져오기
-        Board board = boardService.findBoard(id);
+        Board board = boardService.findBoard(boardId);
 
         //board_id로 comment들 가져오기
         //List<Comment> comments = commentService.findAllCommentByBoardId(id);

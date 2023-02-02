@@ -55,7 +55,7 @@ public class BoardRepository {
          * count(*) 함수의 경우 return 값이 Long 이므로
          * Board.class가 아닌 Long.class로 해주어야 한다.
          */
-        Long result = em.createQuery("select count(*) from Board b", Long.class)
+        Long result = em.createQuery("select count(board_id) from Board b where b.status != 'DELETED'", Long.class)
                 .getSingleResult();
 
         return Math.toIntExact(result);
@@ -64,7 +64,8 @@ public class BoardRepository {
     public int findBoardByKeywordCount(String keyword) {
         log.info("[[ Repo - findBoardByKeywordCount ]]");
 
-        Long result = em.createQuery("select count(*) from Board b where b.title like :keyword", Long.class)
+        Long result = em.createQuery("select count(board_id) from Board b where b.title like :keyword" +
+                                    " and b.status != 'DELETED'", Long.class)
                 .setParameter("keyword", "%"+keyword+"%")
                 .getSingleResult();
 

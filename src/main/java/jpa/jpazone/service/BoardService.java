@@ -41,6 +41,7 @@ public class BoardService {
     public List<Board> findAllBoards(int offset, int limit) {
         log.info("[[ Service - findAllBoards ]]");
         List<Board> boards = boardRepository.findAllBoards(offset, limit);
+        //BoardStatus가 DELETED 가 아닌것만 필터하여 리턴
         List<Board> boardStatus_ExistList = boards.stream().filter(b -> b.getStatus() != BoardStatus.DELETED).collect(Collectors.toList());
 
         return boardStatus_ExistList;
@@ -68,7 +69,10 @@ public class BoardService {
 
     public List<Board> findBoardByKeyword(String keyword, int offset, int limit) {
         log.info("[[ Service - findBoardByKeyword ]]");
-        return boardRepository.findBoardByKeyword(keyword, offset, limit);
+        List<Board> boardByKeyword = boardRepository.findBoardByKeyword(keyword, offset, limit);
+        //BoardStatus가 DELETED 가 아닌것만 필터하여 리턴
+        List<Board> boards = boardByKeyword.stream().filter(b -> b.getStatus() != BoardStatus.DELETED).collect(Collectors.toList());
+        return boards;
     }
 
     public int findAllBoardsCount() {
