@@ -54,20 +54,20 @@ public class Comment {
         board.getComments().add(this);
     }
 
-//    public void setParent(Comment parent){
-//        this.parent = parent;
-//        parent.getChildList().add(this);
-//    }
+    public void setCommentParent(Comment parent){
+        this.parent = parent;
+        parent.getChildList().add(this);
+    }
 
-    public void addChildComment(Comment child) {
+    public void addChildComment(Comment child, Comment parent) {
         this.childList.add(child);
-        child.setParent(this);
+        child.setParent(parent);
     }
 
     public static Comment createComment(Board board, Member member, String writer, String comment_content, LocalDateTime write_date){
         Comment comment = new Comment();
-        comment.setMember(member);
         comment.setBoard(board);
+        comment.setMember(member);
         comment.setWriter(writer);
         comment.setComment_content(comment_content);
         comment.setWrite_date(write_date);
@@ -75,5 +75,20 @@ public class Comment {
         comment.setDeep(0);
         return comment;
     }
+
+    public static Comment createRecomment(Board findBoard, Member findMember, String writer, String recomment, Long parentComment_id, LocalDateTime write_date) {
+        Comment comment = new Comment();
+        comment.setBoard(findBoard);
+        comment.setMember(findMember);
+        comment.setWriter(writer);
+        comment.setComment_content(recomment);
+        comment.setWrite_date(write_date);
+        comment.setRemoved(false);
+        comment.setDeep(1);
+
+        return comment;
+    }
+
+
 
 }

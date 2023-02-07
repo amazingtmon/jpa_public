@@ -64,7 +64,7 @@ public class BoardServiceTest {
 //                board.getContent(), board.getComments(), loginMember.getName());
 //
 //        System.out.println("== get comments == "+showBoardForm.getCommentForms().size());
-//        List<ShowCommentForm> commentForms = showBoardForm.getCommentForms();
+//        List<ShowCommentDto> commentForms = showBoardForm.getCommentForms();
 //        System.out.println("== getComment_content == "
 //                +showBoardForm.getCommentForms().get(0).getComment_id()+", "
 //                +showBoardForm.getCommentForms().get(0).getComment_content()+", "

@@ -16,11 +16,10 @@ $(function () {
 ======================================
 */
     $.fn.validateReComment = function (content) {
+        //댓글 내용이 없을 경우 false
         if(content == ""){
-            alert("valid");
             return false;
         } else {
-            alert("content => "+content);
             return true;
         }
     };
@@ -64,19 +63,20 @@ $(function () {
                 let content = $("#reComment_content").val();
                 //대댓글 content validation
                 if(!$.fn.validateReComment(content)) {
-                    alert("내용을 입력해주세요.")
+                    alert("댓글 내용을 입력해주세요.")
                     return;
                 }
                 $.ajax({
                     type: "post",
                     url: "/api/recomment/post",
                     data: {"recomment": $("#reComment_content").val(),
-                            "comment_id": comment_id,
+                            "parentComment_id": comment_id,
                             "board_id": board_id
                             },
                     success: function (data) {
                             console.log("data = "+data);
-                            alert("success");
+                            alert("댓글 등록이 완료되었습니다.");
+                            location.reload();
                     },
                     error: function (request, status, error) {
                         alert("code: " + request.status + "\n" + "error: " + error);

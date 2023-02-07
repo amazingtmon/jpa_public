@@ -72,27 +72,55 @@ textarea {
       <h5>comment</h5>
       <div class="container">
         <th:block th:each="item : ${showBoardForm.commentForms}">
-          <div class="card mb-2">
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  <div class="form-inline mb-2">
-                    <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
-                    <input type="hidden" th:id="comment_id" th:value="${item.comment_id}"/>
-                    <span th:text="${item.name}" class="ml-4"></span>
-                    <span th:text="${item.write_date} ? |작성시간 : ${#temporals.format(item.write_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
-                  </div>
-                  <p th:text="${item.comment_content}" class="form-control"></p>
-                  <div class="form-inline mb-2">
-                    <button type="button" class="addComment btn btn-dark">답글</button>
-                    <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMemberName}"
-                            type="button" class="deleteComment btn btn-primary ml-2">삭제</button>
-                  </div>
-                </li>
-              </ul>
+          <div th:with="parentComment_id = ${item.comment_id}">
+            <!-- parent 댓글 section -->
+            <div th:if="${item.deep} == 0 and ${item.isRemoved} != true" class="card mb-2 bg-transparent border-secondary">
+              <div class="card-body border-secondary">
+                <span th:text="${parentComment_id}"></span>
+                <span th:text="|item.deep ${item.deep}|"></span>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <div class="form-inline mb-2">
+                      <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
+                      <input type="hidden" th:id="comment_id" th:value="${item.comment_id}"/>
+                      <span th:text="${item.name}" class="ml-4"></span>
+                      <span th:text="${item.write_date} ? |작성시간 : ${#temporals.format(item.write_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
+                    </div>
+                    <p th:text="${item.comment_content}" class="form-control"></p>
+                    <div class="form-inline mb-2">
+                      <button type="button" class="addComment btn btn-dark">답글</button>
+                      <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMemberName}"
+                              type="button" class="updateComment btn btn-primary ml-2">수정</button>
+                      <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMemberName}"
+                              type="button" class="deleteComment btn btn-danger ml-2">삭제</button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <!-- 대댓글 등록하는 body 생성 section -->
+              <div id="reComment_body"></div>
+              <!-- child 댓글 리스트 보여주는 section -->
+              <div th:each="child : ${item.child}" th:if="${item.isRemoved} != true" class="card mb-2 ml-5 border-primary">
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <div class="form-inline mb-2">
+                        <input type="hidden" th:id="childComment_id" th:value="${child.comment_id}"/>
+                        <span th:text="${child.name}" class="ml-4"></span>
+                        <span th:text="${child.write_date} ? |작성시간 : ${#temporals.format(child.write_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
+                      </div>
+                      <p th:text="${child.comment_content}" class="form-control"></p>
+                      <div class="form-inline mb-2">
+                        <button th:if="${child.name} == ${showBoardForm.session_loginMemberName}"
+                                type="button" class="updateChildComment btn btn-primary ml-2">수정</button>
+                        <button th:if="${child.name} == ${showBoardForm.session_loginMemberName}"
+                                type="button" class="deleteChildComment btn btn-danger ml-2">삭제</button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <!-- 대댓글 section-->
-            <div id="reComment_body"></div>
           </div>
         </th:block>
       </div>

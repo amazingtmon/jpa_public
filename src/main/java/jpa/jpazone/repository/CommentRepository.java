@@ -20,6 +20,12 @@ public class CommentRepository {
         em.persist(comment);
     }
 
+    public Comment findComment(Long comment_id){
+        log.info("[[ findComment ]]");
+
+        return em.find(Comment.class, comment_id);
+    }
+
     /**
      * 선택한 게시판 id로 해당게시판 댓글들 모두 가져오기
      * 테스트 결과 org.hibernate.QueryException: could not resolve property:

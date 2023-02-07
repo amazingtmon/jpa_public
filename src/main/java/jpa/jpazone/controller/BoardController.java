@@ -136,7 +136,6 @@ public class BoardController {
         //board_id로 comment들 가져오기
         //List<Comment> comments = commentService.findAllCommentByBoardId(id);
 
-
         ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
                 board.getId(), board.getTitle(), board.getWriter(),
                 board.getContent(), board.getComments(), loginMember.getName());

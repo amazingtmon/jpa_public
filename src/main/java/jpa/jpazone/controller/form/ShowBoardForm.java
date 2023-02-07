@@ -26,7 +26,7 @@ public class ShowBoardForm {
     private String content; //내용
 
     private String comment_content;
-    private List<ShowCommentForm> commentForms;
+    private List<ShowCommentDto> commentForms;
 
     public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content, List<Comment> comments, String session_loginMember){
         ShowBoardForm showBoardForm = new ShowBoardForm();
@@ -34,10 +34,10 @@ public class ShowBoardForm {
         showBoardForm.setTitle(title);
         showBoardForm.setName(name);
         showBoardForm.setContent(content);
-        //new ShowCommentForm(m.getId(), m.getWriter(), m.getComment_content(), m.getWrite_date(), m.getUpdate_date())
+        //new ShowCommentDto(m.getId(), m.getWriter(), m.getComment_content(), m.getWrite_date(), m.getUpdate_date())
         showBoardForm.commentForms =
-                comments.stream().map(m -> new ShowCommentForm(m.getId(), m.getWriter(), m.getComment_content(), m.getWrite_date(), m.getUpdate_date()))
-                .collect(Collectors.toList());
+                comments.stream().map(ShowCommentDto::new)
+                                .collect(Collectors.toList());
         showBoardForm.setSession_loginMemberName(session_loginMember);
 
         return showBoardForm;
