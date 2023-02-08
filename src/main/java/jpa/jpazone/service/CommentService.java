@@ -64,6 +64,15 @@ public class CommentService {
         return newRecomment.getId();
     }
 
+    @Transactional
+    public void updateComment(Long comment_id, String comment_content) {
+        log.info("[[ Service - updateComment ]]");
+        //Comment 엔티티
+        Comment comment = commentRepository.findComment(comment_id);
+        //comment_content 내용 수정
+        comment.change(comment_content, LocalDateTime.now());
+    }
+
     /**
      * 게시판 id로 해당 게시판의 댓글들을 모두 가져오려고 만든 메소드이나
      * 현재로썬 확인 불가능한 exception 발생으로 다른방법을 사용하여 댓글 가져오는 것으로 처리.

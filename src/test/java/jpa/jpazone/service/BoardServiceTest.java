@@ -63,14 +63,14 @@ public class BoardServiceTest {
 //                board.getId(), board.getTitle(), board.getWriter(),
 //                board.getContent(), board.getComments(), loginMember.getName());
 //
-//        System.out.println("== get comments == "+showBoardForm.getCommentForms().size());
-//        List<ShowCommentDto> commentForms = showBoardForm.getCommentForms();
+//        System.out.println("== get comments == "+showBoardForm.getcommentDto().size());
+//        List<ShowCommentDto> commentDto = showBoardForm.getcommentDto();
 //        System.out.println("== getComment_content == "
-//                +showBoardForm.getCommentForms().get(0).getComment_id()+", "
-//                +showBoardForm.getCommentForms().get(0).getComment_content()+", "
-//                +showBoardForm.getCommentForms().get(0).getName()+", "
-//                +showBoardForm.getCommentForms().get(0).getWrite_date()+", "
-//                +showBoardForm.getCommentForms().get(0).getUpdate_date()
+//                +showBoardForm.getcommentDto().get(0).getComment_id()+", "
+//                +showBoardForm.getcommentDto().get(0).getComment_content()+", "
+//                +showBoardForm.getcommentDto().get(0).getName()+", "
+//                +showBoardForm.getcommentDto().get(0).getWrite_date()+", "
+//                +showBoardForm.getcommentDto().get(0).getUpdate_date()
 //        );
 //        // then
 //    }

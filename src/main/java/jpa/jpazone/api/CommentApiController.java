@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -40,6 +37,16 @@ public class CommentApiController {
         public RecommentDto(Long recomment_id) {
             this.recomment_id = recomment_id;
         }
+    }
+
+    @PutMapping("/api/comment")
+    public String updateComment(@RequestParam("comment_id")Long comment_id,
+                                @RequestParam("comment_content")String comment_content){
+        log.info("[[ RestController - updateComment ]]");
+
+        commentService.updateComment(comment_id, comment_content);
+
+        return "ok";
     }
 
 }

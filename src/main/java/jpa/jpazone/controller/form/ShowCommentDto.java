@@ -16,7 +16,7 @@ public class ShowCommentDto {
     private String name;
     private String comment_content;
     private LocalDateTime write_date; //댓글작성시간
-    private LocalDateTime update_date; //댓글작성시간
+    private LocalDateTime update_date; //댓글수정시간
     private Long parentComment_id; //부모 comment id
     private int deep; //댓글과 대댓글 계층을 표현하기 위한 필드값
     private boolean isRemoved; //댓글 삭제 여부

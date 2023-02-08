@@ -28,8 +28,6 @@ public class CommentController {
                           @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member member,
                           RedirectAttributes redirectAttributes){
         log.info("[[ comment ]]");
-        log.info("get model = {}", comment.getComment_content());
-        log.info("get member name, id = {} {}", member.getName(), member.getId());
 
         /*
             comment_content 내용이 없을때 발생하는 예외 NPE 처리.

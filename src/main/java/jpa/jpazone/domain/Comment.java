@@ -90,5 +90,8 @@ public class Comment {
     }
 
 
-
+    public void change(String comment_content, LocalDateTime update_date) {
+        this.comment_content = comment_content;
+        this.update_date = update_date;
+    }
 }

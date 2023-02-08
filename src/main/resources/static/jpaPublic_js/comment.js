@@ -24,6 +24,7 @@ $(function () {
         }
     };
 
+    /* 댓글등록 function */
     $('.addComment').each(function(index){
         $(this).on('click', function(e){
             let rc_body = $(this).offsetParent().offsetParent().find("#reComment_body");
@@ -59,7 +60,7 @@ $(function () {
             $(document).on('click','#reComment_register', function(e){
                 e.stopImmediatePropagation();
                 let board_id = $(this).offsetParent().find("#board_id").val();
-                let comment_id = $(this).offsetParent().find("#comment_id").val();
+                let comment_id = $(this).offsetParent().find(".comment_id").val();
                 let content = $("#reComment_content").val();
                 //대댓글 content validation
                 if(!$.fn.validateReComment(content)) {
@@ -83,7 +84,65 @@ $(function () {
                     }
                 });// end of ajax
             });// end of reComment_register
-        });
+        });// end click function
     });// end of addComment function
+
+    /* 댓글수정 function */
+    $('.updateComment').each(function(index){
+        $(this).on('click', function(e){
+            console.log('updateComment');
+            let comment_id = $(this).offsetParent().find(".comment_id").val();
+            let comment_content = $(this).offsetParent().find(".comment_content").val();
+            let jsonData = {
+                            "comment_id": comment_id,
+                            "comment_content": comment_content
+                           };
+            console.log(comment_id);
+            console.log(comment_content);
+            console.log(jsonData);
+            $.ajax({
+                type: "put",
+                url: "/api/comment",
+                data: jsonData,
+                success: function(data){
+                    console.log("data = "+data);
+                    alert("수정이 완료됐습니다.");
+                    location.reload();
+                },
+                error: function (request, status, error) {
+                    alert("code: " + request.status + "\n" + "error: " + error);
+                }
+            });// end of ajax
+        });// end click function
+    });// end of updateComment function
+
+    /* 대댓글수정 function */
+    $('.updateChildComment').each(function(index){
+        $(this).on('click', function(e){
+            console.log('updateChildComment');
+            let comment_id = $(this).offsetParent().find(".childComment_id").val();
+            let comment_content = $(this).offsetParent().find(".comment_content").val();
+            let jsonData = {
+                            "comment_id": comment_id,
+                            "comment_content": comment_content
+                           };
+            console.log(comment_id);
+            console.log(comment_content);
+            console.log(jsonData);
+            $.ajax({
+                type: "put",
+                url: "/api/comment",
+                data: jsonData,
+                success: function(data){
+                    console.log("data = "+data);
+                    alert("수정이 완료됐습니다.");
+                    location.reload();
+                },
+                error: function (request, status, error) {
+                    alert("code: " + request.status + "\n" + "error: " + error);
+                }
+            });// end of ajax
+        });// end click function
+    });// end of updateChildComment function
 
 }); // end jquery
