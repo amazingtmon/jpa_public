@@ -93,13 +93,13 @@ $(function () {
             console.log('updateComment');
             let comment_id = $(this).offsetParent().find(".comment_id").val();
             let comment_content = $(this).offsetParent().find(".comment_content").val();
+            console.log(`comment_id: ${comment_id}, comment_content: ${comment_content}`);
+            let result = confirm("댓글을 수정하시겠습니까?");
+            if(!result) return;
             let jsonData = {
                             "comment_id": comment_id,
                             "comment_content": comment_content
                            };
-            console.log(comment_id);
-            console.log(comment_content);
-            console.log(jsonData);
             $.ajax({
                 type: "put",
                 url: "/api/comment",
@@ -116,33 +116,26 @@ $(function () {
         });// end click function
     });// end of updateComment function
 
-    /* 대댓글수정 function */
-    $('.updateChildComment').each(function(index){
-        $(this).on('click', function(e){
-            console.log('updateChildComment');
-            let comment_id = $(this).offsetParent().find(".childComment_id").val();
-            let comment_content = $(this).offsetParent().find(".comment_content").val();
-            let jsonData = {
-                            "comment_id": comment_id,
-                            "comment_content": comment_content
-                           };
-            console.log(comment_id);
-            console.log(comment_content);
-            console.log(jsonData);
-            $.ajax({
-                type: "put",
-                url: "/api/comment",
-                data: jsonData,
-                success: function(data){
-                    console.log("data = "+data);
-                    alert("수정이 완료됐습니다.");
-                    location.reload();
-                },
-                error: function (request, status, error) {
-                    alert("code: " + request.status + "\n" + "error: " + error);
-                }
-            });// end of ajax
-        });// end click function
-    });// end of updateChildComment function
+    /* 댓글삭제 function */
+    deleteComment = function (comment_id){
+        let delete_confirm = confirm("해당 댓글을 삭제하시겠습니까?");
+        if(!delete_confirm) return;
+        let jsonData = {
+            "comment_id": comment_id
+        };
+        $.ajax({
+            type: "delete",
+            url: "/api/comment",
+            data: jsonData,
+            success: function(data){
+                console.log("data = "+data);
+                alert("삭제되었습니다.");
+                location.reload();
+            },
+            error: function (request, status, error) {
+                alert("code: " + request.status + "\n" + "error: " + error);
+            }
+        });//end of ajax
+    };// end of deleteComment function
 
 }); // end jquery

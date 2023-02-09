@@ -49,4 +49,13 @@ public class CommentApiController {
         return "ok";
     }
 
+    @DeleteMapping("/api/comment")
+    public String deleteComment(@RequestParam("comment_id")Long comment_id){
+        log.info("[[ RestController - deleteComment ]]");
+
+        commentService.deleteComment(comment_id);
+
+        return "ok";
+    }
+
 }

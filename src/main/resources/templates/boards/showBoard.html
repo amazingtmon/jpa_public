@@ -16,6 +16,12 @@
 textarea {
   resize: none;
 }
+
+.writer_name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  font-style: italic;
+}
 </style>
 <script th:inline="javascript">
   $(function () {
@@ -83,7 +89,7 @@ textarea {
                     <div class="form-inline mb-2">
                       <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
                       <input type="hidden" th:value="${item.comment_id}" class="comment_id"/>
-                      <span th:text="${item.name}" class="ml-4"></span>
+                      <span th:text="${item.name}" class="writer_name ml-4"></span>
                       <span th:text="${item.write_date} ? |작성시간 : ${#temporals.format(item.write_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
                       <span th:text="${item.update_date} ? |수정시간 : ${#temporals.format(item.update_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
                     </div>
@@ -94,6 +100,7 @@ textarea {
                       <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMemberName}"
                               type="button" class="updateComment btn btn-primary ml-2">수정</button>
                       <button th:if="${showBoardForm.name} == ${showBoardForm.session_loginMemberName}"
+                              th:comment_id="${item.comment_id}" th:onclick="deleteComment(this.getAttribute('comment_id'))"
                               type="button" class="deleteComment btn btn-danger ml-2">삭제</button>
                     </div>
                   </li>
@@ -107,16 +114,17 @@ textarea {
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                       <div class="form-inline mb-2">
-                        <input type="hidden" th:value="${child.comment_id}" class="childComment_id"/>
-                        <span th:text="${child.name}" class="ml-4"></span>
+                        <input type="hidden" th:value="${child.comment_id}" class="comment_id"/>
+                        <span th:text="${child.name}" class="writer_name ml-4"></span>
                         <span th:text="${child.write_date} ? |작성시간 : ${#temporals.format(child.write_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
                         <span th:text="${child.update_date} ? |수정시간 : ${#temporals.format(child.update_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
                       </div>
                       <textarea th:text="${child.comment_content}" class="comment_content form-control"
                                 th:attr="readonly = ${showBoardForm.name} != ${showBoardForm.session_loginMemberName}"></textarea>
                       <div th:if="${child.name} == ${showBoardForm.session_loginMemberName}" class="form-inline mb-2">
-                        <button type="button" class="updateChildComment btn btn-primary ml-2">수정</button>
-                        <button type="button" class="deleteChildComment btn btn-danger ml-2">삭제</button>
+                        <button type="button" class="updateComment btn btn-primary ml-2">수정</button>
+                        <button type="button" th:comment_id="${child.comment_id}" th:onclick="deleteComment(this.getAttribute('comment_id'))"
+                                class="deleteChildComment btn btn-danger ml-2">삭제</button>
                       </div>
                     </li>
                   </ul>

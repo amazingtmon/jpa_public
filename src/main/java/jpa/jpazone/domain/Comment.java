@@ -94,4 +94,20 @@ public class Comment {
         this.comment_content = comment_content;
         this.update_date = update_date;
     }
+
+    public void delete(Comment comment) {
+        comment.setRemoved(true);
+        //Comment 엔티티의 child Comment(대댓글) 존재 여부 확인
+        int childList_size = comment.getChildList().size();
+        //child Comment가 존재할 경우 child Comment 들도 isRemoved 필드의 값 변경
+        if( childList_size > 0){
+            List<Comment> childList = comment.getChildList();
+            for(Comment child : childList){
+                Long id = child.getId();
+                String content = child.getComment_content();
+                // 모든 child Comment 엔티티 isRemoved 필드의 값을 true로 변경
+                child.setRemoved(true);
+            }
+        }
+    }
 }
