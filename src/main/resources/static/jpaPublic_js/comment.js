@@ -59,28 +59,33 @@ $(function () {
             //답글 등록
             $(document).on('click','#reComment_register', function(e){
                 e.stopImmediatePropagation();
-                let board_id = $(this).offsetParent().find("#board_id").val();
-                let comment_id = $(this).offsetParent().find(".comment_id").val();
                 let content = $("#reComment_content").val();
+                let comment_id = $(this).offsetParent().find(".comment_id").val();
+                let board_id = $(this).offsetParent().find("#board_id").val();
+
                 //대댓글 content validation
                 if(!$.fn.validateReComment(content)) {
                     alert("댓글 내용을 입력해주세요.")
                     return;
                 }
+                let result = confirm("댓글을 등록하시겠습니까?");
+                if(!result) return;
+                let jsonData = {
+                    "recomment" : content,
+                    "parentComment_id": comment_id,
+                    "board_id": board_id
+                };
                 $.ajax({
                     type: "post",
                     url: "/api/recomment/post",
-                    data: {"recomment": $("#reComment_content").val(),
-                            "parentComment_id": comment_id,
-                            "board_id": board_id
-                            },
+                    data: jsonData,
                     success: function (data) {
                             console.log("data = "+data);
                             alert("댓글 등록이 완료되었습니다.");
                             location.reload();
                     },
                     error: function (request, status, error) {
-                        alert("code: " + request.status + "\n" + "error: " + error);
+                        alert("code: " + request.status + "\n" + "error: " + request.responseText);
                     }
                 });// end of ajax
             });// end of reComment_register
@@ -110,7 +115,7 @@ $(function () {
                     location.reload();
                 },
                 error: function (request, status, error) {
-                    alert("code: " + request.status + "\n" + "error: " + error);
+                    alert("code: " + request.status + "\n" + "error: " + request.responseText);
                 }
             });// end of ajax
         });// end click function
@@ -133,7 +138,7 @@ $(function () {
                 location.reload();
             },
             error: function (request, status, error) {
-                alert("code: " + request.status + "\n" + "error: " + error);
+                alert("code: " + request.status + "\n" + "error: " + request.responseText);
             }
         });//end of ajax
     };// end of deleteComment function

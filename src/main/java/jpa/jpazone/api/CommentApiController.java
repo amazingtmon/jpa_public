@@ -1,5 +1,6 @@
 package jpa.jpazone.api;
 
+import jpa.jpazone.api.dto.ReCommentRequestDto;
 import jpa.jpazone.controller.SessionConstants;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.CommentService;
@@ -8,7 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -18,14 +22,20 @@ public class CommentApiController {
     public final CommentService commentService;
 
     @PostMapping("/api/recomment/post")
-    public ResponseEntity<Object> recomment(@RequestParam("recomment")String recomment,
-                                    @RequestParam("parentComment_id")Long parentComment_id,
-                                    @RequestParam("board_id")Long board_id,
-                                    @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member member
-                            ){
+    public ResponseEntity<Object> recomment(@RequestBody @Valid ReCommentRequestDto reCommentRequestDto,
+                                            BindingResult result,
+                                            @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member member
+    ){
         log.info("[[ RestController - recomment ]]");
 
-        Long recomment_id = commentService.saveRecomment(recomment, parentComment_id, board_id, member);
+        if(result.hasErrors()){
+            return new ResponseEntity<>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
+        }
+
+        Long recomment_id = commentService.saveRecomment(reCommentRequestDto.getRecomment(),
+                                                        reCommentRequestDto.getParentComment_id(),
+                                                        reCommentRequestDto.getBoard_id(),
+                                                        member);
         log.info("recomment_id => {}", recomment_id);
 
         return new ResponseEntity<>(new RecommentDto(recomment_id), HttpStatus.OK);

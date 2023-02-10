@@ -6,18 +6,17 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice("jpa.jpazone.controller")
 public class CommonExceptionAdvice {
-
     /**
      * Exception 관련 page
      * @param model
      * @param e
-     * @return
+     * @return view error page
      */
     @ExceptionHandler(Exception.class)
     public String exceptionHandler(Model model, Exception e){
-        log.info("exception message = {}", e.getMessage());
+        log.info("Controller exception message = {}", e.getMessage());
         model.addAttribute("exception", e);
 
         return "error/exception";
