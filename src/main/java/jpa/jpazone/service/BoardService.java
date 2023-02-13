@@ -5,6 +5,7 @@ import jpa.jpazone.domain.Board;
 import jpa.jpazone.domain.BoardStatus;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.repository.BoardRepository;
+import jpa.jpazone.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -21,13 +23,15 @@ import java.util.stream.Collectors;
 public class BoardService {
 
     private final BoardRepository boardRepository;
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public Long newBoard(BoardForm boardForm){
         log.info("[[ Service - newBoard ]]");
         //Member 엔티티조회
-        Member member = memberService.findMemberByName(boardForm.getName());
+        List<Member> memberByName = memberRepository.findMemberByName(boardForm.getName());
+        Optional<Member> optionalMember = memberByName.stream().filter(m -> m.getName().equals(boardForm.getName())).findFirst();
+        Member member = optionalMember.orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
 
         //게시판생성
         Board board = new Board(member, boardForm.getTitle(), boardForm.getName(), LocalDateTime.now(), boardForm.getContent());

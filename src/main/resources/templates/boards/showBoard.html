@@ -7,6 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/comment.js}"></script>
+<script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/bookmark.js}"></script>
 <style>
 .errorText {
     color: #dc3545;
@@ -68,6 +69,16 @@ textarea {
           <button type="submit" class="btn btn-primary waves-effect waves-light">수정 하기</button>
           <button type="button" class="btn btn-danger waves-effect waves-light"
                   th:onclick="|location.href='@{/board/status(post=${showBoardForm.board_id})}'|">삭제 하기</button>
+        </div>
+        <div class="ml-1" th:text="${showBoardForm.isBookMarked}">
+          <button type="button" class="btn btn-warning waves-effect waves-light"
+                  th:if="${showBoardForm.isBookMarked == false}"
+                  th:session_member="${showBoardForm.session_loginMemberName}" th:board_id="${showBoardForm.board_id}"
+                  th:onclick="bookmark(this.getAttribute('session_member'), this.getAttribute('board_id'))">북마크</button>
+          <button type="button" class="btn btn-secondary waves-effect waves-light"
+                  th:if="${showBoardForm.isBookMarked == true}"
+                  th:session_member="${showBoardForm.session_loginMemberName}" th:board_id="${showBoardForm.board_id}"
+                  th:onclick="bookmark_cancel(this.getAttribute('session_member'), this.getAttribute('board_id'))">북마크 해제</button>
         </div>
       </div>
     </form>

@@ -26,9 +26,15 @@ public class MemberService {
             DB에 없는 member를 입력할 경우 IndexOutOfBoundsException 이 일어난다.
             members의 size를 체크한후 size가 1보다 작은경우 회원가입 페이지로 이동시켜
             회원가입을 할 수 있도록 해보자.
+            ===================================================================
+            2023-02-13 stream 을 활용하여 member 엔티티 확인.
          */
-        Long id = members.get(0).getId();
-        Member member = memberRepository.findOne(id);
+//        Long id = members.get(0).getId();
+//        Member member = memberRepository.findOne(id);
+        Member member = members.stream().filter(m -> m.getName().equals(username))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
+
         return member;
     }
 

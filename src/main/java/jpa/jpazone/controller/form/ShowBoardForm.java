@@ -26,9 +26,11 @@ public class ShowBoardForm {
     private String content; //내용
 
     private String comment_content;
+    private boolean isBookMarked;
     private List<ShowCommentDto> commentDto;
 
-    public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content, List<Comment> comments, String session_loginMember){
+    public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content,
+                                             List<Comment> comments, String session_loginMember, boolean bookMarked){
         ShowBoardForm showBoardForm = new ShowBoardForm();
         showBoardForm.setBoard_id(boardId);
         showBoardForm.setTitle(title);
@@ -39,6 +41,7 @@ public class ShowBoardForm {
                 comments.stream().map(ShowCommentDto::new)
                                 .collect(Collectors.toList());
         showBoardForm.setSession_loginMemberName(session_loginMember);
+        showBoardForm.setBookMarked(bookMarked);
 
         return showBoardForm;
     }

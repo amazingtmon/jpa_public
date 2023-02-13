@@ -70,15 +70,16 @@ $(function () {
                 }
                 let result = confirm("댓글을 등록하시겠습니까?");
                 if(!result) return;
-                let jsonData = {
+                let jsonData = JSON.stringify({
                     "recomment" : content,
                     "parentComment_id": comment_id,
                     "board_id": board_id
-                };
+                });
                 $.ajax({
                     type: "post",
                     url: "/api/recomment/post",
                     data: jsonData,
+                    contentType: 'application/json',
                     success: function (data) {
                             console.log("data = "+data);
                             alert("댓글 등록이 완료되었습니다.");
@@ -101,14 +102,15 @@ $(function () {
             console.log(`comment_id: ${comment_id}, comment_content: ${comment_content}`);
             let result = confirm("댓글을 수정하시겠습니까?");
             if(!result) return;
-            let jsonData = {
+            let jsonData = JSON.stringify({
                             "comment_id": comment_id,
                             "comment_content": comment_content
-                           };
+                           });
             $.ajax({
                 type: "put",
                 url: "/api/comment",
                 data: jsonData,
+                contentType: 'application/json',
                 success: function(data){
                     console.log("data = "+data);
                     alert("수정이 완료됐습니다.");
@@ -125,13 +127,14 @@ $(function () {
     deleteComment = function (comment_id){
         let delete_confirm = confirm("해당 댓글을 삭제하시겠습니까?");
         if(!delete_confirm) return;
-        let jsonData = {
+        let jsonData = JSON.stringify({
             "comment_id": comment_id
-        };
+        });
         $.ajax({
             type: "delete",
             url: "/api/comment",
             data: jsonData,
+            contentType: 'application/json',
             success: function(data){
                 console.log("data = "+data);
                 alert("삭제되었습니다.");

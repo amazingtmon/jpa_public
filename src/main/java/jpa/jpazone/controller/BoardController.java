@@ -4,8 +4,10 @@ import jpa.jpazone.controller.form.BoardForm;
 import jpa.jpazone.controller.form.BoardListDto;
 import jpa.jpazone.controller.form.ShowBoardForm;
 import jpa.jpazone.domain.Board;
+import jpa.jpazone.domain.Bookmark;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.BoardService;
+import jpa.jpazone.service.BookmarkService;
 import jpa.jpazone.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
+    private final BookmarkService bookmarkService;
 
     /**
      * 게시글 생성 양식으로 이동
@@ -132,13 +135,15 @@ public class BoardController {
 
         //id로 Board 엔티티 가져오기
         Board board = boardService.findBoard(boardId);
+        //Bookmark 엔티티
+        boolean bookmark = bookmarkService.findBookmarkByBoardIdAndMemberId(boardId, loginMember.getId());
 
         //board_id로 comment들 가져오기
         //List<Comment> comments = commentService.findAllCommentByBoardId(id);
 
         ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
                 board.getId(), board.getTitle(), board.getWriter(),
-                board.getContent(), board.getComments(), loginMember.getName());
+                board.getContent(), board.getComments(), loginMember.getName(), bookmark);
 
         model.addAttribute("showBoardForm", showBoardForm);
 
