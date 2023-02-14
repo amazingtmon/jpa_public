@@ -34,12 +34,14 @@ public class CommentRepository {
      * where 절에서 FK와 관련된 엔티티를 한번더 참조해야 한다고 하여 [[ where c.board.board_id ]] 로 수정하여 테스트 해보았으나,
      * 똑같은 Exception 발생.
      * 정확한 원인 확인 불가.
+     * =======================================================================
+     * 2023-02-14 where 절의 문구를 [[ where c.board.id ]] 로 변경하여 해결.
      * @param boardId
      * @return
      */
     public List<Comment> findAllCommentByBoardId(Long boardId) {
         log.info("[[ Repo - findAllComment ]]");
-        return em.createQuery("select c from Comment c where c.board.board_id = :boardId", Comment.class)
+        return em.createQuery("select c from Comment c where c.board.id = :boardId", Comment.class)
                 .setParameter("boardId", boardId)
                 .getResultList();
     }

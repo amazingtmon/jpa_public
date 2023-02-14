@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -133,17 +134,22 @@ public class BoardController {
                          @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
         log.info("boardId = {}", boardId);
 
+        boolean bookMarked = false;
+
         //id로 Board 엔티티 가져오기
         Board board = boardService.findBoard(boardId);
         //Bookmark 엔티티
-        boolean bookmark = bookmarkService.findBookmarkByBoardIdAndMemberId(boardId, loginMember.getId());
+        Optional<Bookmark> optionalBookmark = bookmarkService.findBookmarkByBoardIdAndMemberId(boardId, loginMember.getId());
+        if(optionalBookmark.isPresent()){
+            bookMarked = optionalBookmark.get().isBookMarked();
+        }
 
         //board_id로 comment들 가져오기
         //List<Comment> comments = commentService.findAllCommentByBoardId(id);
 
         ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
                 board.getId(), board.getTitle(), board.getWriter(),
-                board.getContent(), board.getComments(), loginMember.getName(), bookmark);
+                board.getContent(), board.getComments(), loginMember.getName(), bookMarked);
 
         model.addAttribute("showBoardForm", showBoardForm);
 

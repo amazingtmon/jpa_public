@@ -45,5 +45,13 @@ public class Bookmark {
         this.bookMarkItem = BookMarkItem.BOARD;
     }
 
+    public void change() {
+        this.isBookMarked = true;
+        this.bookmark_time = LocalDateTime.now();
+    }
 
+    public void cancel() {
+        this.isBookMarked = false;
+        this.bookmark_cancel_time = LocalDateTime.now();
+    }
 }

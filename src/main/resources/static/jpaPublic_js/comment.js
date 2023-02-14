@@ -81,7 +81,6 @@ $(function () {
                     data: jsonData,
                     contentType: 'application/json',
                     success: function (data) {
-                            console.log("data = "+data);
                             alert("댓글 등록이 완료되었습니다.");
                             location.reload();
                     },
@@ -96,10 +95,8 @@ $(function () {
     /* 댓글수정 function */
     $('.updateComment').each(function(index){
         $(this).on('click', function(e){
-            console.log('updateComment');
             let comment_id = $(this).offsetParent().find(".comment_id").val();
             let comment_content = $(this).offsetParent().find(".comment_content").val();
-            console.log(`comment_id: ${comment_id}, comment_content: ${comment_content}`);
             let result = confirm("댓글을 수정하시겠습니까?");
             if(!result) return;
             let jsonData = JSON.stringify({
@@ -112,7 +109,6 @@ $(function () {
                 data: jsonData,
                 contentType: 'application/json',
                 success: function(data){
-                    console.log("data = "+data);
                     alert("수정이 완료됐습니다.");
                     location.reload();
                 },
@@ -136,7 +132,6 @@ $(function () {
             data: jsonData,
             contentType: 'application/json',
             success: function(data){
-                console.log("data = "+data);
                 alert("삭제되었습니다.");
                 location.reload();
             },

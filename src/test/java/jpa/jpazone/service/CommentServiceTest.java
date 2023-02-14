@@ -42,4 +42,17 @@ public class CommentServiceTest {
         // then
         //assertEquals("yang", board.getWriter());
     }
+
+    @Test
+    public void 게시판에달린댓글들찾기() throws Exception {
+        // given
+        Long board_id = 101L;
+
+        // when
+        List<Comment> allComments = commentService.findAllCommentByBoardId(board_id);
+        allComments.stream().forEach(comment -> {
+            System.out.println("comment => "+comment.getComment_content());
+        });
+        // then
+    }
 }

@@ -30,14 +30,24 @@ public class BookmarkService {
         return bookMark.getId();
     }
 
-    public boolean findBookmarkByBoardIdAndMemberId(Long board_id, Long user_id){
+    public Optional<Bookmark> findBookmarkByBoardIdAndMemberId(Long board_id, Long user_id){
         log.info("[[ Service - findBookmarkByBoardIdAndMemberId ]]");
         List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByBoardIdAndMemberId(board_id, user_id);
         Optional<Bookmark> bookmark = bookmarks.stream().filter(bm -> bm.getBookmark_item_id() == board_id)
                 .findFirst();
-        if(bookmark.isPresent() && bookmark.get().isBookMarked()){
-            return true;
-        }
-        return false;
+        return bookmark;
+    }
+
+    @Transactional
+    public void updateBookmark(Bookmark bookmark) {
+        log.info("[[ Service - updateBookmark ]]");
+
+        bookmark.change();
+    }
+
+    @Transactional
+    public void cancelBookmark(Bookmark bookmark) {
+        log.info("[[ Service - cancelBookmark ]]");
+        bookmark.cancel();
     }
 }
