@@ -1,6 +1,7 @@
 package jpa.jpazone.service;
 
 import jpa.jpazone.domain.Board;
+import jpa.jpazone.domain.BookMarkItem;
 import jpa.jpazone.domain.Bookmark;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.repository.BookmarkRepository;
@@ -49,5 +50,10 @@ public class BookmarkService {
     public void cancelBookmark(Bookmark bookmark) {
         log.info("[[ Service - cancelBookmark ]]");
         bookmark.cancel();
+    }
+
+    public List<Bookmark> findAllByMemberAndItem(Long user_id, BookMarkItem bmi_item) {
+        log.info("[[ Service - findAllByMemberAndItem ]]");
+        return bookmarkRepository.findAllByMemberAndItem(user_id, bmi_item);
     }
 }

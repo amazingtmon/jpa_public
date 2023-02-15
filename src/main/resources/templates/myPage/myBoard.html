@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="myBoard" class="myBoard mt-5">
+  <div class="starter-template">
+    <div th:object="${boardDtos}">
+      <span th:text="${boardDtos}">boardDtos</span>
+    </div>
+    <div class="starter-template">
+      <table class="table table-bordered mb-4">
+        <!-- CONTENTS !-->
+        <thead>
+        <tr>
+          <th class="col-auto">번호</th>
+          <th class="col-md-4">게시글 제목</th>
+          <th class="col-md-2">북마크 등록 시간</th>
+          <th class="col-md-3">북마크 취소 시간</th>
+          <th class="col-md-3">북마크 상태</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${boardDtos}">
+          <td th:text="${data.id}"></td>
+          <td><a th:href="'/data/post/'+${data.id}" th:text="${data.title}"></a></td>
+          <td th:text="${data.bookmark_time} ? ${#temporals.format(data.bookmark_time,'yyyy-MM-dd HH:mm')} : ${data.bookmark_time}"></td>
+          <td th:text="${data.bookmark_cancel_time} ? ${#temporals.format(data.bookmark_cancel_time,'yyyy-MM-dd HH:mm')} : not canceled"></td>
+          <td th:text="${data.isBookMarked}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -52,30 +52,4 @@ public class MemberController {
         return "redirect:/login";
     }
 
-    @GetMapping("/member/info")
-    public String myPage(Model model,
-                         @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
-        log.info("[[ myPage ]]");
-
-        MemberInfoForm memberInfoForm = new MemberInfoForm();
-        memberInfoForm.setName(loginMember.getName());
-
-        model.addAttribute("memberInfoForm", memberInfoForm);
-        return "members/myPage";
-    }
-
-    @PostMapping("/member/info")
-    public String myPage(@Valid @ModelAttribute("memberInfoForm")MemberInfoForm memberInfoForm, BindingResult result){
-        log.info("[[ update member info ]]");
-
-        if(result.hasErrors()){
-            log.info("myPage error => {}", result.getFieldError());
-            return "members/myPage";
-        }
-
-        memberService.updateMemberInfo(memberInfoForm.getName(), memberInfoForm.getPassword());
-
-        return "redirect:/mainHome";
-    }
-
 }

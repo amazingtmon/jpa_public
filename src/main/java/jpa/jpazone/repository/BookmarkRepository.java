@@ -1,5 +1,6 @@
 package jpa.jpazone.repository;
 
+import jpa.jpazone.domain.BookMarkItem;
 import jpa.jpazone.domain.Bookmark;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,4 +30,14 @@ public class BookmarkRepository {
                 .getResultList();
     }
 
+    public List<Bookmark> findAllByMemberAndItem(Long user_id, BookMarkItem bmi_item) {
+        log.info("[[ Repo - findAllByMemberAndItem ]]");
+        List resultList = em.createQuery("select bm from Bookmark bm where bm.member.id = : user_id " +
+                        "and bm.bookMarkItem = :bmi_item")
+                .setParameter("user_id", user_id)
+                .setParameter("bmi_item", bmi_item)
+                .getResultList();
+
+        return resultList;
+    }
 }

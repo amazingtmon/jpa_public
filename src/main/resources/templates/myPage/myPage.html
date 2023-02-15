@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<style>
+ .fieldError {
+ border-color: #bd2130;
+ color: #bd2130;
+ }
+
+ .errorText {
+ color: #bd2130;
+ border: none;
+ }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/joinPageHeader :: joinPageHeader"/>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-myInfo-tab" data-toggle="tab" href="#nav-myInfo"
+               role="tab" aria-controls="nav-myInfo" aria-selected="true">My Info</a>
+            <a class="nav-item nav-link" id="nav-myBoard-tab" data-toggle="tab" href="#nav-myBoard"
+               role="tab" aria-controls="nav-myBoard" aria-selected="false">Bookmarked Board</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <!-- myInfo -->
+        <div class="tab-pane fade show active" id="nav-myInfo" role="tabpanel" aria-labelledby="nav-myInfo-tab">
+            <div class="myInfo_div" th:replace="myPage/myInfo :: myInfo"></div>
+        </div>
+        <!-- myBoard -->
+        <div class="tab-pane fade" id="nav-myBoard" role="tabpanel" aria-labelledby="nav-myBoard-tab">
+            <div class="myBoard_div" th:replace="myPage/myBoard :: myBoard"></div>
+        </div>
+    </div>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

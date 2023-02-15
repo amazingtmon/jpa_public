@@ -19,6 +19,12 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    public Member findMemberById(Long id) {
+        log.info("[[ findMemberById ]]");
+
+        return memberRepository.findOne(id);
+    }
+
     public Member findMemberByName(String username){
         log.info("[[ Service - findMemberByName ]]");
         List<Member> members = memberRepository.findMemberByName(username);

@@ -71,4 +71,19 @@ public class BoardRepository {
 
         return Math.toIntExact(result);
     }
+
+    /**
+     * List param 을 in 절 조건에 넣어서 여러개의 data 한번에 select 하기
+     * @param board_id_list
+     * @return
+     */
+    public List findBoardsByBoardIds(List<Long> board_id_list){
+        log.info("[[ Repo - findBoardsByBoardIds ]]");
+
+        List result = em.createQuery("select b from Board b where b.id in :id")
+                .setParameter("id", board_id_list)
+                .getResultList();
+
+        return result;
+    }
 }
