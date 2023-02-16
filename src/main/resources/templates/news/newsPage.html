@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <title>Hello</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<style>
+ .fieldError {
+ border-color: #bd2130;
+ color: #bd2130;
+ }
+
+ .errorText {
+ color: #bd2130;
+ border: none;
+ }
+</style>
+<script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/myPage.js}"></script>
+<body>
+<div class="container" style="max-width: 850px;">
+  <div th:replace="fragments/joinPageHeader :: joinPageHeader"/>
+  <div class="news-container">
+<!--    <span th:text="${articles.size()}"></span>-->
+    <th:block th:each="article : ${articles}">
+      <li th:text="${article}"></li>
+    </th:block>
+  </div>
+  <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

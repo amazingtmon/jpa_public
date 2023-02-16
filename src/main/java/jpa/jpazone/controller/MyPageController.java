@@ -29,7 +29,6 @@ public class MyPageController {
 
     private final MemberService memberService;
     private final BookmarkService bookmarkService;
-    private final BoardService boardService;
 
     @GetMapping("/myPage/info")
     public String myPage(Model model,
@@ -68,7 +67,6 @@ public class MyPageController {
         List<Bookmark> bookMarkedBoards = bookmarkService.findAllByMemberAndItem(member.getId(), BookMarkItem.BOARD);
         //Bookmark 엔티티를 BookMarkedBoardDto 로 변경
         List<BookMarkedBoardDto> boardDtos = bookMarkedBoards.stream().map(BookMarkedBoardDto::new).collect(Collectors.toList());
-        log.info("boardDtos => {}", boardDtos.size());
 
         model.addAttribute("boardDtos", boardDtos);
 

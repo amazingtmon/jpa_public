@@ -16,6 +16,9 @@ configurations {
 
 repositories {
 	mavenCentral()
+
+	// news_API maven
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -24,6 +27,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	//23-02-16 News-API
+	implementation 'com.github.KwabenBerko:News-API-Java:1.0.2'
 
 	//쿼리 파라미터 로그 남기기, 외부 라이브러리 사용
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
