@@ -14,16 +14,69 @@
  color: #bd2130;
  border: none;
  }
+
+ #news-list-body {
+ overflow-y: scroll;
+ max-height: 645px;
+ }
 </style>
-<script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/myPage.js}"></script>
+<script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/newsPage.js}"></script>
 <body>
 <div class="container" style="max-width: 850px;">
   <div th:replace="fragments/joinPageHeader :: joinPageHeader"/>
   <div class="news-container">
-<!--    <span th:text="${articles.size()}"></span>-->
-    <th:block th:each="article : ${articles}">
-      <li th:text="${article}"></li>
-    </th:block>
+    <div class="news-header text-center">
+      <h2>News Content</h2>
+      <input type="hidden" id="session_member_id" th:value="${session_member.id}" />
+    </div>
+    <hr color="gray" style="border-top: 1px solid;">
+    <div id="news-list-body" >
+      <div class="card mb-auto">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="..." class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <div class="card-title">
+                <h5 class="article_title">Card title</h5>
+                <span class="article_author"> 홍길동 에디터 </span>
+              </div>
+              <p class="article_description card-text">
+                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+              </p>
+              <p class="card-text">
+                <small class="article_publishedAt text-muted">2023-02-17T06:19:15Z</small>
+                <button type="button" class="bookmarkArticle btn btn-primary" style="float: right;">Bookmark</button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-auto">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="..." class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <div class="card-title">
+                <h5 class="article_title">Card title 222</h5>
+                <span class="article_author"> 홍길동 에디터 222 </span>
+              </div>
+              <p class="article_description card-text">
+                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+              </p>
+              <p class="card-text">
+                <small class="article_publishedAt text-muted">2023-02-17T06:19:15Z</small>
+                <button type="button" class="bookmarkArticle btn btn-primary" style="float: right;"
+                        th:member_id="${session_member.id}">Bookmark</button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->

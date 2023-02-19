@@ -27,8 +27,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	//23-02-16 News-API
 	implementation 'com.github.KwabenBerko:News-API-Java:1.0.2'
+	//23-02-17 retrofit2.Response 에 @Nullable 어노테이션이 import 가 안되는 것으로 확인되어 추가함
+	testImplementation 'com.google.code.findbugs:jsr305:3.0.2'
+	//23-02-17 https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit
+	implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.7.2'
 
 	//쿼리 파라미터 로그 남기기, 외부 라이브러리 사용
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
