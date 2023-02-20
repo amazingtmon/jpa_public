@@ -27,6 +27,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Bookmark> bookmarks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<News> news = new ArrayList<>();
+
     public void change(String password) {
         this.password = password;
     }

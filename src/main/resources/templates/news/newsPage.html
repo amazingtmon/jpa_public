@@ -26,56 +26,23 @@
   <div th:replace="fragments/joinPageHeader :: joinPageHeader"/>
   <div class="news-container">
     <div class="news-header text-center">
-      <h2>News Content</h2>
       <input type="hidden" id="session_member_id" th:value="${session_member.id}" />
+      <h2 class="mb-3">Top Headline News Contents</h2>
+      <div class="country_buttons">
+        <button type="button" class="btn btn-primary"
+                th:country_code="kr" th:onclick="getTopHeadlinesNews(this.getAttribute('country_code'))">Korea</button>
+        <button type="button" class="btn btn-primary"
+                th:country_code="us" th:onclick="getTopHeadlinesNews(this.getAttribute('country_code'))">US</button>
+        <button type="button" class="btn btn-primary"
+                th:country_code="jp" th:onclick="getTopHeadlinesNews(this.getAttribute('country_code'))">Japan</button>
+      </div>
     </div>
     <hr color="gray" style="border-top: 1px solid;">
-    <div id="news-list-body" >
-      <div class="card mb-auto">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <div class="card-title">
-                <h5 class="article_title">Card title</h5>
-                <span class="article_author"> 홍길동 에디터 </span>
-              </div>
-              <p class="article_description card-text">
-                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-              </p>
-              <p class="card-text">
-                <small class="article_publishedAt text-muted">2023-02-17T06:19:15Z</small>
-                <button type="button" class="bookmarkArticle btn btn-primary" style="float: right;">Bookmark</button>
-              </p>
-            </div>
-          </div>
+    <div id="news-list-body">
+      <div class="card text-center border-primary mt-5 mb-5">
+        <div class="card-body">
+          <h3 class="card-title text-primary">기사를 가져오고 있습니다...</h3>
         </div>
-      </div>
-      <div class="card mb-auto">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <div class="card-title">
-                <h5 class="article_title">Card title 222</h5>
-                <span class="article_author"> 홍길동 에디터 222 </span>
-              </div>
-              <p class="article_description card-text">
-                This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-              </p>
-              <p class="card-text">
-                <small class="article_publishedAt text-muted">2023-02-17T06:19:15Z</small>
-                <button type="button" class="bookmarkArticle btn btn-primary" style="float: right;"
-                        th:member_id="${session_member.id}">Bookmark</button>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div th:replace="fragments/footer :: footer" />

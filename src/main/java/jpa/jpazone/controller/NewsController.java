@@ -17,8 +17,8 @@ public class NewsController {
 
     private final NewsService newsService;
 
-    @GetMapping("/news")
-    public String news(Model model,
+    @GetMapping("/news/topHeadline")
+    public String newsTopHeadline(Model model,
                        @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember){
         log.info("[[ news ]]");
 
