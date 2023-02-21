@@ -26,11 +26,11 @@ public class NewsService {
     }
 
     @Transactional
-    public Long saveArticle(String title, String url, Member member) {
+    public Long saveArticle(String title, String url, String publishedAt, String news_page_path, Member member) {
         log.info("[[ Service - saveArticle ]]");
 
         // News 엔티티 생성
-        News news = new News(title, url, member);
+        News news = new News(title, url, publishedAt, news_page_path, member);
         // News 엔티티 저장
         newsRepository.saveArticle(news);
 

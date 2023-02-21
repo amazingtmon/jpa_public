@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,9 @@ public class NewsApiController {
 
         //Member 엔티티
         Member member = memberService.findMemberById(loginMember.getId());
-        newsService.saveArticle(articleRequestDto.getTitle(), articleRequestDto.getUrl(), member);
+        //News 엔티티 생성 및 저장
+        newsService.saveArticle(articleRequestDto.getTitle(), articleRequestDto.getUrl(),
+                                articleRequestDto.getPublishedAt(), articleRequestDto.getNews_page_path(), member);
 
         return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
     }

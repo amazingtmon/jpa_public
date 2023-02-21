@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<style>
+ .fieldError {
+ border-color: #bd2130;
+ color: #bd2130;
+ }
+
+ .errorText {
+ color: #bd2130;
+ border: none;
+ }
+
+ #searchNews-list-body {
+ overflow-y: scroll;
+ max-height: 645px;
+ }
+
+ .sortBy_cursor{
+ cursor : pointer;
+ }
+
+ .sortBy_display{
+<!-- display : none;-->
+ }
+</style>
+<script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/newsEvery.js}"></script>
+<body>
+<div class="container" style="max-width: 850px;">
+    <div th:replace="fragments/joinPageHeader :: joinPageHeader"/>
+    <div style="text-align: right;">
+        <a href="/news/topHeadline">go to TopHeadline News</a>
+    </div>
+    <div class="news-container">
+        <div class="news-header text-center">
+            <h2 class="mb-5">Get Every News, Do Search !!</h2>
+            <div class="news-searchKeyword-box">
+                <form class="form-inline justify-content-center">
+                    <label class="sr-only" for="searchKeywords">keyWord</label>
+                    <input type="text" class="form-control col-5 mb-2 mr-sm-2" id="searchKeywords"
+                           th:onkeypress="if(event.keyCode==13) {getKeywordNews(null); return false;}"
+                           placeholder="검색어를 입력하세요.">
+                    <button type="button" class="btn btn-primary mb-2"
+                            th:onclick="getKeywordNews(null)">Search</button>
+                </form>
+            </div>
+        </div>
+        <hr color="gray" style="border-top: 1px solid;">
+        <div id="news-sortBy-options" class="sortBy_display">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item sortBy_cursor">
+                        <a th:sortBy_option="relevancy"
+                           th:onclick="|javascript:getKeywordNews(this.getAttribute('sortBy_option'))|">연관성</a>
+                    </li>
+                    <li class="breadcrumb-item sortBy_cursor">
+                        <a th:sortBy_option="popularity"
+                           th:onclick="|javascript:getKeywordNews(this.getAttribute('sortBy_option'))|">인기순</a>
+                    </li>
+                    <li class="breadcrumb-item sortBy_cursor">
+                        <a th:sortBy_option="publishedAt"
+                           th:onclick="|javascript:getKeywordNews(this.getAttribute('sortBy_option'))|">최신순</a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <div id="searchNews-list-body">
+            <!-- News List Section -->
+        </div>
+        <div th:replace="fragments/footer :: footer" />
+    </div>
+</div>
+</body>
+</html>

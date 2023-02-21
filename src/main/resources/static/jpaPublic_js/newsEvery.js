@@ -5,18 +5,35 @@ $(function () {
 
     const NEWS_API_KEY = "4d855597f2e0410fae0c1a86e5ec4e7a";
 
-    getPath = function () {
-        let path = window.location.pathname;
-        let news_page = path.substring(6, path.length);
+    /* sortBy_option 에 따라 다른 NewsApi url return */
+    getNewsApiUrl = function (keyword, sortBy_option){
+        if( sortBy_option != null){
+            return `https://newsapi.org/v2/everything?q=${keyword}&sortBy=${sortBy_option}&apiKey=${NEWS_API_KEY}`;
+        }
+
+        return `https://newsapi.org/v2/everything?q=${keyword}&apiKey=${NEWS_API_KEY}`;
     }
 
-    getTopHeadlinesNews = function (country_code){
-        let country = country_code;
+    /* Search 버튼 및 sortBy option 클릭시 실행 */
+    getKeywordNews = function (sortBy_option){
+        let keyword = $("#searchKeywords").val();
+        if(keyword == ''){
+            alert("검색어를 입력해주세요!!");
+            return;
+        }
+        let search_url = getNewsApiUrl(keyword, sortBy_option);
         $.ajax({
             type: "get",
-            url: `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${NEWS_API_KEY}`,
+            url: search_url,
             success: function (data) {
-                makeTopHeadlineNews(data);
+                console.log("data count =>", data.totalResults);
+                if(data.totalResults == 0){
+                    makeNoDataHtml(keyword);
+                    return;
+                }
+                makeEveryNews(data);
+                //sortBy-options 보여주기
+                $('#news-sortBy-options').removeClass('sortBy_display');
             },
             error: function (request, status, error) {
                 alert("code: " + request.status + "\n" + "error: " + request.responseText);
@@ -42,8 +59,28 @@ $(function () {
         return str.replace(reg,'');
     }
 
-    makeTopHeadlineNews = function (data){
-        let news_list_body = $('#news-list-body');
+    /* 검색 후 관련 기사가 없을 때 */
+    makeNoDataHtml = function (keyword){
+        let news_list_body = $('#searchNews-list-body');
+        news_list_body.html('');
+        let article_html = `
+            <div id="news-list-body">
+              <div class="card text-center border-primary mt-5 mb-5">
+                <div class="card-body">
+                  <span>검색어 </span>
+                  <h3 class="card-title text-primary">\" ${keyword} \"</h3>
+                  <span>기사가 없습니다.</span>
+                </div>
+              </div>
+            </div>
+        `;
+        //article html append
+        news_list_body.append(article_html);
+    }
+
+    /* 검색한 키워드 기사 리스트 */
+    makeEveryNews = function (data){
+        let news_list_body = $('#searchNews-list-body');
         news_list_body.html('');
         let articles = data.articles;
         for(let i = 0; i < articles.length; i++){
@@ -106,7 +143,7 @@ $(function () {
                 publishedAt : article_publishedAt,
                 news_page_path : page_path
             });
-            //console.log(jsonData);
+            console.log(jsonData);
             $.ajax({
                 type: "post",
                 url: "/api/article",
@@ -121,13 +158,6 @@ $(function () {
             });// end of ajax
         });//end of bookmarkArticle click function
 
-    };// end of makeTopHeadlineNews function
-
-    initFunction = function(){
-        let default_country_code = "kr";
-        getTopHeadlinesNews(default_country_code);
-    };
-
-    initFunction();
+    };// end of makeEveryNews function
 
 }); // end jquery

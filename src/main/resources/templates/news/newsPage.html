@@ -24,9 +24,11 @@
 <body>
 <div class="container" style="max-width: 850px;">
   <div th:replace="fragments/joinPageHeader :: joinPageHeader"/>
+  <div style="text-align: right;">
+    <a href="/news/everything">go to Search News</a>
+  </div>
   <div class="news-container">
     <div class="news-header text-center">
-      <input type="hidden" id="session_member_id" th:value="${session_member.id}" />
       <h2 class="mb-3">Top Headline News Contents</h2>
       <div class="country_buttons">
         <button type="button" class="btn btn-primary"
@@ -43,9 +45,10 @@
         <div class="card-body">
           <h3 class="card-title text-primary">기사를 가져오고 있습니다...</h3>
         </div>
+      </div>
     </div>
-  </div>
   <div th:replace="fragments/footer :: footer" />
-</div> <!-- /container -->
+  </div>
+</div>
 </body>
 </html>

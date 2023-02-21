@@ -30,13 +30,15 @@ public class NewsServiceTest {
         // given
         String article_title = "사설 ICBM 이어 초대형방사포로 청주·군산 겨냥한 북  한겨레";
         String article_url = "https://www.hani.co.kr/arti/opinion/editorial/1080481.html";
+        String publishedAt = "2023-01-27 21:30:00";
+        String news_page_path = "everything";
         Long user_id = 1L;
 
         // when
         //Member 엔티티
         Member member = memberService.findMemberById(user_id);
         //News 엔티티 생성
-        News news = new News(article_title, article_url, member);
+        News news = new News(article_title, article_url, publishedAt, news_page_path, member);
         //News 엔티티 save
         newsRepository.saveArticle(news);
         //News 엔티티 find

@@ -21,16 +21,20 @@ public class News {
     private String article_url;
     private LocalDateTime article_regiTime;
     private LocalDateTime article_deleteTime;
+    private String article_publishedAt;
+    private String news_page_path;
     boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Member member;
 
-    public News (String title, String url, Member member) {
+    public News (String title, String url, String publishedAt, String news_page_path, Member member) {
         this.article_title = title;
         this.article_url = url;
         this.article_regiTime = LocalDateTime.now();
+        this.article_publishedAt = publishedAt;
+        this.news_page_path = news_page_path;
         this.isDeleted = false;
         this.setMember(member);
     }
