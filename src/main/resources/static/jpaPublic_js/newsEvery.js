@@ -5,7 +5,16 @@ $(function () {
 
     const NEWS_API_KEY = "4d855597f2e0410fae0c1a86e5ec4e7a";
 
-    /* sortBy_option 에 따라 다른 NewsApi url return */
+    /* sortBy_options - mouseover event */
+    $("li.sortBy_cursor")
+    .mouseover(function(){
+      $(this).css("color", "gray");
+    })
+    .mouseout(function() {
+      $( this ).css("color", "white");
+    });
+
+    /* 선택한 sortBy_option 에 따라, 다른 NewsApi url return */
     getNewsApiUrl = function (keyword, sortBy_option){
         if( sortBy_option != null){
             return `https://newsapi.org/v2/everything?q=${keyword}&sortBy=${sortBy_option}&apiKey=${NEWS_API_KEY}`;

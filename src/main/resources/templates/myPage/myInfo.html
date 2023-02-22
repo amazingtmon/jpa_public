@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="myInfo" class="myInfo mt-5 d-flex justify-content-center">
-  <form role="form" action="/myPage/info" th:object="${memberInfoForm}" method="post" class="col-10">
+  <form role="form" action="/myPage/info" th:object="${memberInfoForm}" method="post" class="col-6">
     <div class="form-group">
       <div th:if="${#fields.hasGlobalErrors()}">
         <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>

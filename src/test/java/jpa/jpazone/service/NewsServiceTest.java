@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,5 +61,41 @@ public class NewsServiceTest {
 
         // then
         assertEquals(true, findArticle.isPresent());
+    }
+
+
+    @Test
+    public void 유저가저장한모든기사들가져오기() throws Exception {
+        // given
+        Long user_id = 1L; //member dummyData
+
+        // when
+        List<News> articlesList = newsRepository.findAllArticles(user_id);
+        System.out.println("allArticles size => "+ articlesList.size());
+        List<News> allArticles = articlesList.stream().filter(a -> !a.isDeleted()).collect(Collectors.toList());
+        allArticles.stream().forEach( a -> {
+            System.out.println("allArticles id => "+a.getId()+", "+a.getArticle_title());
+        });
+
+        // then
+    }
+    
+    @Test
+    public void 선택한옵션에맞는기사리스트() throws Exception {
+        // given
+        String top = "topHeadline";
+        String search = "everything";
+
+        // when
+        //get article List
+        List<News> articlesByPagePath = newsRepository.findArticlesByPagePath(top);
+        //filter that articles are not deleted(== false)
+        List<News> articles = articlesByPagePath.stream().filter(a -> !a.isDeleted()).collect(Collectors.toList());
+        articles.stream().forEach(a -> {
+            System.out.println("article title => "+a.getArticle_title());
+        });
+
+        // then
+
     }
 }

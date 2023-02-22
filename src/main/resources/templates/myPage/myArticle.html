@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/myArticle.js}"></script>
+<div class="myArticle mt-5">
+  <!--  저장된 기사가 한개도 존재하지 않을경우  -->
+  <div th:if="${articleDtos.size() < 1}">
+    <div class="card text-center border-primary mt-5 mb-5">
+      <div class="card-body">
+        <h3 class="card-title text-primary">저장된 기사가 없습니다.</h3>
+      </div>
+      <div class="card-footer text-muted">
+        <button type="button" class="btn btn-primary waves-effect waves-light"
+                th:onclick="|location.href='@{/mainHome}'|">메인홈으로</button>
+      </div>
+    </div>
+  </div>
+  <div th:if="${articleDtos.size() >= 1}" class="starter-template">
+    <div>
+      <div class="selectbox_div">
+        <span class="badge badge-info">select your News</span>
+        <select id="selectbox" class="mb-2" name="selectbox" onchange="chageSelectBox()">
+          <option value="All" selected>All</option>
+          <option value="topHeadline">Top Headline</option>
+          <option value="everything">Search News</option>
+        </select>
+      </div>
+    </div>
+    <table class="table table-bordered mb-4">
+      <!-- CONTENTS !-->
+      <thead>
+      <tr>
+        <th class="col-md-6">기사 제목</th>
+        <th class="col-md-3">기사 발행시간</th>
+        <th class="col-md-3">저장시간</th>
+        <th class="col-md-auto"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="data : ${articleDtos}" th:if="${!data.isDeleted}">
+        <td><a class="article_title_dto" th:href="${data.article_url}" th:text="${data.article_title}" target="_blank"></a></td>
+        <td th:text="${data.article_publishedAt}"></td>
+        <td th:text="${data.article_regiTime} ? ${#temporals.format(data.article_regiTime,'yyyy-MM-dd HH:mm')} : ${data.article_regiTime}"></td>
+        <td>
+          <button class="btn btn-sm btn-danger" th:onclick="deleteArticle('[[${data.id}]]')"/>삭제</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

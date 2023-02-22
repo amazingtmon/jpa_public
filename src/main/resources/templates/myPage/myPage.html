@@ -17,7 +17,7 @@
 </style>
 <script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/myPage.js}"></script>
 <body>
-<div class="container">
+<div class="container" style="max-width: 900px;">
     <div th:replace="fragments/joinPageHeader :: joinPageHeader"/>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -27,6 +27,9 @@
             <a class="nav-item nav-link" id="nav-myBoard-tab" data-toggle="tab" href="#nav-myBoard"
                data-load="false" data-url="/myPage/board"
                role="tab" aria-controls="nav-myBoard" aria-selected="false">Bookmarked Board</a>
+            <a class="nav-item nav-link" id="nav-myArticle-tab" data-toggle="tab" href="#nav-myArticle"
+               data-load="false" data-url="/myPage/article"
+               role="tab" aria-controls="nav-myArticle" aria-selected="false">My Article</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -36,6 +39,8 @@
         </div>
         <!-- myBoard -->
         <div class="tab-pane fade" id="nav-myBoard" role="tabpanel" aria-labelledby="nav-myBoard-tab"></div>
+        <!-- myArticle -->
+        <div class="tab-pane fade" id="nav-myArticle" role="tabpanel" aria-labelledby="nav-myArticle-tab"></div>
     </div>
     <br/>
     <div th:replace="fragments/footer :: footer" />

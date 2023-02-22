@@ -44,4 +44,14 @@ public class NewsService {
         Optional<News> findArticle = article.stream().filter(a -> a.getArticle_url().equals(url)).findAny();
         return findArticle.isPresent();
     }
+
+    public List<News> findAllArticles(Long id) {
+        log.info("[[ Service - findAllArticles ]]");
+        return newsRepository.findAllArticles(id);
+    }
+
+    public List<News> findArticlesByPagePath(String selected_option) {
+        log.info("[[ Service - findArticlesByPagePath ]]");
+        return newsRepository.findArticlesByPagePath(selected_option);
+    }
 }

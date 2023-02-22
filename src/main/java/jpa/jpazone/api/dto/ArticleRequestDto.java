@@ -5,6 +5,7 @@ import lombok.*;
 @Getter @Setter
 public class ArticleRequestDto {
 
+    private Long id;
     private String title;
     private String url;
     private String publishedAt;
