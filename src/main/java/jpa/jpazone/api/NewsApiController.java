@@ -1,5 +1,6 @@
 package jpa.jpazone.api;
 
+import jpa.jpazone.api.dto.ArticleDeleteResponseDto;
 import jpa.jpazone.api.dto.ArticleListResponseDto;
 import jpa.jpazone.api.dto.ArticleRequestDto;
 import jpa.jpazone.controller.SessionConstants;
@@ -44,7 +45,7 @@ public class NewsApiController {
         newsService.saveArticle(articleRequestDto.getTitle(), articleRequestDto.getUrl(),
                                 articleRequestDto.getPublishedAt(), articleRequestDto.getNews_page_path(), member);
 
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("ok", HttpStatus.CREATED);
     }
 
     @GetMapping("/api/article-path")
@@ -59,22 +60,62 @@ public class NewsApiController {
         // ResponseDto 로 변환
         List<ArticleListResponseDto> articleListDto = articles.stream().map(ArticleListResponseDto::new).collect(Collectors.toList());
 
-        return new ResponseEntity<>(new Result(articleListDto.size(), articleListDto), HttpStatus.OK);
+        return new ResponseEntity<>(new Result(articleListDto.size(), false ,articleListDto), HttpStatus.OK);
     }
     
     @PutMapping("/api/article-put")
     public ResponseEntity<Object> deleteArticle(@RequestBody ArticleRequestDto articleRequestDto,
                                                 @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
         log.info("[[ RestController - deleteArticle ]]");
-        log.info("param check => {}, {}", articleRequestDto.getId(), articleRequestDto.getId().getClass());
 
-        return new ResponseEntity<>("ok", HttpStatus.ACCEPTED);
+        // News 의 isDeleted 값을 true로 변경
+        News news = newsService.deleteArticle(articleRequestDto.getId());
+        // ArticleDeleteResponseDto 로 변환
+        ArticleDeleteResponseDto deleteDto = new ArticleDeleteResponseDto(news);
+
+        return new ResponseEntity<>(deleteDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/article-deleted")
+    public ResponseEntity<Object> deletedArticles(@SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
+        log.info("[[ RestController - deletedArticles ]]");
+
+        //삭제된 기사 리스트 가져오기
+        List<News> allDeletedArticles = newsService.findAllDeletedArticles(loginMember.getId());
+        //ArticleListResponseDto 로 변환
+        List<ArticleListResponseDto> deletedArticlesDto = allDeletedArticles.stream().map(ArticleListResponseDto::new).collect(Collectors.toList());
+
+        return new ResponseEntity<>(new Result(deletedArticlesDto.size(), true ,deletedArticlesDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/article-row")
+    public ResponseEntity<Object> deleteArticleEver(@RequestBody ArticleRequestDto articleRequestDto,
+                                                    @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
+        log.info("[[ RestController - deleteArticleEver ]]");
+
+        newsService.deleteArticleEver(articleRequestDto.getId());
+
+        return new ResponseEntity<>("ok", HttpStatus.OK);
+    }
+
+    @PutMapping("/api/article-row")
+    public ResponseEntity<Object> updateArticle(@RequestBody ArticleRequestDto articleRequestDto,
+                                                    @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember){
+        log.info("[[ RestController - updateArticle ]]");
+
+        //isDeleted 값을 false 로 변경하기 위함
+        News news = newsService.updateArticleState(articleRequestDto.getId());
+        // ArticleDeleteResponseDto 로 변환
+        ArticleDeleteResponseDto deleteDto = new ArticleDeleteResponseDto(news);
+
+        return new ResponseEntity<>(deleteDto, HttpStatus.OK);
     }
 
     @Data
     @AllArgsConstructor
     static class Result<T> {
         private int count;
-        private T data;
+        private boolean article_deleted;
+        private T article_data;
     }
 }

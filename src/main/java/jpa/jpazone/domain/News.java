@@ -45,4 +45,12 @@ public class News {
         member.getNews().add(this);
     }
 
+    public void delete() {
+        this.isDeleted = true;
+        this.article_deleteTime = LocalDateTime.now();
+    }
+
+    public void changeDeletedState() {
+        this.isDeleted = false;
+    }
 }

@@ -96,6 +96,51 @@ public class NewsServiceTest {
         });
 
         // then
+    }
 
+    @Test
+    public void 삭제한기사들가져오기() throws Exception {
+        // given
+        Long member_id = 1L;
+
+        // when
+        List<News> allDeletedArticles = newsRepository.findAllDeletedArticles(member_id);
+        System.out.println("allDeletedArticles size => "+ allDeletedArticles.size());
+        allDeletedArticles.stream().forEach(a -> {
+            System.out.println("title => "+a.getArticle_title());
+        });
+
+        // then
+    }
+    
+    @Test
+    public void 뉴스기사데이터영구삭제() throws Exception {
+        // given
+        Long news_id = 4L;
+
+        // when
+        //News 엔티티
+        News news = newsRepository.findNewsById(news_id);
+        System.out.println("news title => "+news.getArticle_title());
+        newsRepository.deleteArticleEver(news);
+        Optional<News> rm_news = Optional.ofNullable(newsRepository.findNewsById(news_id));
+        System.out.println("result => "+rm_news.isEmpty());
+
+        // then
+    }
+    
+    @Test
+    public void 삭제한기사다시리스트로복원() throws Exception {
+        // given
+        Long news_id = 4L;
+
+        // when
+        //News 엔티티
+        News news = newsRepository.findNewsById(news_id);
+        System.out.println("news deleted state => "+news.isDeleted());
+        news.changeDeletedState();
+
+        // then
+        assertEquals(false, news.isDeleted());
     }
 }

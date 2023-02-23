@@ -54,4 +54,43 @@ public class NewsService {
         log.info("[[ Service - findArticlesByPagePath ]]");
         return newsRepository.findArticlesByPagePath(selected_option);
     }
+
+    @Transactional
+    public News deleteArticle(Long id) {
+        log.info("[[ Service - deleteArticle ]]");
+
+        //News 엔티티
+        News news = newsRepository.findNewsById(id);
+        // isDeleted 값을 true 로 변경
+        news.delete();
+
+        return news;
+    }
+
+    public List<News> findAllDeletedArticles(Long member_id) {
+        log.info("[[ Service - findAllDeletedArticles ]]");
+        return newsRepository.findAllDeletedArticles(member_id);
+    }
+
+    @Transactional
+    public void deleteArticleEver(Long id) {
+        log.info("[[ Service - deleteArticleEver ]]");
+
+        //News 엔티티
+        News news = newsRepository.findNewsById(id);
+
+        newsRepository.deleteArticleEver(news);
+    }
+
+    @Transactional
+    public News updateArticleState(Long id) {
+        log.info("[[ Service - updateArticleState ]]");
+
+        //News 엔티티
+        News news = newsRepository.findNewsById(id);
+        //isDeleted 값을 false 로 변경
+        news.changeDeletedState();
+
+        return news;
+    }
 }

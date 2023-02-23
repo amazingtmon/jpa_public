@@ -1,5 +1,6 @@
 package jpa.jpazone.repository;
 
+import jpa.jpazone.domain.Member;
 import jpa.jpazone.domain.News;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,5 +48,19 @@ public class NewsRepository {
         return em.createQuery("select n from News n where n.news_page_path = :selected_option",  News.class)
                 .setParameter("selected_option", selected_option)
                 .getResultList();
+    }
+
+    public List<News> findAllDeletedArticles(Long member_id) {
+        log.info("[[ Repo - findAllDeletedArticles ]]");
+
+        return em.createQuery("select n from News n where n.isDeleted = true and n.member.id = :member_id", News.class)
+                .setParameter("member_id", member_id)
+                .getResultList();
+    }
+
+    public void deleteArticleEver(News news) {
+        log.info("[[ Repo - deleteArticleEver ]]");
+
+        em.remove(news);
     }
 }

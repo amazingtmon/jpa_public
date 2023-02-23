@@ -15,7 +15,7 @@
     </div>
   </div>
   <div th:if="${articleDtos.size() >= 1}" class="starter-template">
-    <div>
+    <div class="d-flex justify-content-between mb-2">
       <div class="selectbox_div">
         <span class="badge badge-info">select your News</span>
         <select id="selectbox" class="mb-2" name="selectbox" onchange="chageSelectBox()">
@@ -24,14 +24,18 @@
           <option value="everything">Search News</option>
         </select>
       </div>
+      <div class="deleted_articles_div">
+        <button class="deleted_articles btn btn-sm btn-secondary" type="button"
+                th:onclick="getDeletedArticles()">삭제한 기사들</button>
+      </div>
     </div>
     <table class="table table-bordered mb-4">
       <!-- CONTENTS !-->
-      <thead>
+      <thead class="text-center">
       <tr>
         <th class="col-md-6">기사 제목</th>
         <th class="col-md-3">기사 발행시간</th>
-        <th class="col-md-3">저장시간</th>
+        <th class="article_time col-md-3">저장시간</th>
         <th class="col-md-auto"></th>
       </tr>
       </thead>
@@ -39,9 +43,9 @@
       <tr th:each="data : ${articleDtos}" th:if="${!data.isDeleted}">
         <td><a class="article_title_dto" th:href="${data.article_url}" th:text="${data.article_title}" target="_blank"></a></td>
         <td th:text="${data.article_publishedAt}"></td>
-        <td th:text="${data.article_regiTime} ? ${#temporals.format(data.article_regiTime,'yyyy-MM-dd HH:mm')} : ${data.article_regiTime}"></td>
+        <td th:text="${data.article_regiTime} ? ${#temporals.format(data.article_regiTime,'yyyy-MM-dd HH:mm:ss')} : ${data.article_regiTime}"></td>
         <td>
-          <button class="btn btn-sm btn-danger" th:onclick="deleteArticle('[[${data.id}]]')"/>삭제</button>
+          <button class="btn btn-sm btn-danger" th:onclick="deleteArticle('[[${data.id}]]')"/>remove</button>
         </td>
       </tr>
       </tbody>
