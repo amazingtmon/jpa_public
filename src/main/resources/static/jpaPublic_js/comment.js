@@ -38,7 +38,7 @@ $(function () {
                               <textarea id="reComment_content" class="reComment_content form-control mb-1" placeholder="내용을 입력해주세요.."></textarea>
                             </div>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group ml-2">
                             <button type="button" id="reComment_register" class="reComment_register btn btn-primary waves-effect waves-light">등록</button>
                             <button type="button" id="reComment_cancel" class="reComment_cancel btn btn-danger waves-effect waves-light">취소</button>
                           </div>
@@ -96,9 +96,14 @@ $(function () {
     $('.updateComment').each(function(index){
         $(this).on('click', function(e){
             let comment_id = $(this).offsetParent().find(".comment_id").val();
+            console.log("comment_id = "+comment_id);
             let comment_content = $(this).offsetParent().find(".comment_content").val();
-            let result = confirm("댓글을 수정하시겠습니까?");
-            if(!result) return;
+            //댓글 내용이 공백일 때
+            if(comment_content == '') {
+                alert("댓글 내용을 입력해주세요.");
+                return;
+            }
+            if(!confirm("댓글을 수정하시겠습니까?")) return;
             let jsonData = JSON.stringify({
                             "comment_id": comment_id,
                             "comment_content": comment_content

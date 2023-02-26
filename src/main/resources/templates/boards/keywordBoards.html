@@ -64,6 +64,7 @@
 
     <!-- Pagination -->
     <div th:if="${lastPage} != 0" class="mb-2">
+      <span class="badge badge-info">Page</span>
       <span th:each="pageNum : ${#numbers.sequence(1, lastPage)}" th:inline="text">
         <a th:id="${pageNum}" th:name="${pageNum}" th:href="@{/board/page(keyword=${keyword},page=${pageNum})}" th:text="${pageNum}"></a>
       </span>
@@ -73,7 +74,7 @@
 
     <!-- 검색 form -->
     <form class="mb-3" action="/board/word" method="get">
-      <div>
+      <div class="text-center">
         <input id="keyword" name="keyword" type="text" placeholder="검색어를 입력해주세요.">
         <button type="submit" class="btn btn-primary">검색하기</button>
       </div>
@@ -81,11 +82,5 @@
   </div>
   <div th:replace="fragments/footer :: footer" />
 </main>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
-<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>-->
 </body>
 </html>

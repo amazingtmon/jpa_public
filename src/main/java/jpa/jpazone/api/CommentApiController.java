@@ -1,5 +1,6 @@
 package jpa.jpazone.api;
 
+import jpa.jpazone.api.dto.CommentRequestDto;
 import jpa.jpazone.api.dto.ReCommentRequestDto;
 import jpa.jpazone.controller.SessionConstants;
 import jpa.jpazone.domain.Member;
@@ -38,7 +39,7 @@ public class CommentApiController {
                                                         member);
         log.info("recomment_id => {}", recomment_id);
 
-        return new ResponseEntity<>(new RecommentDto(recomment_id), HttpStatus.OK);
+        return new ResponseEntity<>(new RecommentDto(recomment_id), HttpStatus.CREATED);
     }
 
     @Data
@@ -50,22 +51,21 @@ public class CommentApiController {
     }
 
     @PutMapping("/api/comment")
-    public String updateComment(@RequestParam("comment_id")Long comment_id,
-                                @RequestParam("comment_content")String comment_content){
+    public ResponseEntity<Object> updateComment(@RequestBody CommentRequestDto commentRequestDto){
         log.info("[[ RestController - updateComment ]]");
 
-        commentService.updateComment(comment_id, comment_content);
+        commentService.updateComment(commentRequestDto.getComment_id(), commentRequestDto.getComment_content());
 
-        return "ok";
+        return new ResponseEntity<>("updated", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/api/comment")
-    public String deleteComment(@RequestParam("comment_id")Long comment_id){
+    public ResponseEntity<Object> deleteComment(@RequestBody CommentRequestDto commentRequestDto){
         log.info("[[ RestController - deleteComment ]]");
 
-        commentService.deleteComment(comment_id);
+        commentService.deleteComment(commentRequestDto.getComment_id());
 
-        return "ok";
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
 }

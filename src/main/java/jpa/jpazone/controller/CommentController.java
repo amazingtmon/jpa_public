@@ -21,6 +21,15 @@ public class CommentController {
 
     public final CommentService commentService;
 
+    /**
+     * 댓글 등록
+     * @param comment
+     * @param result
+     * @param board_id
+     * @param member
+     * @param redirectAttributes
+     * @return
+     */
     @PostMapping("/comment/post")
     public String comment(@Valid @ModelAttribute("comment") CommentForm comment,
                           BindingResult result,
