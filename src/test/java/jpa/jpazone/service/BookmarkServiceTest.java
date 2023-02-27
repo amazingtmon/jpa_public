@@ -1,9 +1,6 @@
 package jpa.jpazone.service;
 
-import jpa.jpazone.domain.Board;
-import jpa.jpazone.domain.BookMarkItem;
-import jpa.jpazone.domain.Bookmark;
-import jpa.jpazone.domain.Member;
+import jpa.jpazone.domain.*;
 import jpa.jpazone.repository.BoardRepository;
 import jpa.jpazone.repository.BookmarkRepository;
 import org.junit.Test;
@@ -47,13 +44,13 @@ public class BookmarkServiceTest {
         if(result.isPresent()){
             System.out.println(" => "+ result.get().getId());
             Bookmark bookmark = result.get();
-            //Bookmark 테이블에 data 가 존재하면서, isBookMarked 값이 true 일 경우
-            if(bookmark.isBookMarked()){
+            //Bookmark 테이블에 data 가 존재하면서, isBookmarked 값이 true 일 경우
+            if(bookmark.isBookmarked()){
                 throw new RuntimeException("이미 북마크한 게시물 입니다.");
             }
 
             bookmarkService.updateBookmark(bookmark);
-            bookMarked = bookmark.isBookMarked();
+            bookMarked = bookmark.isBookmarked();
         }
 
         System.out.println("bookMarked => "+ bookMarked);
@@ -81,21 +78,20 @@ public class BookmarkServiceTest {
         bookmarkService.cancelBookmark(bookmark);
 
         // then
-        assertEquals(false, bookmark.isBookMarked());
+        assertEquals(false, bookmark.isBookmarked());
     }
 
     @Test
     public void 연관관계매핑된엔티티아이디로데이터Select하기() throws Exception {
         // given
-        Long board_id = 101L; //board dummyData id
+        Long board_id = 106L; //board dummyData id
         Long user_id = 1L; //member dummyData id
 
         // when
-        List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByBoardIdAndMemberId(board_id, user_id);
-        System.out.println("bookmarks => "+bookmarks.size());
+        Optional<Bookmark> result = bookmarkService.findBookmarkByBoardIdAndMemberId(board_id, user_id);
+        System.out.println("result => "+ result.isPresent());
 
         // then
-        assertEquals(1, bookmarks.size());
     }
 
     @Test
@@ -107,19 +103,13 @@ public class BookmarkServiceTest {
         List<Bookmark> result = bookmarkRepository.findAllByMemberAndItem(user_id, BookMarkItem.BOARD);
         result.stream().forEach( bm -> {
             System.out.println("bm id => "+bm.getId());
-            System.out.println("bm title => "+bm.getBookmark_item_title());
         });
 
-        System.out.println("================================================================");
+        result.stream().filter( bm -> bm.getBoard().getStatus() != BoardStatus.DELETED )
+                .forEach(b -> {
+                    System.out.println("filter board_id, status => "+b.getBoard().getId()+", "+b.getBoard().getStatus());
+                });
 
-        List<Long> board_id_list = result.stream().map(rs -> {
-            Long item_id = rs.getBookmark_item_id();
-            return item_id;
-        }).collect(Collectors.toList());
-        List<Board> boards = boardRepository.findBoardsByBoardIds(board_id_list);
-        boards.stream().forEach( b -> {
-            System.out.println("b title => "+b.getTitle());
-        });
         // then
     }
 

@@ -71,13 +71,13 @@ textarea {
                   th:onclick="|location.href='@{/board/status(post=${showBoardForm.board_id})}'|">삭제 하기</button>
         </div>
         <div class="ml-1">
-          <input  type="hidden" th:value="${showBoardForm.isBookMarked}" placeholder="showBoardForm.isBookMarked" />
+          <input  type="hidden" th:value="${showBoardForm.isBookmarked}" placeholder="showBoardForm.isBookmarked" />
           <button type="button" class="btn btn-warning waves-effect waves-light"
-                  th:if="${showBoardForm.isBookMarked == false}"
+                  th:if="${showBoardForm.isBookmarked == false}"
                   th:session_member="${showBoardForm.session_loginMemberName}" th:board_id="${showBoardForm.board_id}"
                   th:onclick="bookmark(this.getAttribute('session_member'), this.getAttribute('board_id'))">북마크</button>
           <button type="button" class="btn btn-secondary waves-effect waves-light"
-                  th:if="${showBoardForm.isBookMarked == true}"
+                  th:if="${showBoardForm.isBookmarked == true}"
                   th:session_member="${showBoardForm.session_loginMemberName}" th:board_id="${showBoardForm.board_id}"
                   th:onclick="bookmark_cancel(this.getAttribute('session_member'), this.getAttribute('board_id'))">북마크 해제</button>
         </div>

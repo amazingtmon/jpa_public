@@ -21,14 +21,18 @@ public class Bookmark {
     @JoinColumn(name = "user_id")
     private Member member;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id")
+    private Board board;
+
     private LocalDateTime bookmark_time; //북마크 등록 시간
     private LocalDateTime bookmark_cancel_time; //북마크 취소 시간
-    boolean isBookMarked; // 북마크 상태 True : 북마크, False : 북마크 해제
+    boolean isBookmarked; // 북마크 상태 True : 북마크, False : 북마크 해제
     private Long bookmark_item_id;
     private String bookmark_item_title;
 
     @Enumerated(EnumType.STRING)
-    private BookMarkItem bookMarkItem;
+    private BookMarkItem bookmarkItem;
 
     //==연관관계 메서드==//
     public void setMember(Member member){
@@ -36,22 +40,27 @@ public class Bookmark {
         member.getBookmarks().add(this);
     }
 
+    public void setBoard(Board board){
+        this.board = board;
+    }
+
     public Bookmark(Board board, Member member) {
-        this.member = member;
+        this.setMember(member);
+        this.setBoard(board);
         this.bookmark_time = LocalDateTime.now();
-        this.isBookMarked = true;
+        this.isBookmarked = true;
         this.bookmark_item_id = board.getId();
         this.bookmark_item_title = board.getTitle();
-        this.bookMarkItem = BookMarkItem.BOARD;
+        this.bookmarkItem = BookMarkItem.BOARD;
     }
 
     public void change() {
-        this.isBookMarked = true;
+        this.isBookmarked = true;
         this.bookmark_time = LocalDateTime.now();
     }
 
     public void cancel() {
-        this.isBookMarked = false;
+        this.isBookmarked = false;
         this.bookmark_cancel_time = LocalDateTime.now();
     }
 }

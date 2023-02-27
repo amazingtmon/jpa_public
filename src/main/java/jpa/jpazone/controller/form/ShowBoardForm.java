@@ -26,7 +26,7 @@ public class ShowBoardForm {
     private String content; //내용
 
     private String comment_content;
-    private boolean isBookMarked;
+    private boolean isBookmarked;
     private List<ShowCommentDto> commentDto;
 
     public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content,
@@ -41,7 +41,7 @@ public class ShowBoardForm {
                 comments.stream().map(ShowCommentDto::new)
                                 .collect(Collectors.toList());
         showBoardForm.setSession_loginMemberName(session_loginMember);
-        showBoardForm.setBookMarked(bookMarked);
+        showBoardForm.setBookmarked(bookMarked);
 
         return showBoardForm;
     }

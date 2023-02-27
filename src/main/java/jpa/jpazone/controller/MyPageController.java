@@ -3,10 +3,7 @@ package jpa.jpazone.controller;
 import jpa.jpazone.controller.form.BookMarkedBoardDto;
 import jpa.jpazone.controller.form.MemberInfoForm;
 import jpa.jpazone.controller.form.MyArticleDto;
-import jpa.jpazone.domain.BookMarkItem;
-import jpa.jpazone.domain.Bookmark;
-import jpa.jpazone.domain.Member;
-import jpa.jpazone.domain.News;
+import jpa.jpazone.domain.*;
 import jpa.jpazone.service.BoardService;
 import jpa.jpazone.service.BookmarkService;
 import jpa.jpazone.service.MemberService;
@@ -68,7 +65,11 @@ public class MyPageController {
         //Member 엔티티
         Member member = memberService.findMemberById(loginMember.getId());
         //Bookmark 한 Board 리스트
-        List<Bookmark> bookMarkedBoards = bookmarkService.findAllByMemberAndItem(member.getId(), BookMarkItem.BOARD);
+        List<Bookmark> boardList = bookmarkService.findAllByMemberAndItem(member.getId(), BookMarkItem.BOARD);
+        // 찾아온 Board 리스트 중 BoardStatus == EXIST 인 것과 isBookmarked == true 인 것만 필터링
+        List<Bookmark> bookMarkedBoards = boardList.stream().filter(bm -> bm.getBoard().getStatus() != BoardStatus.DELETED)
+                .filter( bookmark -> bookmark.isBookmarked())
+                .collect(Collectors.toList());
         //Bookmark 엔티티를 BookMarkedBoardDto 로 변경
         List<BookMarkedBoardDto> boardDtos = bookMarkedBoards.stream().map(BookMarkedBoardDto::new).collect(Collectors.toList());
 

@@ -33,7 +33,10 @@ public class BookmarkService {
 
     public Optional<Bookmark> findBookmarkByBoardIdAndMemberId(Long board_id, Long user_id){
         log.info("[[ Service - findBookmarkByBoardIdAndMemberId ]]");
+
+        // Member 가 bookmark 한 게시물 리스트 가져오기
         List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByBoardIdAndMemberId(board_id, user_id);
+        // bookmark 리스트에서 삭제하려고 선택한 게시물만 필터링
         Optional<Bookmark> bookmark = bookmarks.stream().filter(bm -> bm.getBookmark_item_id() == board_id)
                 .findFirst();
         return bookmark;
@@ -55,5 +58,11 @@ public class BookmarkService {
     public List<Bookmark> findAllByMemberAndItem(Long user_id, BookMarkItem bmi_item) {
         log.info("[[ Service - findAllByMemberAndItem ]]");
         return bookmarkRepository.findAllByMemberAndItem(user_id, bmi_item);
+    }
+
+    @Transactional
+    public void deleteBookmarkEver(Bookmark bookmark) {
+        log.info("[[ Service - deleteBookmarkEver ]]");
+        bookmarkRepository.deleteBookmarkEver(bookmark);
     }
 }

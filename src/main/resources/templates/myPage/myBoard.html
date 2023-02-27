@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/myBoard.js}"></script>
 <div class="myBoard mt-5">
   <!--  북마크 게시글이 한개도 존재하지 않을경우  -->
   <div th:if="${boardDtos.size() < 1}">
@@ -14,27 +15,28 @@
     </div>
   </div>
   <div th:if="${boardDtos.size() >= 1}" class="starter-template">
-    <table class="table table-bordered mb-4">
+    <div class="canceled_board_div text-right mb-2">
+      <button class="deleted_bookmark btn btn-sm btn-secondary" type="button"
+              th:onclick="getCanceledBoards()">북마크 취소 게시물</button>
+      <button class="get_bookmark bookmark_button_hide btn btn-sm btn-primary " type="button"
+              th:onclick="getBookmarkBoards()">북마크 게시물</button>
+    </div>
+    <table class="table table-bordered text-center mb-4">
       <!-- CONTENTS !-->
       <thead>
       <tr>
-        <th class="col-auto">NO.</th>
-        <th class="col-md-4">게시글 제목</th>
+        <th class="col-md-1">NO.</th>
+        <th class="col-md-5">게시글 제목</th>
+        <th class="col-md-2">작성자</th>
         <th class="col-md-3">북마크 등록 시간</th>
-        <th class="col-md-3">북마크 취소 시간</th>
-        <th class="col-md-2">북마크상태</th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="data : ${boardDtos}">
         <td th:text="${data.id}"></td>
         <td><a th:href="'/board/post/'+${data.id}" th:text="${data.title}"></a></td>
+        <td th:text="${data.name}"></td>
         <td th:text="${data.bookmark_time} ? ${#temporals.format(data.bookmark_time,'yyyy-MM-dd HH:mm')} : ${data.bookmark_time}"></td>
-        <td th:text="${data.bookmark_cancel_time} ? ${#temporals.format(data.bookmark_cancel_time,'yyyy-MM-dd HH:mm')} : 'not canceled'"></td>
-        <td>
-          <span th:text="${data.isBookMarked}"></span>
-          <button th:onclick="deleteBookmark('[[${data.id}]]')"/>del</button>
-        </td>
       </tr>
       </tbody>
     </table>

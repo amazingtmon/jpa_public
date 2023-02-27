@@ -141,7 +141,7 @@ public class BoardController {
         //Bookmark 엔티티
         Optional<Bookmark> optionalBookmark = bookmarkService.findBookmarkByBoardIdAndMemberId(boardId, loginMember.getId());
         if(optionalBookmark.isPresent()){
-            bookMarked = optionalBookmark.get().isBookMarked();
+            bookMarked = optionalBookmark.get().isBookmarked();
         }
 
         //board_id로 comment들 가져오기

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Date;
 
 @Slf4j
 @Controller
@@ -24,8 +25,15 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public String login(@ModelAttribute LoginForm loginForm){
+    public String login(@ModelAttribute LoginForm loginForm, HttpServletRequest request){
         log.info("[[ login try ]]");
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            log.info("session name, last access time => {}, {}", session.getId(), new Date(session.getLastAccessedTime()));
+            session.invalidate();// 세션 날림
+        }
+
         return "login/loginForm";
     }
 
@@ -45,9 +53,8 @@ public class LoginController {
         }
 
         HttpSession session = request.getSession();
-        log.info("login session before setAttribute = {}", session);
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
-        log.info("login session = {}", session.getId());
+        log.info("login session = {}, {}", session.getId(), new Date(session.getCreationTime()));
 
         //세션 타임아웃시간 설정
         session.setMaxInactiveInterval(1800);
@@ -62,6 +69,7 @@ public class LoginController {
         log.info("user = "+member.getName()+" logout");
         HttpSession session = request.getSession(false);
         if (session != null) {
+            log.info("logout session out => {}", new Date(session.getLastAccessedTime()));
             session.invalidate();// 세션 날림
         }
 
