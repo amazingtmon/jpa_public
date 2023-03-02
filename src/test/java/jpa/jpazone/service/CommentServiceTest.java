@@ -49,10 +49,26 @@ public class CommentServiceTest {
         Long board_id = 101L;
 
         // when
-        List<Comment> allComments = commentService.findAllCommentByBoardId(board_id);
+        List<Comment> allComments = commentService.findAllParentCommentsByBoardId(board_id);
         allComments.stream().forEach(comment -> {
             System.out.println("comment => "+comment.getComment_content());
+            System.out.println("comment getChildList => "+comment.getChildList().size());
         });
+
+        // then
+    }
+
+    @Test
+    public void board_id와deep으로_childComments찾기() throws Exception {
+        // given
+        Long board_id = 101L;
+
+        // when
+        List<Comment> childComments = commentService.findAllChildCommentsByBoardId(board_id);
+        childComments.stream().forEach( ch -> {
+            System.out.println("childComment => "+ch.getComment_content());
+        });
+
         // then
     }
 }

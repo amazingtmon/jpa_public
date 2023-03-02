@@ -119,7 +119,7 @@ textarea {
             <div id="reComment_body"></div>
             <!-- child 댓글 리스트 보여주는 section -->
             <div th:each="child : ${comment.child}">
-              <div th:if="${child.isRemoved} != true" class="card mb-2 ml-5 mr-2 border-primary">
+              <div th:if="${child.isRemoved} != true and ${comment.comment_id} == ${child.parentComment_id}" class="card mb-2 ml-5 mr-2 border-primary">
                 <div class="card-body">
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">
@@ -141,7 +141,7 @@ textarea {
                 </div>
               </div>
               <!-- 삭제된 child 댓글 section -->
-              <div th:unless="${child.isRemoved} != true" >
+              <div th:if="${child.isRemoved} != false and ${comment.comment_id} == ${child.parentComment_id}" >
                 <div class="card text-center mb-2 ml-5 mr-2 border-primary">
                   <div class="card-body">
                     <span class="card-title text-secondary font-weight-bolder">삭제된 대댓글 입니다.</span>

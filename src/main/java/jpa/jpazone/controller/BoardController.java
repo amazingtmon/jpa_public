@@ -5,6 +5,7 @@ import jpa.jpazone.controller.form.BoardListDto;
 import jpa.jpazone.controller.form.ShowBoardForm;
 import jpa.jpazone.domain.Board;
 import jpa.jpazone.domain.Bookmark;
+import jpa.jpazone.domain.Comment;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.BoardService;
 import jpa.jpazone.service.BookmarkService;
@@ -144,12 +145,14 @@ public class BoardController {
             bookMarked = optionalBookmark.get().isBookmarked();
         }
 
-        //board_id로 comment들 가져오기
-        //List<Comment> comments = commentService.findAllCommentByBoardId(id);
+        //board_id로 parent comments 가져오기
+        List<Comment> parentComments = commentService.findAllParentCommentsByBoardId(boardId);
+        //board_id로 child comments 가져오기
+        List<Comment> childComments = commentService.findAllChildCommentsByBoardId(boardId);
 
         ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
                 board.getId(), board.getTitle(), board.getWriter(),
-                board.getContent(), board.getComments(), loginMember.getName(), bookMarked);
+                board.getContent(), parentComments, childComments, loginMember.getName(), bookMarked);
 
         model.addAttribute("showBoardForm", showBoardForm);
 

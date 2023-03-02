@@ -27,7 +27,7 @@ public class CommentRepository {
     }
 
     /**
-     * 선택한 게시판 id로 해당게시판 댓글들 모두 가져오기
+     * 선택한 게시판 id로 해당게시판 parent 댓글 모두 가져오기
      * 테스트 결과 org.hibernate.QueryException: could not resolve property:
      * board_id of: jpa.jpazone.domain.Board [select c from jpa.jpazone.domain.Comment c where c.board.board_id = :boardId]
      * 와 같은 에러 발생.
@@ -39,9 +39,20 @@ public class CommentRepository {
      * @param boardId
      * @return
      */
-    public List<Comment> findAllCommentByBoardId(Long boardId) {
-        log.info("[[ Repo - findAllComment ]]");
-        return em.createQuery("select c from Comment c where c.board.id = :boardId", Comment.class)
+    public List<Comment> findAllParentCommentsByBoardId(Long boardId) {
+        log.info("[[ Repo - findAllParentCommentsByBoardId ]]");
+        return em.createQuery("select c from Comment c " +
+                        "where c.board.id = :boardId and deep = 0", Comment.class)
+                .setParameter("boardId", boardId)
+                .getResultList();
+    }
+
+    public List<Comment> findAllChildCommentsByBoardId(Long boardId) {
+        log.info("[[ Repo - findAllChildCommentsByBoardId ]]");
+
+        return em.createQuery("select c from Comment c" +
+                        " where c.board.id = :boardId" +
+                        " and c.deep = 1", Comment.class)
                 .setParameter("boardId", boardId)
                 .getResultList();
     }

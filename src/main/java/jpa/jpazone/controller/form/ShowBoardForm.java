@@ -30,7 +30,7 @@ public class ShowBoardForm {
     private List<ShowCommentDto> commentDto;
 
     public static ShowBoardForm setBoardInfo(Long boardId, String title, String name, String content,
-                                             List<Comment> comments, String session_loginMember, boolean bookMarked){
+                                             List<Comment> parentComments, List<Comment> childComments,String session_loginMember, boolean bookMarked){
         ShowBoardForm showBoardForm = new ShowBoardForm();
         showBoardForm.setBoard_id(boardId);
         showBoardForm.setTitle(title);
@@ -38,7 +38,7 @@ public class ShowBoardForm {
         showBoardForm.setContent(content);
         //new ShowCommentDto(m.getId(), m.getWriter(), m.getComment_content(), m.getWrite_date(), m.getUpdate_date())
         showBoardForm.commentDto =
-                comments.stream().map(ShowCommentDto::new)
+                parentComments.stream().map(comment -> new ShowCommentDto(comment, childComments))
                                 .collect(Collectors.toList());
         showBoardForm.setSession_loginMemberName(session_loginMember);
         showBoardForm.setBookmarked(bookMarked);

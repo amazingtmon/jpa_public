@@ -22,7 +22,7 @@ public class ShowCommentDto {
     private boolean isRemoved; //댓글 삭제 여부
     private List<ShowRecommentDto> child;
 
-    public ShowCommentDto(Comment comment){
+    public ShowCommentDto(Comment comment, List<Comment> childComments){
         this.comment_id = comment.getId();
         this.name = comment.getWriter();
         this.comment_content = comment.getComment_content();
@@ -43,8 +43,10 @@ public class ShowCommentDto {
         }
         this.deep = comment.getDeep();
         this.isRemoved = comment.isRemoved();
-        this.child = comment.getChildList().stream()
-                .map(childComment -> new ShowRecommentDto(childComment))
+//        this.child = comment.getChildList().stream()
+//                .map(childComment -> new ShowRecommentDto(childComment))
+//                .collect(Collectors.toList());
+        this.child = childComments.stream().map(childComment -> new ShowRecommentDto(childComment))
                 .collect(Collectors.toList());
     }
 
