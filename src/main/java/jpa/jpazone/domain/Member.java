@@ -30,6 +30,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<News> news = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Report> reports = new ArrayList<>();
+
     public void change(String password) {
         this.password = password;
     }
