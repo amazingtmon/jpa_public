@@ -1,5 +1,6 @@
 package jpa.jpazone.domain;
 
+import jpa.jpazone.domain.enumpackage.BoardStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

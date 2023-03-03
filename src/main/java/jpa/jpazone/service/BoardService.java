@@ -2,7 +2,7 @@ package jpa.jpazone.service;
 
 import jpa.jpazone.controller.form.BoardForm;
 import jpa.jpazone.domain.Board;
-import jpa.jpazone.domain.BoardStatus;
+import jpa.jpazone.domain.enumpackage.BoardStatus;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.repository.BoardRepository;
 import jpa.jpazone.repository.MemberRepository;

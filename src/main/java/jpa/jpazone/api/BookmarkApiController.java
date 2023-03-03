@@ -4,6 +4,8 @@ import jpa.jpazone.api.dto.BookmarkBoardRequestDto;
 import jpa.jpazone.controller.SessionConstants;
 import jpa.jpazone.controller.form.BookMarkedBoardDto;
 import jpa.jpazone.domain.*;
+import jpa.jpazone.domain.enumpackage.BoardStatus;
+import jpa.jpazone.domain.enumpackage.BookMarkItem;
 import jpa.jpazone.service.BoardService;
 import jpa.jpazone.service.BookmarkService;
 import jpa.jpazone.service.MemberService;

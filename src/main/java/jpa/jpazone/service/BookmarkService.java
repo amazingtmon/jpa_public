@@ -1,7 +1,7 @@
 package jpa.jpazone.service;
 
 import jpa.jpazone.domain.Board;
-import jpa.jpazone.domain.BookMarkItem;
+import jpa.jpazone.domain.enumpackage.BookMarkItem;
 import jpa.jpazone.domain.Bookmark;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.repository.BookmarkRepository;

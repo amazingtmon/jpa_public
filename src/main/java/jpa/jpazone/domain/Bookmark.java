@@ -1,5 +1,6 @@
 package jpa.jpazone.domain;
 
+import jpa.jpazone.domain.enumpackage.BookMarkItem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

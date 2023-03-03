@@ -1,7 +1,7 @@
 package jpa.jpazone.controller.form;
 
 import jpa.jpazone.domain.Board;
-import jpa.jpazone.domain.BoardStatus;
+import jpa.jpazone.domain.enumpackage.BoardStatus;
 import lombok.Getter;
 import lombok.Setter;
 

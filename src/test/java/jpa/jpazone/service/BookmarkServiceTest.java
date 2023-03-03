@@ -1,6 +1,8 @@
 package jpa.jpazone.service;
 
 import jpa.jpazone.domain.*;
+import jpa.jpazone.domain.enumpackage.BoardStatus;
+import jpa.jpazone.domain.enumpackage.BookMarkItem;
 import jpa.jpazone.repository.BoardRepository;
 import jpa.jpazone.repository.BookmarkRepository;
 import org.junit.Test;
@@ -12,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)

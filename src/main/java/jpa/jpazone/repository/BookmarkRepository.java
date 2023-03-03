@@ -1,6 +1,6 @@
 package jpa.jpazone.repository;
 
-import jpa.jpazone.domain.BookMarkItem;
+import jpa.jpazone.domain.enumpackage.BookMarkItem;
 import jpa.jpazone.domain.Bookmark;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
