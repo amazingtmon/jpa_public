@@ -25,6 +25,12 @@ public class CommentService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
+    public Comment findCommentById(Long id) {
+        log.info("[[ Service - findComment ]]");
+
+        return commentRepository.findComment(id);
+    }
+
     @Transactional
     public Long saveComment(CommentForm comment, Long board_id, Member member) {
         log.info("[[ Service - saveComment ]]");

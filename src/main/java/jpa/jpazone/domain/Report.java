@@ -37,11 +37,9 @@ public class Report {
     private String reported_mem_name; // 신고당한 유저
     private LocalDateTime report_time; // 신고한 시간
     private LocalDateTime report_handle_time; // 신고처리한 시간
-    // 신고된 컨텐츠 종류
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // 신고된 컨텐츠 종류 (BOARD, COMMENT)
     private ReportItem report_item;
-    // 신고 이유
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // 신고 이유
     private ReportReason report_reason;
 
     //==연관관계 메서드==//
@@ -58,6 +56,29 @@ public class Report {
     public void setComment(Comment comment){
         this.comment = comment;
         comment.getReports().add(this);
+    }
+
+    //게시글 신고
+    public Report(Member member, Board board, String name, String reported_mem_name, String report_item, String reason){
+        this.setMember(member);
+        this.setBoard(board);
+        this.reporter_mem_name = name;
+        this.reported_mem_name = reported_mem_name;
+        this.report_time = LocalDateTime.now();
+        this.report_item = ReportItem.valueOf(report_item);
+        this.report_reason = ReportReason.valueOf(reason);
+    }
+
+    //댓글 & 대댓글 신고
+    public Report(Member member, Board board, Comment comment, String name, String reported_mem_name, String report_item, String reason) {
+        this.setMember(member);
+        this.setBoard(board);
+        this.setComment(comment);
+        this.reporter_mem_name = name;
+        this.reported_mem_name = reported_mem_name;
+        this.report_time = LocalDateTime.now();
+        this.report_item = ReportItem.valueOf(report_item);
+        this.report_reason = ReportReason.valueOf(reason);
     }
 
     //==비즈니스 메서드==//

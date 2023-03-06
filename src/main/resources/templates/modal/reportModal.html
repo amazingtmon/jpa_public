@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="reportModal">
+  <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reportModalLabel">신고 이유를 선택해주세요.</h5>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="reason_selectBox">신고 이유</label>
+              <select id="reason_selectBox" class="form-control" onchange="changeReasonSelectBox()">
+                <option value="none" selected>Choose Reason...</option>
+                <option value="BAD_LANGUAGE">욕설</option>
+                <option value="COMMERCIAL">광고</option>
+                <option value="ADULT">19금</option>
+                <option value="HATE_CONTENT">싫어요</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="doReport" class="btn btn-primary" onclick="doReport()">report</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
