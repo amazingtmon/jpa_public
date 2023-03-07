@@ -40,6 +40,7 @@ textarea {
         <label for="name" class="col-sm-2 control-label" style="float: left">작성자</label>
         <!-- 게시글 신고 버튼 -->
         <button type="button" class="btn btn-sm" style="float: right;"
+                th:if="${showBoardForm.name} != ${showBoardForm.session_loginMemberName}"
                 th:board_id="${showBoardForm.board_id}" th:board_writer="${showBoardForm.name}" th:report_item="|BOARD|"
                 th:onclick="reportContent(this.getAttribute('board_id'), this.getAttribute('board_writer'), this.getAttribute('report_item'))">
           <span class="badge badge-danger">신고</span></button>
@@ -105,6 +106,7 @@ textarea {
                     <span th:text="${comment.update_date} ? |수정시간 : ${#temporals.format(comment.update_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
                     <!-- 댓글 신고 버튼 -->
                     <button type="button" class="btn btn-sm"
+                            th:if="${comment.name} != ${showBoardForm.session_loginMemberName}"
                             th:comment_id="${comment.comment_id}" th:comment_writer="${comment.name}" th:report_item="|COMMENT|"
                             th:onclick="reportContent(this.getAttribute('comment_id'), this.getAttribute('comment_writer'), this.getAttribute('report_item'))">
                       <span class="badge badge-danger">신고</span></button>
@@ -137,6 +139,7 @@ textarea {
                         <span th:text="${child.update_date} ? |수정시간 : ${#temporals.format(child.update_date,'yyyy-MM-dd HH:mm')}|" class="ml-4"></span>
                         <!-- 대댓글 신고 버튼 -->
                         <button type="button" class="btn btn-sm"
+                                th:if="${child.name} != ${showBoardForm.session_loginMemberName}"
                                 th:comment_id="${child.comment_id}" th:comment_writer="${child.name}" th:report_item="|COMMENT|"
                                 th:onclick="reportContent(this.getAttribute('comment_id'), this.getAttribute('comment_writer'), this.getAttribute('report_item'))">
                           <span class="badge badge-danger">신고</span></button>
