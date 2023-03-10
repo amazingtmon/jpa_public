@@ -25,7 +25,7 @@
       <!-- CONTENTS !-->
       <thead>
       <tr>
-        <th class="col-md-1">NO.</th>
+        <th class="col-md-1">게시글 NO.</th>
         <th class="col-md-5">게시글 제목</th>
         <th class="col-md-2">작성자</th>
         <th class="col-md-3">북마크 등록 시간</th>
@@ -33,8 +33,8 @@
       </thead>
       <tbody>
       <tr th:each="data : ${boardDtos}">
-        <td th:text="${data.id}"></td>
-        <td><a th:href="'/board/post/'+${data.id}" th:text="${data.title}"></a></td>
+        <td th:text="${data.board_id}"></td>
+        <td><a th:href="'/board/post/'+${data.board_id}" th:text="${data.title}"></a></td>
         <td th:text="${data.name}"></td>
         <td th:text="${data.bookmark_time} ? ${#temporals.format(data.bookmark_time,'yyyy-MM-dd HH:mm')} : ${data.bookmark_time}"></td>
       </tr>

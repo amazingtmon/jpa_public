@@ -29,7 +29,6 @@ public class Bookmark {
     private LocalDateTime bookmark_time; //북마크 등록 시간
     private LocalDateTime bookmark_cancel_time; //북마크 취소 시간
     boolean isBookmarked; // 북마크 상태 True : 북마크, False : 북마크 해제
-    private Long bookmark_item_id;
     private String bookmark_item_title;
 
     @Enumerated(EnumType.STRING)
@@ -50,7 +49,6 @@ public class Bookmark {
         this.setBoard(board);
         this.bookmark_time = LocalDateTime.now();
         this.isBookmarked = true;
-        this.bookmark_item_id = board.getId();
         this.bookmark_item_title = board.getTitle();
         this.bookmarkItem = BookMarkItem.BOARD;
     }

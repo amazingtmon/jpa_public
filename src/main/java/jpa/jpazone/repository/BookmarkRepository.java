@@ -20,11 +20,16 @@ public class BookmarkRepository {
         em.persist(bookMark);
     }
 
+    public Bookmark findBookmarkById(Long bookmark_id) {
+        log.info("[[ Repo - findBookmarkById]]");
+        return em.find(Bookmark.class, bookmark_id);
+    }
+
     public List<Bookmark> findBookmarkByBoardIdAndMemberId(Long board_id, Long user_id){
         log.info("[[ Repo - findBookmarkByBoardIdAndMemberId ]]");
 
         return em.createQuery("select bm from Bookmark bm where bm.board.id = :board_id " +
-                                    "and bm.member.id = :user_id", Bookmark.class)
+                        "and bm.member.id = :user_id", Bookmark.class)
                 .setParameter("board_id", board_id)
                 .setParameter("user_id", user_id)
                 .getResultList();

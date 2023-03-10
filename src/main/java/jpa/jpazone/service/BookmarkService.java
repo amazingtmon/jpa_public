@@ -36,8 +36,8 @@ public class BookmarkService {
 
         // Member 가 bookmark 한 게시물 리스트 가져오기
         List<Bookmark> bookmarks = bookmarkRepository.findBookmarkByBoardIdAndMemberId(board_id, user_id);
-        // bookmark 리스트에서 삭제하려고 선택한 게시물만 필터링
-        Optional<Bookmark> bookmark = bookmarks.stream().filter(bm -> bm.getBookmark_item_id() == board_id)
+        // param board_id 로 Bookmark 엔티티 필터링
+        Optional<Bookmark> bookmark = bookmarks.stream().filter(bm -> bm.getBoard().getId() == board_id)
                 .findFirst();
         return bookmark;
     }
@@ -64,5 +64,10 @@ public class BookmarkService {
     public void deleteBookmarkEver(Bookmark bookmark) {
         log.info("[[ Service - deleteBookmarkEver ]]");
         bookmarkRepository.deleteBookmarkEver(bookmark);
+    }
+
+    public Bookmark findBookmarkById(Long bookmark_id) {
+        log.info("[[ Service - findBookmarkById ]]");
+        return bookmarkRepository.findBookmarkById(bookmark_id);
     }
 }

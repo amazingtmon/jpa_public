@@ -138,14 +138,9 @@ public class BookmarkApiController {
                                                      @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember){
         log.info("[[ RestController - deleteBookmarkEver ]]");
 
-        //Bookmark 테이블에 데이터 존재여부 체크
-        Optional<Bookmark> optionalBookmark = bookmarkService.findBookmarkByBoardIdAndMemberId(bookmarkBoardRequestDto.getBoard_id(), loginMember.getId());
-        if(!optionalBookmark.isPresent()){
-            return new ResponseEntity<>("해당되는 북마크 데이터가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
-        }
-
         //Bookmark 엔티티
-        Bookmark bookmark = optionalBookmark.get();
+        Bookmark bookmark = bookmarkService.findBookmarkById(bookmarkBoardRequestDto.getBookmark_id());
+
         bookmarkService.deleteBookmarkEver(bookmark);
 
         return new ResponseEntity<>("deleted", HttpStatus.OK);

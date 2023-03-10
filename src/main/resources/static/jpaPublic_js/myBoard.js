@@ -51,7 +51,7 @@ $(function () {
         current_tbody.html('');
         let thead_html = `
           <tr>
-            <th class="col-md-1">NO.</th>
+            <th class="col-md-1">게시글 NO.</th>
             <th class="col-md-4">게시글 제목</th>
             <th class="col-md-2">작성자</th>
             <th class="col-md-3">북마크 취소 시간</th>
@@ -61,7 +61,8 @@ $(function () {
         // 새로운 thead 추가
         current_thead.append(thead_html);
         for(let i = 0; i < dbBookmarkBoard.length; i++){
-            let board_id = dbBookmarkBoard[i].id;
+            let bookmark_id = dbBookmarkBoard[i].bookmark_id;
+            let board_id = dbBookmarkBoard[i].board_id;
             let board_title = dbBookmarkBoard[i].title;
             let board_name = dbBookmarkBoard[i].name;
             let bookmark_cancel_time = changeDateTimeFormat(dbBookmarkBoard[i].bookmark_cancel_time);
@@ -72,7 +73,7 @@ $(function () {
                 <td>${board_name}</td>
                 <td>${bookmark_cancel_time}</td>
                 <td>
-                  <button class="btn btn-sm btn-danger" onclick="deleteBookmarkData(${board_id})"/>del</button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteBookmarkData(${bookmark_id})"/>del</button>
                 </td>
               </tr>
             `;
@@ -83,11 +84,11 @@ $(function () {
     }// end of getNewTable_CanceledBoards function
 
     /* 북마크 데이터 영구삭제 */
-    deleteBookmarkData = function(board_id){
-        console.log("article_id = "+board_id);
+    deleteBookmarkData = function(bookmark_id){
+        console.log("bookmark_id = "+bookmark_id);
         if(!confirm("해당 게시물을 북마크 데이터에서 \"영구삭제\"하시겠습니까?")) return;
         let jsonData = JSON.stringify({
-            board_id : board_id
+            bookmark_id : bookmark_id
         });
         $.ajax({
             type: "delete",

@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class BookMarkedBoardDto {
 
-    private Long id; //board_id
+    private Long bookmark_id; // bookmark_id
+    private Long board_id; //board_id
     private String title; //board_title
     private String name; //board_writer
     private LocalDateTime bookmark_time; //북마크 등록 시간
@@ -17,7 +18,8 @@ public class BookMarkedBoardDto {
     boolean isBookmarked; // 북마크 상태 True : 북마크, False : 북마크 해제
 
     public BookMarkedBoardDto(Bookmark bookmark) {
-        this.id = bookmark.getBookmark_item_id();
+        this.bookmark_id = bookmark.getId();
+        this.board_id = bookmark.getBoard().getId();
         this.title = bookmark.getBookmark_item_title();
         this.name = bookmark.getBoard().getWriter();
         this.bookmark_time = bookmark.getBookmark_time();
