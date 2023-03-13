@@ -1,6 +1,8 @@
 package jpa.jpazone.service;
 
 import jpa.jpazone.domain.Member;
+import jpa.jpazone.domain.MemberRole;
+import jpa.jpazone.domain.enumpackage.RoleGroup;
 import jpa.jpazone.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,13 +68,27 @@ public class MemberService {
     }
 
     @Transactional
-    public Long join(Member member) {
+    public Long join(String name, String password) {
         log.info("[[ service - findMember ]]");
+
         //name 중복 체크
-        if(!validateDupeMember(member)){
+        if(!validateDupeMember(name)){
             Long existDupeMember = 0L;
             return existDupeMember;
         }
+        //Member 엔티티 생성
+        if(name.equals("jpa_admin")){//관리자 계정
+            Member member = new Member(name, password);
+            MemberRole memberRole = new MemberRole(member, RoleGroup.ADMIN);
+            memberRole.setMember(member);
+            memberRepository.join(member);
+            return member.getId();
+        }
+
+        //일반 유저
+        Member member = new Member(name, password);
+        MemberRole memberRole = new MemberRole(member, RoleGroup.USER);
+        memberRole.setMember(member);
         memberRepository.join(member);
 
         return member.getId();
@@ -80,11 +96,11 @@ public class MemberService {
 
     /**
      * 회원가입시 동일 ID 유효성 검사
-     * @param member
+     * @param name
      * @return 동일 ID 존재시 false return
      */
-    private boolean validateDupeMember(Member member) {
-        List<Member> findMember = memberRepository.findMemberByName(member.getName());
+    private boolean validateDupeMember(String name) {
+        List<Member> findMember = memberRepository.findMemberByName(name);
         //동일 name 의 member가 존재하면 false
         if (!findMember.isEmpty()) {
             log.info("member = {}", findMember);

@@ -1,6 +1,8 @@
 package jpa.jpazone.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id @GeneratedValue
@@ -32,6 +35,14 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Report> reports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    private List<MemberRole> memberRoles = new ArrayList<>();
+
+    public Member(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
 
     public void change(String password) {
         this.password = password;

@@ -36,12 +36,8 @@ public class MemberController {
             log.info("result = {} {}", result.getFieldErrors(), result.getGlobalErrors());
             return "members/createMemberForm";
         }
-        Member member = new Member();
-        //Member에 name, password 값 세팅해주기
-        member.setName(memberNewForm.getName());
-        member.setPassword(memberNewForm.getPassword());
 
-        Long dupeCheck = memberService.join(member);
+        Long dupeCheck = memberService.join(memberNewForm.getName(), memberNewForm.getPassword());
         if(dupeCheck == 0L){
             log.info("dupeMemberChecked => {}", dupeCheck);
             String dupeMemberExist = "동일한 ID의 사용자가 존재합니다.";

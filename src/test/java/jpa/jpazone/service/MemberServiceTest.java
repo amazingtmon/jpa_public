@@ -1,6 +1,8 @@
 package jpa.jpazone.service;
 
 import jpa.jpazone.domain.Member;
+import jpa.jpazone.domain.MemberRole;
+import jpa.jpazone.domain.enumpackage.RoleGroup;
 import jpa.jpazone.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,38 +26,38 @@ public class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
+
     @Test
-    public void 이름으로Member찾기() throws Exception {
+    public void 회원가입() throws Exception {
         // given
-        Member member = new Member();
-        member.setName("yang");
+        String name = "yang";
+        String password = "123";
 
         // when
-        Member yang = memberService.findMemberByName("yang");
-
+        Long newMemberId = memberService.join(name, password);
+        Member member = memberRepository.findOne(newMemberId);
+        System.out.println("member name = "+member.getName());
+        List<MemberRole> memberRoles = member.getMemberRoles();
+        memberRoles.forEach(mr-> {
+            System.out.println("mr get = "+mr.getRole());
+        });
         // then
-        assertEquals(member.getName(), yang.getName());
-
+        assertEquals("yang", member.getName());
     }
-
     @Test
     public void 동일아이디체크() throws Exception {
         // given
         /*중복 ID 일시*/
-        Member member1 = new Member();
-        member1.setName("chul");
-        member1.setPassword("1234");
+        Member member1 = new Member("chul","1234");
 
         /*중복아닌 ID 일시*/
-        Member member2 = new Member();
-        member2.setName("ysc");
-        member2.setPassword("1234");
+        Member member2 = new Member("ysc", "1234");
 
         // when
         /*중복 ID 일시*/
-        Long result1 = memberService.join(member1);
+        Long result1 = memberService.join(member1.getName(), member1.getPassword());
         /*중복아닌 ID 일시*/
-        Long result2 = memberService.join(member2);
+        Long result2 = memberService.join(member2.getName(), member2.getPassword());
         Member findMember = memberService.findMemberByName(member2.getName());
         Long findeMemberId = findMember.getId();
 
