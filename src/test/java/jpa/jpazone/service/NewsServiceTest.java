@@ -52,15 +52,19 @@ public class NewsServiceTest {
     @Test
     public void 기사url로찾아보기() throws Exception {
         // given
-        String article_url = "https://www.mbs.jp/news/kansainews/20230220/GE00048428.shtml";
+        String article_url = "https://news.google.com/rss/articles/CBMiOmh0dHBzOi8vd3d3LmFpdGltZXMuY29tL25ld3MvYXJ0aWNsZVZpZXcuaHRtbD9pZHhubz0xNDk5MjTSAQA?oc=5";
+        String name = "ysc";
+        String password = "123";
+        Long member = memberService.join(name, password);
 
         // when
-        List<News> article = newsRepository.findArticleByUrl(article_url);
+        List<News> article = newsRepository.findArticleByUrlAndMember(article_url, member);
         System.out.println("size => "+article.size());
         Optional<News> findArticle = article.stream().filter(a -> a.getArticle_url().equals(article_url)).findAny();
+        System.out.println("findArticle boolean => "+findArticle.isPresent());
 
         // then
-        assertEquals(true, findArticle.isPresent());
+        assertEquals(false, findArticle.isPresent());
     }
 
 

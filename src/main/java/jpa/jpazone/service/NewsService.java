@@ -37,10 +37,10 @@ public class NewsService {
         return news.getId();
     }
 
-    public boolean findArticleByUrl(String url){
-        log.info("[[ Service - findArticleByUrl ]]");
+    public boolean findArticleByUrlAndMember(String url, Long user_id){
+        log.info("[[ Service - findArticleByUrlAndMember ]]");
 
-        List<News> article = newsRepository.findArticleByUrl(url);
+        List<News> article = newsRepository.findArticleByUrlAndMember(url, user_id);
         Optional<News> findArticle = article.stream().filter(a -> a.getArticle_url().equals(url)).findAny();
         return findArticle.isPresent();
     }

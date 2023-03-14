@@ -35,7 +35,7 @@ public class NewsApiController {
         log.info("[[ RestController - saveArticle ]]");
 
         //중복기사 체크
-        if(newsService.findArticleByUrl(articleRequestDto.getUrl())){
+        if(newsService.findArticleByUrlAndMember(articleRequestDto.getUrl(), loginMember.getId())){
             return new ResponseEntity<>("dupe article", HttpStatus.BAD_REQUEST);
         }
 
