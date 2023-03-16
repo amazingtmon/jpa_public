@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/dataTableHeader :: dataTableHeader">
+<body class="hold-transition sidebar-mini layout-boxed">
+<!-- Site wrapper -->
+<div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="/mainHome" class="nav-link">Home</a>
+            </li>
+        </ul>
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+            <!-- Notifications Dropdown Menu -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-envelope mr-2"></i> 4 new messages
+                        <span class="float-right text-muted text-sm">3 mins</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-users mr-2"></i> 8 friend requests
+                        <span class="float-right text-muted text-sm">12 hours</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-file mr-2"></i> 3 new reports
+                        <span class="float-right text-muted text-sm">2 days</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="/adminPage" class="brand-link">
+            <span th:text="'Admin Page'"></span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="info">
+                    <a href="#" class="d-block">
+                        <i class="fas fa-user"></i>
+                        <span class="ml-2">Admin</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                         with font-awesome or any other icon font library -->
+                    <li class="nav-header">Contents Statistics</li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Tables
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#" onclick="userStatistics();" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>User Tables</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 id="content-header-text">Admin Main Page</h1>
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div id="main-container" class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Default box -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Admin Page</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p>Jpa_Public 관리자 페이지 입니다.</p>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                            </div>
+                            <!-- /.card-footer-->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+
+                <!-- Small Box (Stat card) -->
+                <h5 class="mb-2 mt-4">Statistics Summary</h5>
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 th:text="${contentsCount.get(0).memberCount}">memberCount</h3>
+                                <p>Current Members</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-navy">
+                            <div class="inner">
+                                <h3 th:text="${contentsCount.get(0).boardsCount}">boardsCount</h3>
+                                <p>Board</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 th:text="${contentsCount.get(0).commentsCount}">commentCount</h3>
+                                <p>Comments</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3 th:text="${contentsCount.get(0).reportsCount}">reportsCount</h3>
+                                <p>Reports</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-exclamation"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3 th:text="${contentsCount.get(0).bookmarksCount}">bookmarksCount</h3>
+                                <p>Bookmarks</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-bookmark"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small card -->
+                        <div class="small-box bg-indigo">
+                            <div class="inner">
+                                <h3 th:text="${contentsCount.get(0).newsCount}">newsCount</h3>
+                                <p>News</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-newspaper"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+                <!-- /.row -->
+                <!-- Small Box (Stat card) -->
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.2.0
+        </div>
+        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/jpaPublic_js/adminPage.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables  & Plugins -->
+<script src="/adminLTE/datatables/js/jquery.dataTables.js"></script>
+<script src="/adminLTE/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="/adminLTE/datatables/js/dataTables.responsive.min.js"></script>
+<script src="/adminLTE/datatables/js/responsive.bootstrap4.min.js"></script>
+<script src="/adminLTE/datatables/js/dataTables.buttons.min.js"></script>
+<script src="/adminLTE/datatables/js/buttons.bootstrap4.min.js"></script>
+<script src="/adminLTE/datatables/js/buttons.colVis.min.js"></script>
+<!-- AdminLTE App -->
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
+</body>
+</html>
