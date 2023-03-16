@@ -26,4 +26,11 @@ public class ReportRepository {
 
         em.persist(report);
     }
+
+    public int findAllReportsCount(){
+        log.info("[[ Repo - findAllReportsCount ]]");
+        Long result = em.createQuery("select count(*) from Report r", Long.class)
+                .getSingleResult();
+        return Math.toIntExact(result);
+    }
 }

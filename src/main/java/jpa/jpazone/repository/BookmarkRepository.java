@@ -20,6 +20,13 @@ public class BookmarkRepository {
         em.persist(bookMark);
     }
 
+    public int findAllBookmarksCount(){
+        log.info("[[ Repo - findAllBookmarksCount ]]");
+        Long result = em.createQuery("select count(*) from Bookmark bm", Long.class)
+                .getSingleResult();
+        return Math.toIntExact(result);
+    }
+
     public Bookmark findBookmarkById(Long bookmark_id) {
         log.info("[[ Repo - findBookmarkById]]");
         return em.find(Bookmark.class, bookmark_id);

@@ -20,6 +20,12 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
+    public List<Member> findAllMember(){
+        log.info("[[ Repo - findAllMember ]]");
+        return em.createQuery("select m from Member m", Member.class)
+                .getResultList();
+    }
+
     public void join(Member member){
         log.info("[[ member join ]]");
         em.persist(member);
@@ -73,6 +79,13 @@ public class MemberRepository {
         return em.createQuery("select m from Member m where m.name = :username", Member.class)
                 .setParameter("username", username)
                 .getResultList();
+    }
+
+    public int findAllMembersCount(){
+        log.info("[[ Repo - findAllMemberCount ]]");
+        Long result = em.createQuery("select count(*) from Member m", Long.class)
+                .getSingleResult();
+        return Math.toIntExact(result);
     }
 
 }

@@ -26,6 +26,13 @@ public class CommentRepository {
         return em.find(Comment.class, comment_id);
     }
 
+    public int findAllCommentsCount(){
+        log.info("[[ Repo - findAllCommentsCount ]]");
+        Long result = em.createQuery("select count(*) from Comment c", Long.class)
+                .getSingleResult();
+        return Math.toIntExact(result);
+    }
+
     /**
      * 선택한 게시판 id로 해당게시판 parent 댓글 모두 가져오기
      * 테스트 결과 org.hibernate.QueryException: could not resolve property:

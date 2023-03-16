@@ -22,6 +22,13 @@ public class NewsRepository {
         return em.find(News.class, id);
     }
 
+    public int findAllNewsCount(){
+        log.info("[[ Repo - findAllNewsCount ]]");
+        Long result = em.createQuery("select count(*) from News n", Long.class)
+                .getSingleResult();
+        return Math.toIntExact(result);
+    }
+
     public void saveArticle(News news) {
         log.info("[[ Repo - saveArticle ]]");
 
