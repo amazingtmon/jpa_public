@@ -22,39 +22,16 @@ public class ReportApiController {
 
     private final ReportService reportService;
     private final MemberService memberService;
-    private final BoardService boardService;
-    private final CommentService commentService;
 
-    @PostMapping("/api/report-board")
-    public ResponseEntity<Object> reportBoard(@RequestBody ReportItemRequestDto reportItemRequestDto,
-                                         @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember){
-        log.info("[[ RestController - reportBoard ]]");
+    @PostMapping("/api/report-content")
+    public ResponseEntity<Object> reportContent(@RequestBody ReportItemRequestDto reportItemRequestDto,
+                                              @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember){
+        log.info("[[ RestController - reportContent ]]");
 
-        //Board 엔티티
-        Board board = boardService.findBoard(reportItemRequestDto.getId());
         //Member 엔티티
         Member member = memberService.findMemberById(loginMember.getId());
         //Report 엔티티 생성
-        reportService.createReportByBoard(member, board, reportItemRequestDto.getReported_mem_name(), reportItemRequestDto.getReport_item() ,reportItemRequestDto.getReason());
-
-
-        return new ResponseEntity<>("ok", HttpStatus.CREATED);
-    }
-
-    @PostMapping("/api/report-comment")
-    public ResponseEntity<Object> reportComment(@RequestBody ReportItemRequestDto reportItemRequestDto,
-                                         @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member loginMember){
-        log.info("[[ RestController - reportComment ]]");
-
-        //Comment 엔티티
-        Comment comment = commentService.findCommentById(reportItemRequestDto.getId());
-        //Board 엔티티
-        Board board = comment.getBoard();
-        //Member 엔티티
-        Member member = memberService.findMemberById(loginMember.getId());
-        //Report 엔티티 생성
-        reportService.createReportByComment(member, board, comment, reportItemRequestDto.getReported_mem_name(), reportItemRequestDto.getReport_item(), reportItemRequestDto.getReason());
-
+        reportService.createReport(member, reportItemRequestDto.getReport_content_id(), reportItemRequestDto.getReported_mem_name(), reportItemRequestDto.getReport_item() ,reportItemRequestDto.getReason());
 
         return new ResponseEntity<>("ok", HttpStatus.CREATED);
     }

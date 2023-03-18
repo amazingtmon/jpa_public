@@ -36,9 +36,6 @@ public class Comment {
     @OneToMany(mappedBy = "parent")
     private List<Comment> childList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comment")
-    private List<Report> reports = new ArrayList<>();
-
     private String writer;
     private String comment_content;
     private LocalDateTime write_date;

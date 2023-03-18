@@ -6,10 +6,10 @@ $(function () {
     let item;
 
     /* call report modal function */
-    reportContent = function(content_id1, writer1, item1){
-        content_id = content_id1;
-        writer = writer1;
-        item = item1;
+    reportContent = function(p_content_id, p_writer, p_item){
+        content_id = p_content_id;
+        writer = p_writer;
+        item = p_item;
         $('#reportModal').modal('show');
     }// end of reportContent function
 
@@ -35,24 +35,22 @@ $(function () {
         if(!confirm("신고 하시겠습니까?")) return;
         let selectBox_val = $('#reason_selectBox').val();
         let jsonData = JSON.stringify({
-            id : content_id,
+            report_content_id : content_id,
             reported_mem_name : writer,
             report_item : item,
             reason : selectBox_val
         });
-        if(item == 'BOARD'){
-            reportBoard(jsonData);
-        }
-        else if(item == 'COMMENT'){
-            reportComment(jsonData);
-        }
+
+        /* ajax api function */
+        reportContent_item(jsonData);
+
     }// end of doReport function
 
-    /* Board report */
-    reportBoard = function(jsonData){
+    /* Report Content */
+    reportContent_item = function(jsonData){
         $.ajax({
             type: "post",
-            url: "/api/report-board",
+            url: "/api/report-content",
             data: jsonData,
             contentType: 'application/json',
             success: function(data){
@@ -63,23 +61,6 @@ $(function () {
                 alert("code: " + request.status + "\n" + "error: " + request.responseText);
             }
         });// end of ajax
-    }// end of reportBoard function
-
-    /* Comment report */
-    reportComment = function(jsonData){
-        $.ajax({
-            type: "post",
-            url: "/api/report-comment",
-            data: jsonData,
-            contentType: 'application/json',
-            success: function(data){
-                alert("신고가 완료되었습니다.");
-                $('#reportModal').modal('hide');
-            },
-            error: function (request, status, error) {
-                alert("code: " + request.status + "\n" + "error: " + request.responseText);
-            }
-        });// end of ajax
-    }// end of reportComment function
+    }// end of reportContent
 
 }); // end jquery

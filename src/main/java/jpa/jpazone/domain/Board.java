@@ -27,9 +27,6 @@ public class Board {
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board")
-    private List<Report> reports = new ArrayList<>();
-
     private String title; //제목
     private String writer; //작성자
     private LocalDateTime write_date; //작성시간
