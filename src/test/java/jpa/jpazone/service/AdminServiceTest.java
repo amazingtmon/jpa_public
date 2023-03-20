@@ -64,9 +64,6 @@ public class AdminServiceTest {
         for(Object r:arr1){
             System.out.println(r+", "+r.getClass());
         }
-/*        result.forEach( r -> {
-            System.out.println("r -> "+r[0]+","+r[1]+","+r[2]+","+r[3]);
-        });*/
 
         // then
     }

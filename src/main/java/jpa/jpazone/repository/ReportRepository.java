@@ -31,9 +31,7 @@ public class ReportRepository {
 
     public List<Report> findAllReports() {
         log.info("[[ Repo - findAllReports ]]");
-        return em.createQuery("select r from Report r " +
-                        "join fetch r.member m " +
-                        "where r.report_handle_status = 'REPORTED'", Report.class)
+        return em.createQuery("select r from Report r join fetch r.member m", Report.class)
                 .getResultList();
     }
 }

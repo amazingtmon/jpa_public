@@ -20,6 +20,10 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
+    /**
+     * 관리자 메인 페이지
+     * @return
+     */
     public List<ContentsCountDto> findAllContentsCount(){
         log.info("[[ Service - findAllContentsCount ]]");
 
@@ -41,6 +45,10 @@ public class AdminService {
         return dtoList;
     }
 
+    /**
+     * 멤버들의 컨텐츠 사용 통계
+     * @return
+     */
     public List<MemberStatisticsDto> findMemberContentUseStatistics(){
         log.info("[[ Service - findMemberContentUseStatistics ]]");
 
