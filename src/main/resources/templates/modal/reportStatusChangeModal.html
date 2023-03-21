@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="reportStatusModal">
+  <div class="modal fade" id="reportStatusModal" tabindex="-1" role="dialog" aria-labelledby="reportStatusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reportStatusModalLabel">상태값을 선택해주세요.</h5>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="modalStatus_SelectBox">Report Handle Status</label>
+              <select id="modalStatus_SelectBox" class="form-control" onchange="reportStatusModal_SelectBox()">
+                <option value="none" selected>Choose</option>
+                <option value="PROCEEDING">처리중</option>
+                <option value="COMPLETE">처리완료</option>
+                <option value="DENIED">이유부적합</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="sendReportStatus" class="btn btn-primary" onclick="sendReportStatus()">send</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

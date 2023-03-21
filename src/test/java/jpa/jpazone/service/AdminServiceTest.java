@@ -1,5 +1,6 @@
 package jpa.jpazone.service;
 
+import jpa.jpazone.domain.enumpackage.ReportHandleStatus;
 import jpa.jpazone.repository.*;
 import jpa.jpazone.service.dto.MemberStatisticsDto;
 import org.junit.Test;
@@ -64,6 +65,19 @@ public class AdminServiceTest {
         for(Object r:arr1){
             System.out.println(r+", "+r.getClass());
         }
+
+        // then
+    }
+
+    @Test
+    public void 신고컨텐츠벌크업데이트() throws Exception {
+        // given
+        ReportHandleStatus status = ReportHandleStatus.PROCEEDING;
+        List<Long> list = new ArrayList<>(List.of(14L, 15L));
+
+        // when
+        int result = adminRepository.updateAllReportsHandleStatus(status, list);
+        System.out.println("result => "+result);
 
         // then
     }

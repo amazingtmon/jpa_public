@@ -34,4 +34,9 @@ public class ReportRepository {
         return em.createQuery("select r from Report r join fetch r.member m", Report.class)
                 .getResultList();
     }
+
+    public Report findReportById(Long report_id) {
+        log.info("[[ Repo - findReportById ]]");
+        return em.find(Report.class, report_id);
+    }
 }

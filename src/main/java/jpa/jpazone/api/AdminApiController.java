@@ -1,5 +1,8 @@
 package jpa.jpazone.api;
 
+import jpa.jpazone.api.dto.admin.ChangeStatusRequestDto;
+import jpa.jpazone.api.dto.admin.ReportsArrayChangeStatusDto;
+import jpa.jpazone.domain.Report;
 import jpa.jpazone.service.ReportService;
 import jpa.jpazone.service.dto.MemberStatisticsDto;
 import jpa.jpazone.service.AdminService;
@@ -11,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -39,6 +44,29 @@ public class AdminApiController {
         List<ReportStatisticsDto> dtoList = reportService.findAllReports();
 
         return new ResponseEntity<>(new Result<>(dtoList.size(), dtoList), HttpStatus.OK);
+    }
+
+    @PutMapping("/api/admin-report/status")
+    public ResponseEntity<String> changeReportHandleStatus(@RequestBody ChangeStatusRequestDto changeStatusRequestDto){
+        log.info("[[ RestController - changeReportHandleStatus ]]");
+        log.info("dto data = > {}, {}", changeStatusRequestDto.getReport_id(), changeStatusRequestDto.getReport_handle_status());
+
+        //Report 엔티티
+        Report report = reportService.findReportById(changeStatusRequestDto.getReport_id());
+        adminService.updateReportHandleStatus(report, changeStatusRequestDto.getReport_handle_status());
+
+
+        return new ResponseEntity<String>("ok", HttpStatus.OK);
+    }
+
+    @PutMapping("/api/admin-report/status-all")
+    public int changeAllReportsHandleStatus(@RequestBody ReportsArrayChangeStatusDto reportsArrayChangeStatusDto){
+        log.info("[[ RestController - changeAllReportsHandleStatus ]]");
+
+        int result = adminService.updateAllReportsHandleStatus(reportsArrayChangeStatusDto.getReport_handle_status(),
+                reportsArrayChangeStatusDto.getReportIdArray());
+
+        return result;
     }
 
     @Data

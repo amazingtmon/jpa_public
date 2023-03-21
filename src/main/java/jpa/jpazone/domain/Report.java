@@ -55,5 +55,10 @@ public class Report {
         this.report_handle_status = ReportHandleStatus.REPORTED;
     }
 
+
     //==비즈니스 메서드==//
+    public void changeStatus(ReportHandleStatus status) {
+        this.report_handle_status = status;
+        this.report_handle_time = LocalDateTime.now();
+    }
 }

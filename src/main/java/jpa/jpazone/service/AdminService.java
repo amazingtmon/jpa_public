@@ -1,6 +1,8 @@
 package jpa.jpazone.service;
 
 import jpa.jpazone.domain.Member;
+import jpa.jpazone.domain.Report;
+import jpa.jpazone.domain.enumpackage.ReportHandleStatus;
 import jpa.jpazone.repository.*;
 import jpa.jpazone.service.dto.ContentsCountDto;
 import jpa.jpazone.service.dto.MemberStatisticsDto;
@@ -72,4 +74,24 @@ public class AdminService {
         return dtoList;
     }
 
+    @Transactional
+    public void updateReportHandleStatus(Report report, String report_handle_status) {
+        log.info("[[ Service - updateReportHandleStatus ]]");
+        ReportHandleStatus status = ReportHandleStatus.valueOf(report_handle_status);
+
+        if(status.equals(ReportHandleStatus.COMPLETE)){
+            log.info("status COMPLETE");
+        }
+
+        //Report 엔티티 report_handle_status 값 변경
+        report.changeStatus(status);
+    }
+
+    @Transactional
+    public int updateAllReportsHandleStatus(String report_handle_status, List<Long> reportIdArray) {
+        log.info("[[ Service - updateAllReportsHandleStatus ]]");
+        ReportHandleStatus status = ReportHandleStatus.valueOf(report_handle_status);
+        int result = adminRepository.updateAllReportsHandleStatus(status, reportIdArray);
+        return result;
+    }
 }

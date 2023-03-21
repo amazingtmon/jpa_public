@@ -1,10 +1,12 @@
 package jpa.jpazone.repository;
 
+import jpa.jpazone.domain.enumpackage.ReportHandleStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -43,4 +45,15 @@ public class AdminRepository {
         return resultList;
     }
 
+    public int updateAllReportsHandleStatus(ReportHandleStatus status, List<Long> reportIdArray) {
+        log.info("[[ Repo - updateAllReportsHandleStatus ]]");
+        LocalDateTime time = LocalDateTime.now();
+        return em.createQuery("update Report r set r.report_handle_status = :status," +
+                        " r.report_handle_time = : time" +
+                        " where r.id in :id")
+                .setParameter("status", status)
+                .setParameter("time", time)
+                .setParameter("id", reportIdArray)
+                .executeUpdate();
+    }
 }

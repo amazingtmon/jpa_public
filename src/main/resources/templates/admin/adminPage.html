@@ -119,6 +119,10 @@
                         <h1 id="content-header-text">Admin Main Page</h1>
                     </div>
                     <div class="col-sm-6">
+                        <!-- Report Status Change -->
+                        <div class="status_changeAll_div changeAll_button_hide">
+                            <button type="button" class="btn btn-sm btn-warning" onclick="reportStatus_changeAll();">Change All</button>
+                        </div>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -262,7 +266,8 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-
+    <!-- Modal -->
+    <div th:replace="modal/reportStatusChangeModal :: reportStatusModal"></div>
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.2.0

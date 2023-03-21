@@ -2,6 +2,7 @@ package jpa.jpazone.service;
 
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.domain.Report;
+import jpa.jpazone.domain.enumpackage.ReportHandleStatus;
 import jpa.jpazone.repository.ReportRepository;
 import jpa.jpazone.service.dto.ReportStatisticsDto;
 import lombok.RequiredArgsConstructor;
@@ -39,4 +40,10 @@ public class ReportService {
 
         return dtoList;
     }
+
+    public Report findReportById(Long report_id) {
+        log.info("[[ Service - findReportById ]]");
+        return reportRepository.findReportById(report_id);
+    }
+
 }
