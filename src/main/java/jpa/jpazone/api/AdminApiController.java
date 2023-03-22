@@ -49,12 +49,10 @@ public class AdminApiController {
     @PutMapping("/api/admin-report/status")
     public ResponseEntity<String> changeReportHandleStatus(@RequestBody ChangeStatusRequestDto changeStatusRequestDto){
         log.info("[[ RestController - changeReportHandleStatus ]]");
-        log.info("dto data = > {}, {}", changeStatusRequestDto.getReport_id(), changeStatusRequestDto.getReport_handle_status());
 
         //Report 엔티티
         Report report = reportService.findReportById(changeStatusRequestDto.getReport_id());
         adminService.updateReportHandleStatus(report, changeStatusRequestDto.getReport_handle_status());
-
 
         return new ResponseEntity<String>("ok", HttpStatus.OK);
     }

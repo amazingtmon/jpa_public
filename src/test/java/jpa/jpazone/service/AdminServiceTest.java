@@ -1,6 +1,10 @@
 package jpa.jpazone.service;
 
+import jpa.jpazone.domain.Member;
+import jpa.jpazone.domain.Report;
 import jpa.jpazone.domain.enumpackage.ReportHandleStatus;
+import jpa.jpazone.domain.enumpackage.ReportItem;
+import jpa.jpazone.domain.enumpackage.ReportReason;
 import jpa.jpazone.repository.*;
 import jpa.jpazone.service.dto.MemberStatisticsDto;
 import org.junit.Test;
@@ -10,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +28,10 @@ public class AdminServiceTest {
     AdminRepository adminRepository;
     @Autowired
     AdminService adminService;
+    @Autowired
+    MemberService memberService;
+    @Autowired
+    ReportRepository reportRepository;
 
     @Test
     public void 멤버컨텐츠사용량테스트() throws Exception {
@@ -76,8 +85,34 @@ public class AdminServiceTest {
         List<Long> list = new ArrayList<>(List.of(14L, 15L));
 
         // when
-        int result = adminRepository.updateAllReportsHandleStatus(status, list);
-        System.out.println("result => "+result);
+//        int result = adminRepository.updateAllReportsHandleStatus(status, list);
+//        System.out.println("result => "+result);
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime plus_now = now.plusMinutes(30);
+        System.out.println("time now = "+now);
+        System.out.println("time plus_now = "+plus_now);
+        boolean compareResult = now.isBefore(plus_now);
+        System.out.println("compareResult = "+compareResult);
+        // then
+    }
+
+    @Test
+    public void 멤버컨텐츠작성금지테스트() throws Exception {
+        // given
+        Member member = memberService.findMemberByName("yang");
+        Report report1 = new Report(member, 110L, "yang", "sang", "BOARD", "COMMERCIAL");
+        Report report2 = new Report(member, 111L, "yang", "sang", "BOARD", "COMMERCIAL");
+        Report report3 = new Report(member, 112L, "yang", "sang", "BOARD", "COMMERCIAL");
+        reportRepository.saveReport(report1);
+        reportRepository.saveReport(report2);
+        reportRepository.saveReport(report3);
+
+        adminService.updateReportHandleStatus(report1, "COMPLETE");
+        adminService.updateReportHandleStatus(report2, "COMPLETE");
+        adminService.updateReportHandleStatus(report3, "COMPLETE");
+
+        // when
 
         // then
     }

@@ -35,7 +35,8 @@ public class HomeController {
                 .findFirst().map(MemberRole::getRole)
                 .orElseGet(() -> null);
 
-        MemberInfoDto memberInfoDto = new MemberInfoDto(member.getName(), member_role);
+        MemberInfoDto memberInfoDto = new MemberInfoDto(member.getName(), member_role,
+                                        member.getReported_count(), member.getIsBanned(), member.getBan_end_time());
 
         model.addAttribute("member", memberInfoDto);
 

@@ -17,7 +17,8 @@
         </p>
         <p class="lead">게시판 기능</p>
         <p>
-            <a class="btn btn-lg btn-secondary" href="/board/new">게시판 작성</a>
+            <a class="btn btn-lg btn-secondary" href="#"
+               th:onclick="home_createBoard('[[${member.isBanned}]]', '[[${member.ban_end_time}]]')">게시판 작성</a>
             <a class="btn btn-lg btn-primary" href="/boards">게시글 목록</a>
         </p>
         <p class="lead">News Contents</p>
@@ -28,5 +29,6 @@
     </div>
     <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
+<script th:src="@{/jpaPublic_js/home.js}"></script>
 </body>
 </html>

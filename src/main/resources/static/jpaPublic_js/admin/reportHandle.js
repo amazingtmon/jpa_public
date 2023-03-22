@@ -94,10 +94,10 @@ $(function () {
             let report_handle_status = reports_data[i].report_handle_status; // 상태
             let tbody_html = `
             <tr>
-                <td class="select-checkbox" onclick="event.cancelBubble=true;">
+                <td class onclick="event.cancelBubble=true;">
                     <input type="checkbox" name="select-checkbox" value=${report_id}>
                 </td>
-                <td class="dtr-control sorting_1" tabindex="0">${report_id}</td>
+                <td class="sorting_1" tabindex="0">${report_id}</td>
                 <td class>${report_item}</td>
                 <td class>${reporter_mem_name}</td>
                 <td class>${reported_mem_name}</td>
@@ -107,8 +107,8 @@ $(function () {
                 <td class onclick="event.cancelBubble=true;">
                     ${report_handle_status}
                     <div>
-                        <select id="status_selectBox" class="form-control" onchange="changeStatusSelectBox('${report_id}')">
-                          <option value="none" selected>Choose</option>
+                        <select id="status_selectBox" class="form-control" onchange="changeStatusSelectBox(${report_id}, this)">
+                          <option value="none">Choose</option>
                           <option value="PROCEEDING">처리중</option>
                           <option value="COMPLETE">처리완료</option>
                           <option value="DENIED">이유부적합</option>
@@ -196,13 +196,13 @@ $(function () {
         }// end of sendReportStatus function
 
         /* selectBox click function */
-        changeStatusSelectBox = function(p_report_id){
-            if(!confirm('상태를 변경하시겠습니까?')){
-                $("#status_selectBox").val("none").prop("selected", true);
+        changeStatusSelectBox = function(p_report_id, obj){
+            if(!confirm("상태를 변경하시겠습니까?")){
+                $(obj).val("none").attr("selected", "selected");
                 return;
             }
             let id = p_report_id;
-            let select_val = $("#status_selectBox").val();
+            let select_val = $(obj).val();
             let jsonData = JSON.stringify({
                 report_id : id,
                 report_handle_status : select_val
@@ -214,6 +214,7 @@ $(function () {
                 data : jsonData,
                 success: function (data) {
                     console.log('select data = ', data);
+                    reportHandle();// Report Handle page reload
                 },
                 error: function (request, status, error) {
                     alert("code: " + request.status + "\n" + "error: " + request.responseText);

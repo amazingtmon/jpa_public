@@ -21,6 +21,7 @@ import java.util.List;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final MemberService memberService;
 
     /**
      * 관리자 메인 페이지
@@ -77,21 +78,35 @@ public class AdminService {
     @Transactional
     public void updateReportHandleStatus(Report report, String report_handle_status) {
         log.info("[[ Service - updateReportHandleStatus ]]");
+
         ReportHandleStatus status = ReportHandleStatus.valueOf(report_handle_status);
 
         if(status.equals(ReportHandleStatus.COMPLETE)){
-            log.info("status COMPLETE");
+            processBanMember(report, status);
+            return;
         }
 
         //Report 엔티티 report_handle_status 값 변경
         report.changeStatus(status);
     }
 
+    private void processBanMember(Report report, ReportHandleStatus status) {
+        //Report 엔티티 report_handle_status 값 변경
+        report.changeStatus(status);
+        //신고된 멤버 엔티티 찾기
+        String reported_mem_name = report.getReported_mem_name();
+        Member member = memberService.findMemberByName(reported_mem_name);
+        //멤버의 컨텐츠 사용권한 금지 프로세스
+        member.decideBanMember();
+    }
+
     @Transactional
     public int updateAllReportsHandleStatus(String report_handle_status, List<Long> reportIdArray) {
         log.info("[[ Service - updateAllReportsHandleStatus ]]");
         ReportHandleStatus status = ReportHandleStatus.valueOf(report_handle_status);
+
         int result = adminRepository.updateAllReportsHandleStatus(status, reportIdArray);
+
         return result;
     }
 }
