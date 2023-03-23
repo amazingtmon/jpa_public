@@ -63,11 +63,12 @@ public class Member {
     }
 
     //==비즈니스 메서드==//
+
     public void change(String password) {
         this.password = password;
     }
 
-
+    /* reported_count 에 따라 isBanned 값을 true로 변경 */
     public void decideBanMember(){
         this.reported_count ++;
         int count = this.reported_count % BanStandard.COUNT.getCount();
@@ -76,6 +77,12 @@ public class Member {
             LocalDateTime time = LocalDateTime.now();
             this.ban_end_time = time.plusMinutes(BanStandard.MINUTE.getCount());
         }
+    }
+
+    /* Member 의 isBanned 값을 false 로 변경 */
+    public void changeIsBanned() {
+        this.isBanned = false;
+        this.ban_end_time = null;
     }
 }
 

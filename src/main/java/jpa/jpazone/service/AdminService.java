@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AdminService {
 
@@ -90,6 +90,7 @@ public class AdminService {
         report.changeStatus(status);
     }
 
+    @Transactional
     private void processBanMember(Report report, ReportHandleStatus status) {
         //Report 엔티티 report_handle_status 값 변경
         report.changeStatus(status);

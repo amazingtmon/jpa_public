@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ReportService {
 

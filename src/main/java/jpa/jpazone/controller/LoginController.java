@@ -7,7 +7,6 @@ import jpa.jpazone.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +51,11 @@ public class LoginController {
             return "login/loginForm";
         }
 
+        /* Member 의 isBanned 값이 true 인 경우 */
+        if(loginMember.getIsBanned()){
+            loginService.validateBanMember(loginMember);
+        }
+
         HttpSession session = request.getSession();
         session.setAttribute(SessionConstants.LOGIN_MEMBER, loginMember);
         log.info("login session = {}, {}", session.getId(), new Date(session.getCreationTime()));
@@ -76,34 +80,4 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    @PostMapping("/account/login")
-    public String loginCheck (@RequestParam String username, @RequestParam String password){
-        log.info("[[ Try Login ]]");
-        log.info("username = {}, password = {}", username, password);
-
-        Boolean result = memberService.findMemberByNamePw(username, password);
-        log.info("Boolean result = {}", result);
-
-        if(result){
-            return "redirect:/home";
-        }
-
-        return "redirect:/loginPage";
-    }
-
-    @PostMapping("/account/login2")
-    public String loginCheck2 (@RequestParam String username, @RequestParam String password){
-        log.info("[[ Try Login 2 ]]");
-        log.info("username = {}, password = {}", username, password);
-
-        Boolean result = memberService.findMemberByNamePw2(username, password);
-        log.info("Boolean result = {}", result);
-
-        //로그인 성공시 홈 화면으로 보낸다
-        if(result){
-            return "redirect:/home";
-        }
-
-        return "redirect:/loginPage";
-    }
 }

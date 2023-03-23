@@ -13,11 +13,9 @@
         </li>
         <li>
             <div class="col">
-                <form th:action="@{/logout}" method="post">
-                    <button class="w-100 btn btn-info btn-sm" onclick="location.href='items.html'" type="submit">
-                        로그아웃
-                    </button>
-                </form>
+                <button class="w-100 btn btn-info btn-sm" type="button" th:onclick="member_logout()" >
+                    로그아웃
+                </button>
             </div>
         </li>
     </ul>
