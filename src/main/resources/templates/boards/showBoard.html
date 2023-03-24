@@ -7,6 +7,7 @@
 <script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/report.js}"></script>
 <script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/comment.js}"></script>
 <script type="text/javascript" th:inline="javascript" th:src="@{/jpaPublic_js/bookmark.js}"></script>
+<script th:src="@{/jpaPublic_js/banValidation.js}"></script>
 <style>
 .errorText {
     color: #dc3545;
@@ -35,6 +36,9 @@ textarea {
     <h1>게시글</h1>
   </div>
   <div class="starter-template mt-5" th:object="${showBoardForm}">
+    <!-- Member isBanned data -->
+    <input id="member_isBanned" type="hidden" th:value="${member.isBanned}" />
+    <input id="member_ban_end_time" type="hidden" th:value="${member.ban_end_time}" />
     <form class="form-horizontal" role="form" method="post">
       <div class="form-group">
         <label for="name" class="col-sm-2 control-label" style="float: left">작성자</label>
@@ -177,20 +181,20 @@ textarea {
       </div>
       <div class="form-group mb-3">
         <!-- 댓글 등록 form -->
-        <form id="comment" action="/comment/post" method="post">
-          <input type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
-          <div class="form-group">
-            <label for="comment_content" class="col-sm-2 control-label" style="float: left">댓글</label>
-            <span class="errorText" th:if="${cm_errors}" th:text="${cm_errors}"
-                  th:classappend="${cm_errors} ? 'h6' : 'form-control'">comment error text</span>
-            <div class="col-auto">
-              <textarea id="comment_content" th:field="*{comment_content}" class="form-control mb-1" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2"></textarea>
-            </div>
+        <input id="commentForm_board_id" type="hidden" th:field="*{board_id}" th:value="${board_id}"/>
+        <div class="form-group">
+          <label for="comment_content" class="col-sm-2 control-label" style="float: left">댓글</label>
+          <!-- Controller 에서 넘겨주는 error 메세지 표시 -->
+<!--          <span class="errorText" th:if="${cm_errors}" th:text="${cm_errors}"
+                th:classappend="${cm_errors} ? 'h6' : 'form-control'">comment error text</span>
+          <div class="col-auto">-->
+            <textarea id="comment_content" class="form-control mb-1" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2"></textarea>
           </div>
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-primary waves-effect waves-light">등록</button>
-          </div>
-        </form>
+        </div>
+        <div class="input-group-append mb-3">
+          <button type="button" class="btn btn-primary waves-effect waves-light"
+                  th:onclick="showBoard_createComment('[[${member.isBanned}]]', '[[${member.ban_end_time}]]')">등록</button>
+        </div>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ package jpa.jpazone.api;
 import jpa.jpazone.api.dto.CommentRequestDto;
 import jpa.jpazone.api.dto.ReCommentRequestDto;
 import jpa.jpazone.controller.SessionConstants;
+import jpa.jpazone.controller.form.CommentForm;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.CommentService;
 import lombok.Data;
@@ -21,6 +22,17 @@ import javax.validation.Valid;
 public class CommentApiController {
 
     public final CommentService commentService;
+
+    @PostMapping("/api/comment/post")
+    public ResponseEntity<String> comment(@RequestBody CommentForm commentForm,
+                                          @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false) Member member
+    ){
+        log.info("[[ RestController -  comment ]]");
+
+        commentService.saveComment(commentForm.getComment_content(), commentForm.getBoard_id(), member);
+
+        return new ResponseEntity<>("ok", HttpStatus.CREATED);
+    }
 
     @PostMapping("/api/recomment/post")
     public ResponseEntity<Object> recomment(@RequestBody @Valid ReCommentRequestDto reCommentRequestDto,

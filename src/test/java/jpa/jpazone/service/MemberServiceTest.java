@@ -1,8 +1,8 @@
 package jpa.jpazone.service;
 
+import jpa.jpazone.controller.form.MemberInfoDto;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.domain.MemberRole;
-import jpa.jpazone.domain.enumpackage.RoleGroup;
 import jpa.jpazone.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,6 +70,35 @@ public class MemberServiceTest {
         //assertEquals(0L, result1);
         /*중복아닌 ID 일시*/
         assertEquals(findeMemberId, result2);
+    }
+
+    @Test
+    public void 시간비교테스트() throws Exception {
+        // given
+        LocalDateTime ban_end_time = LocalDateTime.of(2023, 3, 23, 22, 30, 50);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime clock = LocalDateTime.now(Clock.systemDefaultZone());
+        LocalDateTime zone = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+
+        int result = now.compareTo(ban_end_time);
+
+        System.out.println("now = "+now+" // ban_end_time = "+ban_end_time);
+        System.out.println("clock = "+clock+" // zone = "+zone);
+        System.out.println("result = "+result);
+        // when
+
+        // then
+    }
+
+    @Test
+    public void MemberRole_확인하기() throws Exception {
+        // given
+        Member member = memberService.findMemberById(1L);
+        MemberInfoDto memberInfoDto = memberService.transformToMemberInfoDto(member);
+        System.out.println("member role => "+memberInfoDto.getRole());
+        // when
+
+        // then
     }
 
 }

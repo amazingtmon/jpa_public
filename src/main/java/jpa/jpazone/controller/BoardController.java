@@ -2,6 +2,7 @@ package jpa.jpazone.controller;
 
 import jpa.jpazone.controller.form.BoardForm;
 import jpa.jpazone.controller.form.BoardListDto;
+import jpa.jpazone.controller.form.MemberInfoDto;
 import jpa.jpazone.controller.form.ShowBoardForm;
 import jpa.jpazone.domain.Board;
 import jpa.jpazone.domain.Bookmark;
@@ -10,6 +11,7 @@ import jpa.jpazone.domain.Member;
 import jpa.jpazone.service.BoardService;
 import jpa.jpazone.service.BookmarkService;
 import jpa.jpazone.service.CommentService;
+import jpa.jpazone.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,7 @@ public class BoardController {
     private final BoardService boardService;
     private final CommentService commentService;
     private final BookmarkService bookmarkService;
+    private final MemberService memberService;
 
     /**
      * 게시글 생성 양식으로 이동
@@ -72,7 +75,8 @@ public class BoardController {
     @GetMapping("/boards")
     public String boards(Model model,
                         @RequestParam(value = "offset", defaultValue = "0") int offset,
-                        @RequestParam(value = "limit", defaultValue = "10") int limit
+                        @RequestParam(value = "limit", defaultValue = "10") int limit,
+                         @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember
     ){
         log.info("[[ boards ]]");
 
@@ -83,8 +87,13 @@ public class BoardController {
         //게시글 갯수를 통해 마지막 페이지 가져오기
         int lastPage = boardService.getLastPage(limit);
 
+        //Session Member 정보를 dto 로 변경
+        Member member = memberService.findMemberById(loginMember.getId());
+        MemberInfoDto memberInfoDto = memberService.transformToMemberInfoDto(member);
+
         model.addAttribute("lastPage", lastPage);
         model.addAttribute("boardList", boardList);
+        model.addAttribute("member", memberInfoDto);
 
         return "boards/boards";
     }
@@ -99,7 +108,9 @@ public class BoardController {
     @GetMapping("/boards/list")
     public String boardPaging(Model model,
                               @RequestParam("page")String pageNum,
-                              @RequestParam(value = "limit", defaultValue = "10") int limit){
+                              @RequestParam(value = "limit", defaultValue = "10") int limit,
+                              @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember
+    ){
         log.info("[[ boardPaging ]]");
 
         int page = Integer.parseInt(pageNum);
@@ -117,8 +128,13 @@ public class BoardController {
         //게시글 갯수를 통해 마지막 페이지 가져오기
         int lastPage = boardService.getLastPage(limit);
 
+        //Session Member 정보를 dto 로 변경
+        Member member = memberService.findMemberById(loginMember.getId());
+        MemberInfoDto memberInfoDto = memberService.transformToMemberInfoDto(member);
+
         model.addAttribute("lastPage", lastPage);
         model.addAttribute("boardList", boardList);
+        model.addAttribute("member", memberInfoDto);
 
         return "boards/boards";
     }
@@ -154,7 +170,12 @@ public class BoardController {
                 board.getId(), board.getTitle(), board.getWriter(),
                 board.getContent(), parentComments, childComments, loginMember.getName(), bookMarked);
 
+        //Session Member 정보를 dto 로 변경
+        Member member = memberService.findMemberById(loginMember.getId());
+        MemberInfoDto memberInfoDto = memberService.transformToMemberInfoDto(member);
+
         model.addAttribute("showBoardForm", showBoardForm);
+        model.addAttribute("member", memberInfoDto);
 
         return "boards/showBoard";
     }
@@ -208,7 +229,8 @@ public class BoardController {
     public String searchBoard(Model model,
                               @RequestParam("keyword")String keyword,
                               @RequestParam(value = "offset", defaultValue = "0") int offset,
-                              @RequestParam(value = "limit", defaultValue = "10") int limit
+                              @RequestParam(value = "limit", defaultValue = "10") int limit,
+                              @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember
     ){
         log.info("[[ searchBoard ]]");
         log.info("keyword => {}", keyword);
@@ -219,9 +241,14 @@ public class BoardController {
         //검색한 게시글의 갯수로 마지막 페이지 가져오기
         int lastPage = boardService.getLastPageSearchKeyword(limit, keyword);
 
+        //Session Member 정보를 dto 로 변경
+        Member member = memberService.findMemberById(loginMember.getId());
+        MemberInfoDto memberInfoDto = memberService.transformToMemberInfoDto(member);
+
         model.addAttribute("keyword", keyword);
         model.addAttribute("lastPage", lastPage);
         model.addAttribute("boardList", boardList);
+        model.addAttribute("member", memberInfoDto);
 
         return  "boards/keywordBoards";
     }
@@ -238,7 +265,8 @@ public class BoardController {
     public String searchBoardPaging(Model model,
                               @RequestParam("keyword")String keyword,
                               @RequestParam("page")String pageNum,
-                              @RequestParam(value = "limit", defaultValue = "10") int limit
+                              @RequestParam(value = "limit", defaultValue = "10") int limit,
+                              @SessionAttribute(name = SessionConstants.LOGIN_MEMBER, required = false)Member loginMember
     ){
         log.info("[[ searchBoardPaging ]]");
 
@@ -255,9 +283,14 @@ public class BoardController {
         //검색한 게시글의 갯수로 마지막 페이지 가져오기
         int lastPage = boardService.getLastPageSearchKeyword(limit, keyword);
 
+        //Session Member 정보를 dto 로 변경
+        Member member = memberService.findMemberById(loginMember.getId());
+        MemberInfoDto memberInfoDto = memberService.transformToMemberInfoDto(member);
+
         model.addAttribute("keyword", keyword);
         model.addAttribute("lastPage", lastPage);
         model.addAttribute("boardList", boardList);
+        model.addAttribute("member", memberInfoDto);
 
         return  "boards/keywordBoards";
     }

@@ -12,7 +12,7 @@
         <p class="lead">회원 기능</p>
         <p>
             <a class="btn btn-lg btn-primary" href="/myPage/info">마이페이지</a>
-            <a th:if="${member.role} != null"
+            <a th:if="${member.role} == ${T(jpa.jpazone.domain.enumpackage.RoleGroup).ADMIN}"
                class="btn btn-lg btn-info" href="/adminPage">관리자페이지</a>
         </p>
         <p class="lead">게시판 기능</p>

@@ -23,14 +23,13 @@ public class CommentController {
 
     /**
      * 댓글 등록
-     * @param comment
-     * @param result
-     * @param board_id
-     * @param member
-     * @param redirectAttributes
-     * @return
+     * ==========================================
+     * 23-03-24
+     * Member 의 isBanned 유효성 검사로 인해 댓글 등록시 ajax 사용이 필요하여,
+     * CommentApiController (/api/comment/post) 로 옮김
+     *
      */
-    @PostMapping("/comment/post")
+/*    @PostMapping("/comment/post")
     public String comment(@Valid @ModelAttribute("comment") CommentForm comment,
                           BindingResult result,
                           Long board_id,
@@ -38,19 +37,21 @@ public class CommentController {
                           RedirectAttributes redirectAttributes){
         log.info("[[ comment ]]");
 
-        /*
+        *//*
             comment_content 내용이 없을때 발생하는 예외 NPE 처리.
             redirect 방식으로 넘어갈경우 에러메세지가 전달되지 않음.
             프런트 단에서 '내용을 입력해주세요'라는 alert 메세지를 띄워주거나 ajax 방식으로 해야할듯.
-         */
+            =================================================================================
+            redirectAttributes 사용하여 해결 !!
+         *//*
         if(result.hasErrors()){
             log.info("comment error = {}", result.getFieldError());
             redirectAttributes.addFlashAttribute("cm_errors", result.getFieldError().getDefaultMessage());
             return "redirect:/board/post/"+board_id;
         }
 
-        commentService.saveComment(comment, board_id, member);
+        //commentService.saveComment(comment, board_id, member);
 
         return "redirect:/board/post/"+board_id;
-    }
+    }*/
 }

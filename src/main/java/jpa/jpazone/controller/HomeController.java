@@ -30,13 +30,8 @@ public class HomeController {
             return "login/loginForm";
         }
         Member member = memberService.findMemberById(loginMember.getId());
-        RoleGroup member_role = member.getMemberRoles().stream()
-                .filter(mr -> mr.getRole().equals(RoleGroup.ADMIN))
-                .findFirst().map(MemberRole::getRole)
-                .orElseGet(() -> null);
 
-        MemberInfoDto memberInfoDto = new MemberInfoDto(member.getName(), member_role,
-                                        member.getReported_count(), member.getIsBanned(), member.getBan_end_time());
+        MemberInfoDto memberInfoDto = memberService.transformToMemberInfoDto(member);
 
         model.addAttribute("member", memberInfoDto);
 

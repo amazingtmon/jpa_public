@@ -1,3 +1,6 @@
+// import - common.js
+document.write('<script src="/jpaPublic_js/banValidation.js"></script>');
+
 $(function () {
 
 /*
@@ -27,6 +30,15 @@ $(function () {
     /* 댓글등록 function */
     $('.addComment').each(function(index){
         $(this).on('click', function(e){
+            /* 멤버의 isBanned 유효성 검사 */
+            let isBanned = $('#member_isBanned').val();
+            let ban_end_time = $('#member_ban_end_time').val();
+            let isPassed = validation_createContents(isBanned, ban_end_time);
+            if(isBanned == 'true' && !isPassed){
+                alert(create_noticeMsg(ban_end_time));
+                return;
+            }
+            /* 멤버의 isBanned 유효성 검사 === end === */
             let rc_body = $(this).offsetParent().offsetParent().find("#reComment_body");
             let reComment_html = "";
                 reComment_html = `

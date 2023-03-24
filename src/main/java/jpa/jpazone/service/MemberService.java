@@ -1,5 +1,6 @@
 package jpa.jpazone.service;
 
+import jpa.jpazone.controller.form.MemberInfoDto;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.domain.MemberRole;
 import jpa.jpazone.domain.enumpackage.RoleGroup;
@@ -44,27 +45,6 @@ public class MemberService {
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
 
         return member;
-    }
-
-    public Boolean findMemberByNamePw(String username, String password){
-        log.info("[[ Service - findOneMemberByName ]]");
-        Boolean result = memberRepository.findMemberByNamePw(username, password);
-
-        log.info("findOneMemberByName result = {}", result);
-
-        return result;
-    }
-
-    public Boolean findMemberByNamePw2(String username, String password){
-        log.info("[[ Service - findOneMemberByName ]]");
-        List<Member> member = memberRepository.findMemberByNamePw2(username, password);
-        if(member.size() < 1){
-            return false;
-        }
-
-        log.info("findOneMemberByName member = {}", member);
-
-        return true;
     }
 
     @Transactional
@@ -123,6 +103,8 @@ public class MemberService {
     }
 
     private Long getMemberIdByName(String name) {
+        log.info("[[ Service - getMemberIdByName ]]");
+
         List<Member> memberByName = memberRepository.findMemberByName(name);
         Optional<Member> optionalMember = memberByName.stream().findFirst();
 
@@ -133,5 +115,25 @@ public class MemberService {
         }
 
         return null;
+    }
+
+    /**
+     * Member 엔티티를 MemberInfoDto 로 변형
+     * @param member
+     * @return
+     */
+    public MemberInfoDto transformToMemberInfoDto(Member member) {
+        log.info("[[ Service - transformToMemberInfoDto ]]");
+
+        List<MemberRole> memberRoles = member.getMemberRoles();
+        RoleGroup member_role = memberRoles.stream()
+                .filter(memberRole -> memberRole.getMember().getId() == member.getId())
+                .findFirst().map(MemberRole::getRole)
+                .orElseGet(() -> null);
+
+        MemberInfoDto memberInfoDto = new MemberInfoDto(member.getName(), member_role,
+                member.getReported_count(), member.getIsBanned(), member.getBan_end_time());
+
+        return memberInfoDto;
     }
 }

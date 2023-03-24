@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter @Setter
 public class CommentForm {
 
-    @NotEmpty(message = "내용을 입력해주세요.")
+    private Long board_id;
     private String comment_content;
 
 }
