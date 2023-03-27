@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +58,7 @@ public class MemberService {
             return existDupeMember;
         }
         //Member 엔티티 생성
-        if(name.equals("jpa_admin")){//관리자 계정
+        if(name.equals(RoleGroup.ADMIN_ID.getTitle())){//관리자 계정
             Member member = new Member(name, password);
             MemberRole memberRole = new MemberRole(member, RoleGroup.ADMIN);
             memberRole.setMember(member);
@@ -124,14 +125,13 @@ public class MemberService {
      */
     public MemberInfoDto transformToMemberInfoDto(Member member) {
         log.info("[[ Service - transformToMemberInfoDto ]]");
+        //Member_Role 을 전달할 List
+        List<String> role_list = new ArrayList<>();
 
         List<MemberRole> memberRoles = member.getMemberRoles();
-        RoleGroup member_role = memberRoles.stream()
-                .filter(memberRole -> memberRole.getMember().getId() == member.getId())
-                .findFirst().map(MemberRole::getRole)
-                .orElseGet(() -> null);
+        memberRoles.forEach(memberRole -> role_list.add(memberRole.getRole().toString()));
 
-        MemberInfoDto memberInfoDto = new MemberInfoDto(member.getName(), member_role,
+        MemberInfoDto memberInfoDto = new MemberInfoDto(member.getName(), role_list,
                 member.getReported_count(), member.getIsBanned(), member.getBan_end_time());
 
         return memberInfoDto;

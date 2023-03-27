@@ -3,7 +3,8 @@ package jpa.jpazone.domain.enumpackage;
 public enum RoleGroup {
 
     ADMIN("관리자"),
-    USER("일반유저");
+    USER("일반유저"),
+    ADMIN_ID("jpa_admin");
 
     private String role_title;
 

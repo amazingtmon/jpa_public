@@ -3,6 +3,7 @@ package jpa.jpazone.service;
 import jpa.jpazone.controller.form.MemberInfoDto;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.domain.MemberRole;
+import jpa.jpazone.domain.enumpackage.RoleGroup;
 import jpa.jpazone.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,12 +95,19 @@ public class MemberServiceTest {
     @Test
     public void MemberRole_확인하기() throws Exception {
         // given
-        Member member = memberService.findMemberById(1L);
+        Member member = memberService.findMemberById(3L);
         MemberInfoDto memberInfoDto = memberService.transformToMemberInfoDto(member);
-        System.out.println("member role => "+memberInfoDto.getRole());
+        System.out.println("memberInfoDto = "+memberInfoDto.getRole_list());
+
+        List<String> role_list = new ArrayList<>();
+        List<MemberRole> memberRoles = member.getMemberRoles();
+        memberRoles.forEach(memberRole -> role_list.add(memberRole.getRole().toString()));
+
+        role_list.forEach( role -> {
+            System.out.println("rolelist -> "+role);
+        });
         // when
 
         // then
     }
-
 }
