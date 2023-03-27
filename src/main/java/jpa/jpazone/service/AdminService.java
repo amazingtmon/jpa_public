@@ -22,6 +22,7 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
     private final MemberService memberService;
+    private final ReportRepository reportRepository;
 
     /**
      * 관리자 메인 페이지
@@ -107,6 +108,16 @@ public class AdminService {
         ReportHandleStatus status = ReportHandleStatus.valueOf(report_handle_status);
 
         int result = adminRepository.updateAllReportsHandleStatus(status, reportIdArray);
+
+        if(status.equals(ReportHandleStatus.COMPLETE)){
+            reportIdArray.forEach( id -> {
+                Report report = reportRepository.findReportById(id);
+                String reported_mem_name = report.getReported_mem_name();
+                Member member = memberService.findMemberByName(reported_mem_name);
+                member.decideBanMember();
+            });
+        }
+
 
         return result;
     }

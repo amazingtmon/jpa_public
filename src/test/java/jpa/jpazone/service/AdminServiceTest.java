@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -113,6 +114,20 @@ public class AdminServiceTest {
         adminService.updateReportHandleStatus(report3, "COMPLETE");
 
         // when
+
+        // then
+    }
+
+    @Test
+    public void 대량의신고건을완료로처리하는테스트() throws Exception {
+        // given
+        List<Report> allReports = reportRepository.findAllReports();
+        List<Long> all_id = allReports.stream().map(Report::getId).collect(Collectors.toList());
+        List<Long> report_ids = new ArrayList<>(List.of(11L, 12L, 13L));
+        String report_handle_status = "COMPLETE";
+
+        // when
+        adminService.updateAllReportsHandleStatus(report_handle_status, all_id);
 
         // then
     }

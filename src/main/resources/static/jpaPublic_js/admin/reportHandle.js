@@ -105,7 +105,7 @@ $(function () {
                 <td class>${report_reason}</td>
                 <td class>${report_handle_time}</td>
                 <td class onclick="event.cancelBubble=true;">
-                    ${report_handle_status}
+                    <span style="font-weight: 1000;">${report_handle_status}</span>
                     <div>
                         <select id="status_selectBox" class="form-control" onchange="changeStatusSelectBox(${report_id}, this)">
                           <option value="none">Choose</option>

@@ -28,6 +28,10 @@ public class AdminApiController {
     private final AdminService adminService;
     private final ReportService reportService;
 
+    /**
+     * 유저들의 각 컨텐츠 사용량 확인
+     * @return
+     */
     @GetMapping("/api/admin-user/statistics")
     public ResponseEntity<Object> userStatistics(){
         log.info("[[ RestController - userStatistics ]]");
@@ -37,6 +41,10 @@ public class AdminApiController {
         return new ResponseEntity<>(new Result<>(dtoList.size(), dtoList), HttpStatus.OK);
     }
 
+    /**
+     * 유저들이 신고한 신고건 데이터
+     * @return
+     */
     @GetMapping("/api/admin-report/statistics")
     public ResponseEntity<Object> reportStatistics(){
         log.info("[[ RestController - reportStatistics ]]");
@@ -46,6 +54,11 @@ public class AdminApiController {
         return new ResponseEntity<>(new Result<>(dtoList.size(), dtoList), HttpStatus.OK);
     }
 
+    /**
+     * 신고 상태 변경 (Report_Handle_Status)
+     * @param changeStatusRequestDto
+     * @return
+     */
     @PutMapping("/api/admin-report/status")
     public ResponseEntity<String> changeReportHandleStatus(@RequestBody ChangeStatusRequestDto changeStatusRequestDto){
         log.info("[[ RestController - changeReportHandleStatus ]]");
@@ -57,6 +70,11 @@ public class AdminApiController {
         return new ResponseEntity<String>("ok", HttpStatus.OK);
     }
 
+    /**
+     * 체크박스로 1개 이상 신고건들의 상태 변경
+     * @param reportsArrayChangeStatusDto
+     * @return
+     */
     @PutMapping("/api/admin-report/status-all")
     public int changeAllReportsHandleStatus(@RequestBody ReportsArrayChangeStatusDto reportsArrayChangeStatusDto){
         log.info("[[ RestController - changeAllReportsHandleStatus ]]");
