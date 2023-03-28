@@ -4,6 +4,8 @@ document.write('<script src="/jpaPublic_js/common.js"></script>');
 $(function () {
 
     const NEWS_API_KEY = "4d855597f2e0410fae0c1a86e5ec4e7a";
+    /* 카카오톡으로 공유하기 JavaScript 키 */
+    Kakao.init('cd93d84738677d29fc7f1502e4457bd1');
 
     /* sortBy_options - mouseover event */
     $("li.sortBy_cursor")
@@ -120,7 +122,12 @@ $(function () {
                       </p>
                       <p class="card-text">
                         <small class="article_publishedAt text-muted">${publishedAt}</small>
-                        <button type="button" class="bookmarkArticle btn btn-primary" style="float: right;">Save</button>
+                        <div class="d-flex justify-content-center align-items-center" style="float: right;">
+                            <button type="button" class="bookmarkArticle btn btn-primary">Save</button>
+                            <button type="button" class="kakaotalk-sharing-btn btn" id="kakaotalk-sharing-btn">
+                                <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" height ="38" width="38">
+                            </button>
+                        </div>
                       </p>
                     </div>
                   </div>
@@ -130,6 +137,28 @@ $(function () {
             //article html append
             news_list_body.append(article_html);
         }// end of for
+
+        /* 카카오톡 공유하기 버튼 이벤트 */
+        $('.kakaotalk-sharing-btn').on('click', function(e){
+            e.stopImmediatePropagation();
+            if(!confirm("해당 기사를 공유하시겠습니까?")) return;
+            let bm_article = $(e.target);
+            //기사 제목
+            let article_title = bm_article.offsetParent().find(".article_title").text();
+            //기사 url
+            let article_url = bm_article.offsetParent().find(".article_url").attr("href");
+            //기사 발간날짜
+            let article_publishedAt = getDateFormat(bm_article.offsetParent().find(".article_publishedAt").text());
+
+            Kakao.Share.sendCustom({
+              templateId: 91836,
+              templateArgs: {
+                title: article_title,
+                publishedAt: `기사 발행 시간 : ${article_publishedAt}`,
+                url: article_url
+              },
+            });
+        });
 
         /* bookmarkArticle click function */
         $('.bookmarkArticle').on('click', function(e){
@@ -152,7 +181,6 @@ $(function () {
                 publishedAt : article_publishedAt,
                 news_page_path : page_path
             });
-            console.log(jsonData);
             $.ajax({
                 type: "post",
                 url: "/api/article",
