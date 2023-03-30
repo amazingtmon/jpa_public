@@ -58,18 +58,18 @@ $(function () {
         let table_html = `
         <div class="row">
             <div class="col-sm-12">
-                <table id="statistics-table" class="table table-bordered table-hover dataTable dtr-inline text-center" aria-describedby="statistics-table_info">
+                <table id="report-statistics-table" class="table table-bordered table-hover dataTable dtr-inline text-center" aria-describedby="report-statistics-table_info">
                     <thead>
                         <tr>
                             <th class="select-checkbox"></th>
-                            <th class="sorting sorting_asc" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id engine: activate to sort column descending">id</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="신고된 컨텐츠: activate to sort column ascending">신고된 컨텐츠</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="신고한 멤버: activate to sort column ascending">신고한 멤버</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="신고당한 멤버: activate to sort column ascending">신고당한 멤버</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="신고 시간: activate to sort column ascending">신고 시간</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="신고 이유: activate to sort column ascending">신고 이유</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="신고 관리 시간: activate to sort column ascending">신고 관리 시간</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="상태: activate to sort column ascending">상태</th>
+                            <th class="sorting sorting_asc" tabindex="0" aria-controls="report-statistics-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id engine: activate to sort column descending">id</th>
+                            <th class="sorting" tabindex="0" aria-controls="report-statistics-table" rowspan="1" colspan="1" aria-label="신고된 컨텐츠: activate to sort column ascending">신고된 컨텐츠</th>
+                            <th class="sorting" tabindex="0" aria-controls="report-statistics-table" rowspan="1" colspan="1" aria-label="신고한 멤버: activate to sort column ascending">신고한 멤버</th>
+                            <th class="sorting" tabindex="0" aria-controls="report-statistics-table" rowspan="1" colspan="1" aria-label="신고당한 멤버: activate to sort column ascending">신고당한 멤버</th>
+                            <th class="sorting" tabindex="0" aria-controls="report-statistics-table" rowspan="1" colspan="1" aria-label="신고 시간: activate to sort column ascending">신고 시간</th>
+                            <th class="sorting" tabindex="0" aria-controls="report-statistics-table" rowspan="1" colspan="1" aria-label="신고 이유: activate to sort column ascending">신고 이유</th>
+                            <th class="sorting" tabindex="0" aria-controls="report-statistics-table" rowspan="1" colspan="1" aria-label="신고 관리 시간: activate to sort column ascending">신고 관리 시간</th>
+                            <th class="sorting" tabindex="0" aria-controls="report-statistics-table" rowspan="1" colspan="1" aria-label="상태: activate to sort column ascending">상태</th>
                         </tr>
                     </thead>
                     <tbody class="report-tbody">
@@ -119,7 +119,7 @@ $(function () {
             `;
             report_tbody.append(tbody_html);
         }// end of for
-        let table_id = $('#statistics-table');
+        let table_id = $('#report-statistics-table');
         initDataTableFunction(table_id);
 
         let chk_data = []; //체크된 report_id 배열
@@ -223,7 +223,7 @@ $(function () {
         }// end of changeStatusSelectBox function
 
         /* table tr click function*/
-        $('#statistics-table tbody tr').on('click', function(){
+        $('#report-statistics-table tbody tr').on('click', function(){
             // 현재 클릭된 Row(<tr>)
 			let tr = $(this);
 			let td = tr.children();

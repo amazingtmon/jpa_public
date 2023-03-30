@@ -1,27 +1,15 @@
 $(function () {
 
-    /*
-        LocalDateTime format change
-        ex) '2023-02-21T21:30:34.503003' ->  '2023-02-21 21:30:34'
-    */
-    changeDateTimeFormat = function(string_date){
-        let filter = string_date.replace(/T/g , ' '); // '2023-02-21 21:30:34.503003'
-        let index = filter.indexOf('.'); // 소수점 자리의 index = 19
-        let result = filter.substring(0, 19); // '2023-02-21 21:30:34'
-
-        return result;
-    }
-
     /* 데이터테이블 관련 함수 */
-    initDataTableFunction = function(table_id){
+    userDataTableFunction = function(table_id){
         table_id.DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false,
-          "responsive": true,
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true
         });
     }
 
@@ -49,16 +37,16 @@ $(function () {
         let table_html = `
         <div class="row">
             <div class="col-sm-12">
-                <table id="statistics-table" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="statistics-table_info">
+                <table id="user-statistics-table" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="user-statistics-table_info">
                     <thead>
                         <tr>
-                            <th class="sorting sorting_asc" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id engine: activate to sort column descending">id</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="name: activate to sort column ascending">name</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="Board Count: activate to sort column ascending">Board Count</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="Comment Count: activate to sort column ascending">Comment Count</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="Bookmark Count: activate to sort column ascending">Bookmark Count</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="News Count: activate to sort column ascending">News Count</th>
-                            <th class="sorting" tabindex="0" aria-controls="statistics-table" rowspan="1" colspan="1" aria-label="Report Count: activate to sort column ascending">Report Count</th>
+                            <th class="sorting sorting_asc" tabindex="0" aria-controls="user-statistics-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id engine: activate to sort column descending">id</th>
+                            <th class="sorting" tabindex="0" aria-controls="user-statistics-table" rowspan="1" colspan="1" aria-label="name: activate to sort column ascending">name</th>
+                            <th class="sorting" tabindex="0" aria-controls="user-statistics-table" rowspan="1" colspan="1" aria-label="Board Count: activate to sort column ascending">Board Count</th>
+                            <th class="sorting" tabindex="0" aria-controls="user-statistics-table" rowspan="1" colspan="1" aria-label="Comment Count: activate to sort column ascending">Comment Count</th>
+                            <th class="sorting" tabindex="0" aria-controls="user-statistics-table" rowspan="1" colspan="1" aria-label="Bookmark Count: activate to sort column ascending">Bookmark Count</th>
+                            <th class="sorting" tabindex="0" aria-controls="user-statistics-table" rowspan="1" colspan="1" aria-label="News Count: activate to sort column ascending">News Count</th>
+                            <th class="sorting" tabindex="0" aria-controls="user-statistics-table" rowspan="1" colspan="1" aria-label="Report Count: activate to sort column ascending">Report Count</th>
                         </tr>
                     </thead>
                     <tbody class="user-contents-tbody">
@@ -79,7 +67,7 @@ $(function () {
             let report_count = userStatistics_data[i].report_count;
             let tbody_html = `
             <tr>
-                <td class="dtr-control sorting_1" tabindex="0">${user_id}</td>
+                <td class="sorting_1" tabindex="0">${user_id}</td>
                 <td class>${user_name}</td>
                 <td class>${board_count}</td>
                 <td class>${comment_count}</td>
@@ -90,8 +78,8 @@ $(function () {
             `;
             user_tbody.append(tbody_html);
         }// end of for
-        let table_id = $('#statistics-table');
-        initDataTableFunction(table_id);
+        let table_id = $('#user-statistics-table');
+        userDataTableFunction(table_id);
     }// end of getNewTable_userStatistics function
 
 }); // end jquery
