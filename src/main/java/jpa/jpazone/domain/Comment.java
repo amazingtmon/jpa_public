@@ -73,6 +73,7 @@ public class Comment {
         comment.setWrite_date(write_date);
         comment.setRemoved(false);
         comment.setDeep(0);
+        comment.setParent(comment);
         return comment;
     }
 

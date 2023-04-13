@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -68,6 +66,19 @@ public class CommentServiceTest {
         childComments.stream().forEach( ch -> {
             System.out.println("childComment => "+ch.getComment_content());
         });
+
+        // then
+    }
+
+    @Test
+    public void 게시글의모든댓글들가져오기() throws Exception {
+        // given
+        Long board_id = 101L;
+        List<Comment> allComments = commentRepository.findBoardComments(board_id);
+
+        System.out.println("=====================================================");
+
+        // when
 
         // then
     }

@@ -46,20 +46,12 @@ public class CommentRepository {
      * @param boardId
      * @return
      */
-    public List<Comment> findAllParentCommentsByBoardId(Long boardId) {
-        log.info("[[ Repo - findAllParentCommentsByBoardId ]]");
-        return em.createQuery("select c from Comment c " +
-                        "where c.board.id = :boardId and deep = 0", Comment.class)
-                .setParameter("boardId", boardId)
-                .getResultList();
-    }
 
-    public List<Comment> findAllChildCommentsByBoardId(Long boardId) {
-        log.info("[[ Repo - findAllChildCommentsByBoardId ]]");
+    public List<Comment> findBoardComments(Long boardId){
 
-        return em.createQuery("select c from Comment c" +
-                        " where c.board.id = :boardId" +
-                        " and c.deep = 1", Comment.class)
+        return em.createQuery("select distinct c from Comment c " +
+                        " join fetch c.childList ch" +
+                        " where c.board.id = :boardId", Comment.class)
                 .setParameter("boardId", boardId)
                 .getResultList();
     }

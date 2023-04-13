@@ -93,7 +93,7 @@ public class BookmarkApiController {
 
         //Bookmark 테이블에 데이터 존재여부 체크
         Optional<Bookmark> optionalBookmark = bookmarkService.findBookmarkByBoardIdAndMemberId(bookmarkBoardRequestDto.getBoard_id(), member.getId());
-        if(!optionalBookmark.isPresent()){
+        if(optionalBookmark.isEmpty()){
             return new ResponseEntity<>("해당되는 북마크 데이터가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 

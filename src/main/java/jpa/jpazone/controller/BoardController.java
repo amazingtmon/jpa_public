@@ -161,14 +161,12 @@ public class BoardController {
             bookMarked = optionalBookmark.get().isBookmarked();
         }
 
-        //board_id로 parent comments 가져오기
-        List<Comment> parentComments = commentService.findAllParentCommentsByBoardId(boardId);
-        //board_id로 child comments 가져오기
-        List<Comment> childComments = commentService.findAllChildCommentsByBoardId(boardId);
+        //board_id로 게시글 comments 가져오기
+        List<Comment> boardComments = commentService.findBoardComments(boardId);
 
         ShowBoardForm showBoardForm = ShowBoardForm.setBoardInfo(
                 board.getId(), board.getTitle(), board.getWriter(),
-                board.getContent(), parentComments, childComments, loginMember.getName(), bookMarked);
+                board.getContent(), boardComments, loginMember.getName(), bookMarked);
 
         //Session Member 정보를 dto 로 변경
         Member member = memberService.findMemberById(loginMember.getId());

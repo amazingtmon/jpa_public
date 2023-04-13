@@ -86,15 +86,9 @@ public class CommentService {
         comment.delete(comment);
     }
 
-    public List<Comment> findAllParentCommentsByBoardId(Long boardId) {
-        log.info("[[ Service - findAllParentCommentsByBoardId ]]");
-        return commentRepository.findAllParentCommentsByBoardId(boardId);
+    public List<Comment> findBoardComments(Long boardId){
+        log.info("[[ Service - findBoardComments ]]");
 
-    }
-
-    public List<Comment> findAllChildCommentsByBoardId(Long boardId){
-        log.info("[[ Service - findAllChildCommentsByBoardIdAndDeep ]]");
-
-        return commentRepository.findAllChildCommentsByBoardId(boardId);
+        return commentRepository.findBoardComments(boardId);
     }
 }

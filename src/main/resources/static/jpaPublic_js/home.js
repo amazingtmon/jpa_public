@@ -11,4 +11,6 @@ $(function () {
         logout_form.submit();
 
     }
+
+
 }); // end jquery
