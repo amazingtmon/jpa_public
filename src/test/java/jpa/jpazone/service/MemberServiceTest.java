@@ -3,8 +3,9 @@ package jpa.jpazone.service;
 import jpa.jpazone.controller.form.MemberInfoDto;
 import jpa.jpazone.domain.Member;
 import jpa.jpazone.domain.MemberRole;
-import jpa.jpazone.domain.enumpackage.RoleGroup;
+import jpa.jpazone.mybatis.service.MemberMapperService;
 import jpa.jpazone.repository.MemberRepository;
+import jpa.jpazone.mybatis.dto.MybatisMemberDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,6 +31,8 @@ public class MemberServiceTest {
 
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    MemberMapperService memberMapperService;
 
 
     @Test
@@ -110,4 +112,26 @@ public class MemberServiceTest {
 
         // then
     }
+
+    @Test
+    public void mybatis로멤버리스트가져오기() throws Exception {
+        // given
+        List<MybatisMemberDto> memberList = memberMapperService.memberList();
+        System.out.println("memberList size = "+memberList.size());
+
+        memberList.stream().forEach( m -> {
+            System.out.println("member ["+m.getName()+"]"+"\n"
+                            +", id = "+m.getUser_id()
+                            +", password = "+m.getPassword()
+                            +", reported_count = "+m.getReported_count()
+                            +", isBanned = "+m.getIsBanned()
+                            +", Ban_end_time = "+m.getBan_end_time()
+                            );
+        });
+
+        // when
+
+        // then
+    }
+
 }

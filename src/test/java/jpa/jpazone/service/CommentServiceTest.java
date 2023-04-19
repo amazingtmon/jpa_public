@@ -41,34 +41,34 @@ public class CommentServiceTest {
         //assertEquals("yang", board.getWriter());
     }
 
-    @Test
-    public void 게시판에달린댓글들찾기() throws Exception {
-        // given
-        Long board_id = 101L;
-
-        // when
-        List<Comment> allComments = commentService.findAllParentCommentsByBoardId(board_id);
-        allComments.stream().forEach(comment -> {
-            System.out.println("comment => "+comment.getComment_content());
-            System.out.println("comment getChildList => "+comment.getChildList().size());
-        });
-
-        // then
-    }
-
-    @Test
-    public void board_id와deep으로_childComments찾기() throws Exception {
-        // given
-        Long board_id = 101L;
-
-        // when
-        List<Comment> childComments = commentService.findAllChildCommentsByBoardId(board_id);
-        childComments.stream().forEach( ch -> {
-            System.out.println("childComment => "+ch.getComment_content());
-        });
-
-        // then
-    }
+//    @Test
+//    public void 게시판에달린댓글들찾기() throws Exception {
+//        // given
+//        Long board_id = 101L;
+//
+//        // when
+//        List<Comment> allComments = commentService.findAllParentCommentsByBoardId(board_id);
+//        allComments.stream().forEach(comment -> {
+//            System.out.println("comment => "+comment.getComment_content());
+//            System.out.println("comment getChildList => "+comment.getChildList().size());
+//        });
+//
+//        // then
+//    }
+//
+//    @Test
+//    public void board_id와deep으로_childComments찾기() throws Exception {
+//        // given
+//        Long board_id = 101L;
+//
+//        // when
+//        List<Comment> childComments = commentService.findAllChildCommentsByBoardId(board_id);
+//        childComments.stream().forEach( ch -> {
+//            System.out.println("childComment => "+ch.getComment_content());
+//        });
+//
+//        // then
+//    }
 
     @Test
     public void 게시글의모든댓글들가져오기() throws Exception {
